@@ -3,11 +3,11 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[Clasificador]].
+ * This is the ActiveQuery class for [[Provincia]].
  *
- * @see Clasificador
+ * @see Provincia
  */
-class ClasificadorQuery extends \yii\db\ActiveQuery
+class ProvinciaQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class ClasificadorQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Clasificador[]|array
+     * @return Provincia[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class ClasificadorQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Clasificador|array|null
+     * @return Provincia|array|null
      */
     public function one($db = null)
     {

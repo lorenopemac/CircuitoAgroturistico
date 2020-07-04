@@ -4,22 +4,23 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ClasificadorSearch */
+/* @var $model app\models\ProvinciaSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="clasificador-search">
+<div class="provincia-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'options' => [
+            'data-pjax' => 1
+        ],
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?= $form->field($model, 'idProvincia') ?>
 
     <?= $form->field($model, 'nombre') ?>
-
-    <?= $form->field($model, 'descripcion') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

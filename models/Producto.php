@@ -5,20 +5,20 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "clasificador".
+ * This is the model class for table "producto".
  *
- * @property int $id
+ * @property int $idProducto
  * @property string $nombre
- * @property string|null $descripcion
+ * @property string $descripcion
  */
-class Clasificador extends \yii\db\ActiveRecord
+class Producto extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'clasificador';
+        return 'producto';
     }
 
     /**
@@ -27,8 +27,8 @@ class Clasificador extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre'], 'required'],
-            [['nombre'], 'string', 'max' => 45],
+            [['nombre', 'descripcion'], 'required'],
+            [['nombre'], 'string', 'max' => 100],
             [['descripcion'], 'string', 'max' => 200],
         ];
     }
@@ -39,7 +39,7 @@ class Clasificador extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'idProducto' => 'Id Producto',
             'nombre' => 'Nombre',
             'descripcion' => 'Descripcion',
         ];
@@ -47,10 +47,10 @@ class Clasificador extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-     * @return ClasificadorQuery the active query used by this AR class.
+     * @return ProductoQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new ClasificadorQuery(get_called_class());
+        return new ProductoQuery(get_called_class());
     }
 }

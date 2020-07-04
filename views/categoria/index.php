@@ -4,18 +4,18 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ProductorSearch */
+/* @var $searchModel app\models\CategoriaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Productors';
+$this->title = 'Categorias';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="productor-index">
+<div class="categoria-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Productor', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Categoria', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -27,17 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //'idProductor',
+            'idCategoria',
             'nombre',
-            'cuit',
-            'idLocalidad',
-            'nombreCalle',
-            'numeroCalle',
-            'numeroTelefono',
-            'facebook',
-            'Instagram',
-            'twitter',
-            'web',
+            'descripcion',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

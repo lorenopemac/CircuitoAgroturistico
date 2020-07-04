@@ -7,11 +7,18 @@ use Yii;
 /**
  * This is the model class for table "productor".
  *
- * @property int $id
+ * @property int $idProductor
  * @property string $nombre
- * @property string|null $direccion
- * @property string|null $email
- * @property string $cuit
+ * @property int $cuit
+ * @property int $idLocalidad
+ * @property int $idProvincia
+ * @property string|null $nombreCalle
+ * @property int|null $numeroCalle
+ * @property int $numeroTelefono
+ * @property string|null $facebook
+ * @property string|null $Instagram
+ * @property string|null $twitter
+ * @property string|null $web
  */
 class Productor extends \yii\db\ActiveRecord
 {
@@ -29,11 +36,11 @@ class Productor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'cuit'], 'required'],
-            [['nombre', 'direccion'], 'string', 'max' => 30],
-            [['email'], 'string', 'max' => 50],
-            [['cuit'], 'string', 'max' => 20],
-            ['email','email'],
+            [['nombre', 'cuit', 'idLocalidad', 'idProvincia', 'numeroTelefono'], 'required'],
+            [['cuit', 'idLocalidad', 'idProvincia', 'numeroCalle', 'numeroTelefono'], 'integer'],
+            [['nombre'], 'string', 'max' => 45],
+            [['nombreCalle'], 'string', 'max' => 100],
+            [['facebook', 'Instagram', 'twitter', 'web'], 'string', 'max' => 150],
         ];
     }
 
@@ -43,11 +50,18 @@ class Productor extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'idProductor' => 'Id Productor',
             'nombre' => 'Nombre',
-            'direccion' => 'Direccion',
-            'email' => 'Email',
             'cuit' => 'Cuit',
+            'idLocalidad' => 'Localidad',
+            'idProvincia' => 'Id Provincia',
+            'nombreCalle' => 'Nombre Calle',
+            'numeroCalle' => 'Numero Calle',
+            'numeroTelefono' => 'Numero Telefono',
+            'facebook' => 'Facebook',
+            'Instagram' => 'Instagram',
+            'twitter' => 'Twitter',
+            'web' => 'Web',
         ];
     }
 

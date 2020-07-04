@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ProductorSearch */
+/* @var $model app\models\LocalidadSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="productor-search">
+<div class="localidad-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -18,29 +18,15 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'idProductor') ?>
+    <?= $form->field($model, 'idLocalidad') ?>
 
     <?= $form->field($model, 'nombre') ?>
 
-    <?= $form->field($model, 'cuit') ?>
-
-    <?= $form->field($model, 'idLocalidad') ?>
-
     <?= $form->field($model, 'idProvincia') ?>
 
-    <?php   $form->field($model, 'nombreCalle') ?>
+    <?= $form->field($model, 'codigoPostal') ?>
 
-    <?php   $form->field($model, 'numeroCalle') ?>
-
-    <?php   $form->field($model, 'numeroTelefono') ?>
-
-    <?php   $form->field($model, 'facebook') ?>
-
-    <?php   $form->field($model, 'Instagram') ?>
-
-    <?php   $form->field($model, 'twitter') ?>
-
-    <?php   $form->field($model, 'web') ?>
+    <?= $form->field($model, 'localidadcol') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

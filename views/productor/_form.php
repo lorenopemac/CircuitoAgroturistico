@@ -14,14 +14,28 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'direccion')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'cuit')->textInput() ?>
 
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'idLocalidad')->textInput() ?>
 
-    <?= $form->field($model, 'cuit')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'idProvincia')->textInput() ?>
+
+    <?= $form->field($model, 'nombreCalle')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'numeroCalle')->textInput() ?>
+
+    <?= $form->field($model, 'numeroTelefono')->textInput() ?>
+
+    <?= $form->field($model, 'facebook')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'Instagram')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'twitter')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'web')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

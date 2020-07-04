@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Clasificador;
+use app\models\Categoria;
 
 /**
- * ClasificadorSearch represents the model behind the search form of `app\models\Clasificador`.
+ * CategoriaSearch represents the model behind the search form of `app\models\Categoria`.
  */
-class ClasificadorSearch extends Clasificador
+class CategoriaSearch extends Categoria
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,7 @@ class ClasificadorSearch extends Clasificador
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['idCategoria'], 'integer'],
             [['nombre', 'descripcion'], 'safe'],
         ];
     }
@@ -40,7 +40,7 @@ class ClasificadorSearch extends Clasificador
      */
     public function search($params)
     {
-        $query = Clasificador::find();
+        $query = Categoria::find();
 
         // add conditions that should always apply here
 
@@ -58,7 +58,7 @@ class ClasificadorSearch extends Clasificador
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'idCategoria' => $this->idCategoria,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])

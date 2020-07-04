@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Productor;
+use app\models\Provincia;
 
 /**
- * ProductorSearch represents the model behind the search form of `app\models\Productor`.
+ * ProvinciaSearch represents the model behind the search form of `app\models\Provincia`.
  */
-class ProductorSearch extends Productor
+class ProvinciaSearch extends Provincia
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class ProductorSearch extends Productor
     public function rules()
     {
         return [
-            [['idProductor', 'cuit', 'idLocalidad', 'idProvincia', 'numeroCalle', 'numeroTelefono'], 'integer'],
-            [['nombre', 'nombreCalle', 'facebook', 'Instagram', 'twitter', 'web'], 'safe'],
+            [['idProvincia'], 'integer'],
+            [['nombre'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class ProductorSearch extends Productor
      */
     public function search($params)
     {
-        $query = Productor::find();
+        $query = Provincia::find();
 
         // add conditions that should always apply here
 
@@ -58,20 +58,10 @@ class ProductorSearch extends Productor
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'idProductor' => $this->idProductor,
-            'cuit' => $this->cuit,
-            'idLocalidad' => $this->idLocalidad,
             'idProvincia' => $this->idProvincia,
-            'numeroCalle' => $this->numeroCalle,
-            'numeroTelefono' => $this->numeroTelefono,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'nombreCalle', $this->nombreCalle])
-            ->andFilterWhere(['like', 'facebook', $this->facebook])
-            ->andFilterWhere(['like', 'Instagram', $this->Instagram])
-            ->andFilterWhere(['like', 'twitter', $this->twitter])
-            ->andFilterWhere(['like', 'web', $this->web]);
+        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
 
         return $dataProvider;
     }

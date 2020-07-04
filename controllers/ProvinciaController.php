@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Productor;
-use app\models\ProductorSearch;
+use app\models\Provincia;
+use app\models\ProvinciaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ProductorController implements the CRUD actions for Productor model.
+ * ProvinciaController implements the CRUD actions for Provincia model.
  */
-class ProductorController extends Controller
+class ProvinciaController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +30,12 @@ class ProductorController extends Controller
     }
 
     /**
-     * Lists all Productor models.
+     * Lists all Provincia models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ProductorSearch();
+        $searchModel = new ProvinciaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class ProductorController extends Controller
     }
 
     /**
-     * Displays a single Productor model.
+     * Displays a single Provincia model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,16 +58,16 @@ class ProductorController extends Controller
     }
 
     /**
-     * Creates a new Productor model.
+     * Creates a new Provincia model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Productor();
+        $model = new Provincia();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idProductor]);
+            return $this->redirect(['view', 'id' => $model->idProvincia]);
         }
 
         return $this->render('create', [
@@ -76,7 +76,7 @@ class ProductorController extends Controller
     }
 
     /**
-     * Updates an existing Productor model.
+     * Updates an existing Provincia model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -87,7 +87,7 @@ class ProductorController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idProductor]);
+            return $this->redirect(['view', 'id' => $model->idProvincia]);
         }
 
         return $this->render('update', [
@@ -96,7 +96,7 @@ class ProductorController extends Controller
     }
 
     /**
-     * Deletes an existing Productor model.
+     * Deletes an existing Provincia model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class ProductorController extends Controller
     }
 
     /**
-     * Finds the Productor model based on its primary key value.
+     * Finds the Provincia model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Productor the loaded model
+     * @return Provincia the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Productor::findOne($id)) !== null) {
+        if (($model = Provincia::findOne($id)) !== null) {
             return $model;
         }
 
