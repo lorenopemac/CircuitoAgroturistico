@@ -33,7 +33,9 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'twitter')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'web')->textInput(['maxlength' => true]) ?>
-
+<!--
+    <?= $form->field($model, 'web')->checkboxList(['f1'=>'Feria 1', 'f2'=>'Feria 2']) ?>
+!-->
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

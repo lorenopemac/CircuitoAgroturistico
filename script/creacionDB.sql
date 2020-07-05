@@ -3,7 +3,7 @@ CREATE SCHEMA `circuito_agroturistico` ;
 CREATE TABLE `circuito_agroturistico`.`productor` (
   `idProductor` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
-  `cuit` INT NOT NULL,
+  `cuit` INT(20) NOT NULL,
   `idLocalidad` INT NOT NULL,
   `idProvincia` INT NOT NULL,
   `nombreCalle` VARCHAR(100) NULL,
@@ -39,6 +39,7 @@ CREATE TABLE `circuito_agroturistico`.`producto` (
   `idProducto` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `descripcion` VARCHAR(200) NOT NULL,
+  `idProductor` INT NOT NULL,
   PRIMARY KEY (`idProducto`));
 
 

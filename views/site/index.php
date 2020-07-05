@@ -3,16 +3,30 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 $this->title = 'My Yii Application';
+
 ?>
-<div class="site-index">
+<style>
 
-    <div class="jumbotron">
-        <h1>Bienvenido!</h1>
+.header {
+  padding: 60px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
+  width:100%;
+  overflow:visible;
+}
+.div {border-color: coral;}
 
-        <p class="lead"></p>
+</style>
 
-        
-    </div>
+<div class="header">
+  <h1>Bienvenido</h1>
+</div> 
+<aside class="control-sidebar control-sidebar-dark">
+<div class="site-index" >
+
+    
 
     <div class="body-content">
 
@@ -53,6 +67,6 @@ $this->title = 'My Yii Application';
                 <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Ver mas&raquo;</a></p>
             </div>
         </div>
-
+        </aside>
     </div>
 </div>
