@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Producto;
-use app\models\ProductoSearch;
+use app\models\Feria;
+use app\models\FeriaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ProductoController implements the CRUD actions for Producto model.
+ * FeriaController implements the CRUD actions for Feria model.
  */
-class ProductoController extends Controller
+class FeriaController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,27 +30,22 @@ class ProductoController extends Controller
     }
 
     /**
-     * Lists all Producto models.
+     * Lists all Feria models.
      * @return mixed
      */
     public function actionIndex()
     {
-        
-        $searchModel = new ProductoSearch();
+        $searchModel = new FeriaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
-
 
         return $this->render('index', [
-            
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'productoresModel' => $productoresModel,
         ]);
     }
 
     /**
-     * Displays a single Producto model.
+     * Displays a single Feria model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -63,32 +58,25 @@ class ProductoController extends Controller
     }
 
     /**
-     * Creates a new Producto model.
+     * Creates a new Feria model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Producto();
-        $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
-        
+        $model = new Feria();
 
-
-        if ($model->load(Yii::$app->request->post())  ) {
-            //print_r($model);
-            //exit;
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->idProducto]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->idFeria]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'productoresModel' => $productoresModel,
         ]);
     }
 
     /**
-     * Updates an existing Producto model.
+     * Updates an existing Feria model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -97,19 +85,18 @@ class ProductoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idProducto]);
+            return $this->redirect(['view', 'id' => $model->idFeria]);
         }
 
         return $this->render('update', [
-            'productoresModel' => $productoresModel,
             'model' => $model,
         ]);
     }
 
     /**
-     * Deletes an existing Producto model.
+     * Deletes an existing Feria model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -123,15 +110,15 @@ class ProductoController extends Controller
     }
 
     /**
-     * Finds the Producto model based on its primary key value.
+     * Finds the Feria model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Producto the loaded model
+     * @return Feria the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Producto::findOne($id)) !== null) {
+        if (($model = Feria::findOne($id)) !== null) {
             return $model;
         }
 

@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Productor */
 
-$this->title = 'Create Productor';
+$this->title = 'Crear Productor';
 $this->params['breadcrumbs'][] = ['label' => 'Productors', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,6 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'provinciasModel' => $provinciasModel,
+        'localidadesModel' => $localidadesModel,
+        'feriasModel' => $feriasModel,
     ]) ?>
 
 </div>

@@ -9,7 +9,7 @@ use kartik\select2\Select2;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="producto-search">
+<div class="producto-search" >
 <?php \yii\widgets\Pjax::begin();?>
     <?php $form = ActiveForm::begin([
         'action' => ['index'],

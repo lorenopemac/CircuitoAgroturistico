@@ -3,34 +3,33 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Productors';
+$this->title = 'Productores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="productor-index">
+<div class="productor-index" >
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Productor', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Agregar Productor', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php  echo $this->render('_search', ['model' => $searchModel, 'provinciasModel' => $provinciasModel,'localidadesModel' => $localidadesModel,]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            //'idProductor',
             'nombre',
             'cuit',
-            'idLocalidad',
+            'localidad.nombre',
             'nombreCalle',
             'numeroCalle',
             'numeroTelefono',

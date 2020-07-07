@@ -2,13 +2,14 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ProductorSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="productor-search">
+<div class="productor-search" >
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -18,33 +19,39 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'idProductor') ?>
+    <div class="col-md-3 col-xs-12">
+        <?= $form->field($model, 'nombre') ?>
+    </div>
 
-    <?= $form->field($model, 'nombre') ?>
+    <div class="col-md-3 col-xs-12">
+        <?= $form->field($model, 'cuit') ?>
+    </div>
 
-    <?= $form->field($model, 'cuit') ?>
+    <div class="col-md-3 col-xs-12">
+        <?=  $form->field($model, 'idProvincia')->widget(Select2::classname(), [
+                        'data' => $provinciasModel,
+                        'options' => ['placeholder' => 'Seleccione una Provincia'],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ])  ?>
+    </div>
 
-    <?= $form->field($model, 'idLocalidad') ?>
+    <div class="col-md-3 col-xs-12">
+        <?=  $form->field($model, 'idLocalidad')->widget(Select2::classname(), [
+                        'data' => $localidadesModel,
+                        'options' => ['placeholder' => 'Seleccione una Localidad'],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ])  ?>
+    </div>
 
-    <?= $form->field($model, 'idProvincia') ?>
+    
 
-    <?php   $form->field($model, 'nombreCalle') ?>
-
-    <?php   $form->field($model, 'numeroCalle') ?>
-
-    <?php   $form->field($model, 'numeroTelefono') ?>
-
-    <?php   $form->field($model, 'facebook') ?>
-
-    <?php   $form->field($model, 'Instagram') ?>
-
-    <?php   $form->field($model, 'twitter') ?>
-
-    <?php   $form->field($model, 'web') ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+    <div class="form-group col-xs-12">
+        <?= Html::submitButton('Buscar', ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Cancelar', ['/productor/index'], ['class'=>'btn btn-warning']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

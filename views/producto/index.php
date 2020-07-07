@@ -21,12 +21,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     
     
-    <div class="producto-search">
+    <div class="producto-search" style="border-style: outset; border-width: 1px; border-color: lightgrey;  ">
         <div class="box box-success">
         <div class="box-header with-border">
-            <h3 class="box-title"><i class="fa fa-area-chart"></i>&nbsp;Detalle de Avance Fisico</h3>
+            
         </div>
-        <div class="box-body">
+        
             <?php $form = ActiveForm::begin([
                 'action' => ['index'],
                 'method' => 'get',
@@ -54,13 +54,14 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="form-group">
                 <?= Html::submitButton('Buscar', ['class' => 'btn btn-primary']) ?>
-                <?= Html::a('cancelar', ['/producto/index'], ['class'=>'btn btn-warning']) ?>
+                <?= Html::a('Cancelar', ['/producto/index'], ['class'=>'btn btn-warning']) ?>
             </div>
             <?php ActiveForm::end(); ?>
         </div>
         </div>
         </div>
 
+        <div class="box-body">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
