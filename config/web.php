@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'language' => 'es', // Set the language here
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -12,6 +13,7 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        
         'request' => [
     // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
     'cookieValidationKey' => '<secret random string goes here>',

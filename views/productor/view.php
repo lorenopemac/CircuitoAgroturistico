@@ -1,5 +1,5 @@
 <?php
-
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Borrar', ['delete', 'id' => $model->id], [
+        <?= Html::a('Editar', ['update', 'id' => $model->idProductor], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->idProductor], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -30,9 +30,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'nombre',
-            'direccion',
-            'email:email',
             'cuit',
+            'provincia.nombre',
+            'localidad.nombre',
+            'nombreCalle',
+            'numeroCalle',
+            'numeroTelefono',
+            'facebook',
+            'Instagram',
+            'twitter',
+            'web',
         ],
     ]) ?>
 

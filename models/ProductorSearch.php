@@ -17,8 +17,8 @@ class ProductorSearch extends Productor
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['nombre', 'direccion', 'email', 'cuit'], 'safe'],
+            [['idProductor', 'cuit', 'idLocalidad', 'idProvincia', 'numeroCalle', 'numeroTelefono'], 'integer'],
+            [['nombre', 'nombreCalle', 'facebook', 'Instagram', 'twitter', 'web'], 'safe'],
         ];
     }
 
@@ -58,13 +58,20 @@ class ProductorSearch extends Productor
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'idProductor' => $this->idProductor,
+            'cuit' => $this->cuit,
+            'idLocalidad' => $this->idLocalidad,
+            'idProvincia' => $this->idProvincia,
+            'numeroCalle' => $this->numeroCalle,
+            'numeroTelefono' => $this->numeroTelefono,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'direccion', $this->direccion])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'cuit', $this->cuit]);
+            ->andFilterWhere(['like', 'nombreCalle', $this->nombreCalle])
+            ->andFilterWhere(['like', 'facebook', $this->facebook])
+            ->andFilterWhere(['like', 'Instagram', $this->Instagram])
+            ->andFilterWhere(['like', 'twitter', $this->twitter])
+            ->andFilterWhere(['like', 'web', $this->web]);
 
         return $dataProvider;
     }

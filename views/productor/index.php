@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\widgets\Pjax;
+use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -10,7 +11,7 @@ use yii\grid\GridView;
 $this->title = 'Productores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="productor-index">
+<div class="productor-index" >
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -18,33 +19,29 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Agregar Productor', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php Pjax::begin(); ?>
+    <?php  echo $this->render('_search', ['model' => $searchModel, 'provinciasModel' => $provinciasModel,'localidadesModel' => $localidadesModel,]); ?>
 
-    <div class="container-fluid">
-    <div class="row">
-        <div class="box box-success">
-            <div class="box-header with-border">
-                <div class="col-sm-12">
-                    <div class="table-responsive">
-                        <?= GridView::widget([
-                            'dataProvider' => $dataProvider,
-                            'filterModel' => $searchModel,
-                            'columns' => [
-                                ['class' => 'yii\grid\SerialColumn'],
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            'nombre',
+            'cuit',
+            'localidad.nombre',
+            'nombreCalle',
+            'numeroCalle',
+            'numeroTelefono',
+            'facebook',
+            'Instagram',
+            'twitter',
+            'web',
 
-                                'nombre',
-                                'direccion',
-                                'email:email',
-                                'cuit',
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 
-                                ['class' => 'yii\grid\ActionColumn'],
-                            ],
-                        ]); ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
+    <?php Pjax::end(); ?>
 
 </div>

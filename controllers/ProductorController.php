@@ -3,17 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\web\Response;
-use yii\filters\VerbFilter;
 use app\models\Productor;
-use app\models\ProductorQuery;
+use app\models\FeriaProductor;
 use app\models\ProductorSearch;
-use app\models\LoginForm;
-use app\models\ContactForm;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
+/**
+ * ProductorController implements the CRUD actions for Productor model.
+ */
 class ProductorController extends Controller
 {
     /**
@@ -39,10 +38,14 @@ class ProductorController extends Controller
     {
         $searchModel = new ProductorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
+        $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'provinciasModel' => $provinciasModel,
+            'localidadesModel' => $localidadesModel,
         ]);
     }
 
@@ -67,14 +70,38 @@ class ProductorController extends Controller
     public function actionCreate()
     {
         $model = new Productor();
+        $model->idProvincia = 1;
+        $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
+        $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
+
+        if ($model->load(Yii::$app->request->post()) ) {
+            //print_r($model->ferias[0]);
+            //exit;
+            $model->save();
+            $this->guardarFerias($model);
+            return $this->redirect(['view', 'id' => $model->idProductor]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'provinciasModel' => $provinciasModel,
+            'localidadesModel' => $localidadesModel,
+            'feriasModel' => $feriasModel,
         ]);
+    }
+
+
+    public function guardarFerias($model){
+        foreach($model->ferias as $idFeria){
+            $feriaProductor = new FeriaProductor();
+            $feriaProductor->idProductor= $model->idProductor;
+            $feriaProductor->idFeria= $idFeria;
+            $feriaProductor->save();
+            
+
+        }
     }
 
     /**
@@ -87,13 +114,17 @@ class ProductorController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
+        $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->idProductor]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'provinciasModel' => $provinciasModel,
+            'localidadesModel' => $localidadesModel,
         ]);
     }
 

@@ -1,20 +1,31 @@
 <?php
 
 namespace app\models;
+use app\models\Provincia;
+use app\models\Localidad;
 
 use Yii;
 
 /**
  * This is the model class for table "productor".
  *
- * @property int $id
+ * @property int $idProductor
  * @property string $nombre
- * @property string|null $direccion
- * @property string|null $email
- * @property string $cuit
+ * @property int $cuit
+ * @property int $idLocalidad
+ * @property int $idProvincia
+ * @property string|null $nombreCalle
+ * @property int|null $numeroCalle
+ * @property int $numeroTelefono
+ * @property string|null $facebook
+ * @property string|null $Instagram
+ * @property string|null $twitter
+ * @property string|null $web
  */
 class Productor extends \yii\db\ActiveRecord
 {
+
+    public $ferias;
     /**
      * {@inheritdoc}
      */
@@ -29,11 +40,14 @@ class Productor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'cuit'], 'required'],
-            [['nombre', 'direccion'], 'string', 'max' => 30],
-            [['email'], 'string', 'max' => 50],
-            [['cuit'], 'string', 'max' => 20],
-            ['email','email'],
+            [['nombre', 'cuit', 'idLocalidad', 'idProvincia', 'numeroTelefono'], 'required'],
+            [['cuit', 'idLocalidad', 'idProvincia', 'numeroCalle', 'numeroTelefono'], 'integer'],
+            [['nombre'], 'string', 'max' => 45],
+            [['nombreCalle'], 'string', 'max' => 100],
+            [['facebook', 'Instagram', 'twitter', 'web'], 'string', 'max' => 150],
+            [['idProvincia'], 'exist', 'skipOnError' => true, 'targetClass' => Provincia::className(), 'targetAttribute' => ['idProvincia' => 'idProvincia']],
+            [['idLocalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Localidad::className(), 'targetAttribute' => ['idLocalidad' => 'idLocalidad']],
+            ['ferias', 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -43,11 +57,18 @@ class Productor extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'nombre' => 'Nombre',
-            'direccion' => 'Direccion',
-            'email' => 'Email',
+            'idProductor' => 'Id Productor',
+            'nombre' => 'Nombre o Razón Social',
             'cuit' => 'Cuit',
+            'idLocalidad' => 'Localidad',
+            'idProvincia' => 'Provincia',
+            'nombreCalle' => 'Nombre Calle',
+            'numeroCalle' => 'Numero Calle',
+            'numeroTelefono' => 'Numero Telefono',
+            'facebook' => 'Facebook',
+            'Instagram' => 'Instagram',
+            'twitter' => 'Twitter',
+            'web' => 'Web',
         ];
     }
 
@@ -59,4 +80,22 @@ class Productor extends \yii\db\ActiveRecord
     {
         return new ProductorQuery(get_called_class());
     }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProvincia()
+    {
+        return $this->hasOne(Provincia::className(), ['idProvincia' => 'idProvincia']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocalidad()
+    {
+        return $this->hasOne(Localidad::className(), ['idLocalidad' => 'idLocalidad']);
+    }
+
 }
