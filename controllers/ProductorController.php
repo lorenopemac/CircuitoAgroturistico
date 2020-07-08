@@ -77,8 +77,6 @@ class ProductorController extends Controller
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
 
         if ($model->load(Yii::$app->request->post()) ) {
-            //print_r($model->ferias[0]);
-            //exit;
             $model->save();
             $this->guardarFerias($model);
             return $this->redirect(['view', 'id' => $model->idProductor]);
@@ -116,7 +114,7 @@ class ProductorController extends Controller
         $model = $this->findModel($id);
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
-
+        $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idProductor]);
         }
@@ -125,6 +123,7 @@ class ProductorController extends Controller
             'model' => $model,
             'provinciasModel' => $provinciasModel,
             'localidadesModel' => $localidadesModel,
+            'feriasModel' => $feriasModel,
         ]);
     }
 

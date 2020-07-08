@@ -10,8 +10,8 @@ $this->title = 'My Yii Application';
 .header {
   padding: 60px;
   text-align: center;
-  background: #1abc9c;
-  color: white;
+  background: #0;
+  color: black;
   font-size: 30px;
   width:100%;
   overflow:visible;
