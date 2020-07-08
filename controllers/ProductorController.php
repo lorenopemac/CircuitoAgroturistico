@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Productor;
+use app\models\FeriaProductor;
 use app\models\ProductorSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -76,9 +77,10 @@ class ProductorController extends Controller
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
 
         if ($model->load(Yii::$app->request->post()) ) {
-            print_r($model->ferias[0]);
-            exit;
+            //print_r($model->ferias[0]);
+            //exit;
             $model->save();
+            $this->guardarFerias($model);
             return $this->redirect(['view', 'id' => $model->idProductor]);
         }
 
@@ -88,6 +90,18 @@ class ProductorController extends Controller
             'localidadesModel' => $localidadesModel,
             'feriasModel' => $feriasModel,
         ]);
+    }
+
+
+    public function guardarFerias($model){
+        foreach($model->ferias as $idFeria){
+            $feriaProductor = new FeriaProductor();
+            $feriaProductor->idProductor= $model->idProductor;
+            $feriaProductor->idFeria= $idFeria;
+            $feriaProductor->save();
+            
+
+        }
     }
 
     /**

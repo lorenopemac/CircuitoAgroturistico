@@ -63,3 +63,10 @@ CREATE TABLE `circuito_agroturistico`.`feria` (
   `idFeria` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idFeria`));
+
+
+CREATE TABLE `circuito_agroturistico`.`feria_productor` (
+  `idFeria_productor` INT NOT NULL AUTO_INCREMENT,
+  `idFeria` INT NULL,
+  `idProductor` INT NULL,
+  PRIMARY KEY (`idFeria_productor`));
