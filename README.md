@@ -45,5 +45,21 @@ Pasos a seguir para la instalación del proyecto
  Descargar proyecto
  En la carpeta CircuitoAgroturistico/config crear archivo de conexión con la base de datos.
 ```
-![Image of Yaktocat](https://www.cloudways.com/blog/wp-content/uploads/image03-23.png)
+
+```php
+<?php
+return [
+	//Conexion a Base de Datos
+    'class' => 'yii\db\Connection',
+
+    'dsn' => 'mysql:host='dirección':'puerto';dbname=nombreBD',
+
+    'username' => 'usuario',
+
+    'password' => 'contraseña',
+
+    'charset' => 'utf8'
+];
+
+```
 
