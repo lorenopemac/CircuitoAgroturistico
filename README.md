@@ -33,7 +33,7 @@ Pasos a seguir para la instalación del proyecto
  sudo mv composer.phar /usr/local/bin/composer
 ```
 
-### 2. Instalar Yii2 - Descargando template basico
+### 2. Instalar Yii2 - Descargando template básico
 
 ```
  composer create-project --prefer-dist yiisoft/yii2-app-basic basic
