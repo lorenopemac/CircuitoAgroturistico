@@ -42,8 +42,8 @@ Pasos a seguir para la instalación del proyecto
 ### 3. Crear Archivo db.php
 
 ```
- Descargar proyecto
- En la carpeta CircuitoAgroturistico/config crear archivo de conexión con la base de datos.
+ Descargar proyecto.
+ En la carpeta CircuitoAgroturistico/config crear archivo db.php, necesario para la conexión con la base de datos.
 ```
 
 ```php
