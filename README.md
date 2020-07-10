@@ -8,11 +8,11 @@ Sistema web para la articulación e integración de la oferta del circuito como 
 
 Es necesario contar con los siguientes componentes  
 ```
-Versión minima de PHP: 5.4[PHP](www.php.net - automatic!)
+Versión minima de PHP: 5.4 [PHP](https://www.php.net/)
 ```
-[Composer](www.getcomposer.org - automatic!)
+[Composer](https://getcomposer.org/)
 ```
-[Yii2](www.yiiframework.com - automatic!) 
+[Yii2](https://www.yiiframework.com/) 
 ```
 
 ## Instalación
@@ -37,5 +37,5 @@ Pasos a seguir para la instalación del proyecto
 ```
 * Descargar proyecto
 * En la carpeta CircuitoAgroturistico/config crear archivo de conexión con la base de datos.
-![GitHub Logo](https://www.cloudways.com/blog/wp-content/uploads/image03-23.png)
+![Archivo db](https://www.cloudways.com/blog/wp-content/uploads/image03-23.png)
 ```
