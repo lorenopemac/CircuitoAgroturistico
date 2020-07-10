@@ -8,17 +8,13 @@ Sistema web para la articulación e integración de la oferta del circuito como 
 
 Es necesario contar con los siguientes componentes
 
-```
-* Versión minima de PHP: 5.4(https://www.php.net/)
-```
-
-```
-* Composer(https://getcomposer.org/)
-```
-
-```
-* Yii2(https://www.yiiframework.com/) 
-```
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Versión minima de PHP: 5.4 [PHP](https://www.php.net/)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ [Composer](https://getcomposer.org/)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ [Yii2](https://www.yiiframework.com/) 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Instalación
 
@@ -27,21 +23,21 @@ Pasos a seguir para la instalación del proyecto
 ### 1. Instalar Composer
 
 ```
-* curl -sS https://getcomposer.org/installer | php
-* sudo mv composer.phar /usr/local/bin/composer
+ curl -sS https://getcomposer.org/installer | php
+ sudo mv composer.phar /usr/local/bin/composer
 ```
 
 ### 2. Instalar Yii2 - Descargando template basico
 
 ```
-* composer create-project --prefer-dist yiisoft/yii2-app-basic basic
+ composer create-project --prefer-dist yiisoft/yii2-app-basic basic
 ```
 
 ### 3. Crear Archivo db.php
 
 ```
-* Descargar proyecto
-* En la carpeta CircuitoAgroturistico/config crear archivo de conexión con la base de datos.
+ Descargar proyecto
+ En la carpeta CircuitoAgroturistico/config crear archivo de conexión con la base de datos.
 ```
-![Archivo db](https://www.cloudways.com/blog/wp-content/uploads/image03-23.png)
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
 
