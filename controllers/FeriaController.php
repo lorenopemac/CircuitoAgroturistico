@@ -37,10 +37,12 @@ class FeriaController extends Controller
     {
         $searchModel = new FeriaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'localidadesModel' => $localidadesModel,
         ]);
     }
 
@@ -65,6 +67,7 @@ class FeriaController extends Controller
     public function actionCreate()
     {
         $model = new Feria();
+        $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idFeria]);
@@ -72,6 +75,7 @@ class FeriaController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'localidadesModel' => $localidadesModel,
         ]);
     }
 
@@ -85,6 +89,7 @@ class FeriaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idFeria]);
@@ -92,6 +97,7 @@ class FeriaController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'localidadesModel' => $localidadesModel,
         ]);
     }
 

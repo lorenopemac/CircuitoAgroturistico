@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Localidad;
+use app\models\RedSocial;
 
 /**
- * LocalidadSearch represents the model behind the search form of `app\models\Localidad`.
+ * RedSocialSearch represents the model behind the search form of `app\models\RedSocial`.
  */
-class LocalidadSearch extends Localidad
+class RedSocialSearch extends RedSocial
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,9 @@ class LocalidadSearch extends Localidad
     public function rules()
     {
         return [
-            [['idLocalidad', 'idProvincia', 'codigoPostal'], 'integer'],
+            [['idRed_social'], 'integer'],
             [['nombre'], 'safe'],
+            [['baja'], 'boolean'],
         ];
     }
 
@@ -40,7 +41,7 @@ class LocalidadSearch extends Localidad
      */
     public function search($params)
     {
-        $query = Localidad::find();
+        $query = RedSocial::find();
 
         // add conditions that should always apply here
 
@@ -58,9 +59,8 @@ class LocalidadSearch extends Localidad
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'idLocalidad' => $this->idLocalidad,
-            'idProvincia' => $this->idProvincia,
-            'codigoPostal' => $this->codigoPostal,
+            'idRed_social' => $this->idRed_social,
+            'baja' => $this->baja,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);

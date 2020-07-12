@@ -5,19 +5,20 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "provincia".
+ * This is the model class for table "red_social".
  *
- * @property int $idProvincia
+ * @property int $idRed_social
  * @property string $nombre
+ * @property bool $baja
  */
-class Provincia extends \yii\db\ActiveRecord
+class RedSocial extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'provincia';
+        return 'red_social';
     }
 
     /**
@@ -27,7 +28,8 @@ class Provincia extends \yii\db\ActiveRecord
     {
         return [
             [['nombre'], 'required'],
-            [['nombre'], 'string', 'max' => 75],
+            [['baja'], 'boolean'],
+            [['nombre'], 'string', 'max' => 45],
         ];
     }
 
@@ -37,17 +39,18 @@ class Provincia extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idProvincia' => 'Id Provincia',
-            'nombre' => ' Provincia',
+            'idRed_social' => 'Id Red Social',
+            'nombre' => 'Nombre',
+            'baja' => 'Baja',
         ];
     }
 
     /**
      * {@inheritdoc}
-     * @return ProvinciaQuery the active query used by this AR class.
+     * @return RedSocialQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new ProvinciaQuery(get_called_class());
+        return new RedSocialQuery(get_called_class());
     }
 }

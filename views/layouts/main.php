@@ -39,6 +39,9 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Inicio', 'url' => ['/site/index']],
+            ['label' => 'Redes Sociales', 'url' => ['/redsocial/index']],
+            ['label' => 'Provincias', 'url' => ['/provincia/index']],
+            ['label' => 'Localidades', 'url' => ['/localidad/index']],
             ['label' => 'Ferias', 'url' => ['/feria/index']],
             ['label' => 'Producto', 'url' => ['/producto/index']],
             ['label' => 'Productores', 'url' => ['/productor/index']],

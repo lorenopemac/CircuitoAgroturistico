@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use kartik\select2\Select2;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -18,13 +19,24 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'idFeria') ?>
+    
+    <div class="col-md-6 col-xs-12">        
+      <?= $form->field($model, 'nombre') ?>
+    </div>
 
-    <?= $form->field($model, 'nombre') ?>
+    <div class="col-md-6 col-xs-12">
+        <?=  $form->field($model, 'idLocalidad')->widget(Select2::classname(), [
+                        'data' => $localidadesModel,
+                        'options' => ['placeholder' => 'Seleccione una Localidad'],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ])  ?>
+    </div>
 
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+    <div class="form-group col-md-12 col-xs-12">
+        <?= Html::submitButton('Buscar', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Cancelar', ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

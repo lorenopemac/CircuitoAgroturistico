@@ -4,23 +4,23 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Feria */
+/* @var $model app\models\RedSocial */
 
 $this->title = $model->nombre;
-$this->params['breadcrumbs'][] = ['label' => 'Ferias', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Red Socials', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="feria-view">
+<div class="red-social-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Editar', ['update', 'id' => $model->idFeria], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->idFeria], [
+        <?= Html::a('Modificar', ['update', 'id' => $model->idRed_social], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->idRed_social], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Desea eliminar esta feria?',
+                'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,9 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            
             'nombre',
-            'localidad.nombre',
+            'baja:boolean',
         ],
     ]) ?>
 

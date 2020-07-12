@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\LocalidadSearch */
+/* @var $model app\models\RedSocialSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="localidad-search">
+<div class="red-social-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -18,13 +18,11 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    
+    <?= $form->field($model, 'idRed_social') ?>
 
     <?= $form->field($model, 'nombre') ?>
 
-    
-
-    <?= $form->field($model, 'codigoPostal') ?>
+    <?= $form->field($model, 'baja')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

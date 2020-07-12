@@ -4,34 +4,31 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\FeriaSearch */
+/* @var $searchModel app\models\RedSocialSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Ferias';
+$this->title = 'Redes Sociales';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="feria-index">
+<div class="red-social-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Crear Feria', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Agregar Red Social', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
-    <?php echo $this->render('_search', ['model' => $searchModel,'localidadesModel' => $localidadesModel]); ?>
-
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            
             'nombre',
-            ['attribute'=>'Localidad',
-             'value'=> 'localidad.nombre'],
+            
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

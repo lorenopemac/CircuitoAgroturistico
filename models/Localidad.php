@@ -43,8 +43,8 @@ class Localidad extends \yii\db\ActiveRecord
     {
         return [
             'idLocalidad' => 'Id Localidad',
-            'nombre' => 'Nombre',
-            'idProvincia' => 'Id Provincia',
+            'nombre' => ' Localidad',
+            'idProvincia' => ' Provincia',
             'codigoPostal' => 'Codigo Postal',
             'localidadcol' => 'Localidadcol',
         ];
@@ -57,5 +57,13 @@ class Localidad extends \yii\db\ActiveRecord
     public static function find()
     {
         return new LocalidadQuery(get_called_class());
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProvincia()
+    {
+        return $this->hasOne(Provincia::className(), ['idProvincia' => 'idProvincia']);
     }
 }
