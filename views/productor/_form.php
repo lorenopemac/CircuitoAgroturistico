@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
+use kartik\file\FileInput;
 /* @var $this yii\web\View */
 /* @var $model app\models\Productor */
 /* @var $form yii\widgets\ActiveForm */
@@ -64,21 +65,27 @@ use kartik\select2\Select2;
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'web')->textInput(['maxlength' => true]) ?>
     </div>
+    <div class="col-md-6 col-xs-12">     
+        <?= $form->field($model, 'ferias')->checkboxList($feriasModel, [
 
-    <?= $form->field($model, 'ferias')->checkboxList($feriasModel, [
+                'separator' => '<br>',
 
-            'separator' => '<br>',
+                'itemOptions' => [
 
-            'itemOptions' => [
+                'class' => 'feria'
 
-            'class' => 'feria'
+                ]
 
-            ]
+                ])->label('Ferias en que Participa');
 
-            ])->label('Ferias en que Participa');
+        ?>
+    </div>
 
-    ?>
-
+    <div class="col-md-6 col-xs-12">     
+        <?= $form->field($model, 'imagen')->widget(FileInput::classname(), [
+        'options' => ['accept' => 'image/*'],
+        ]);?>
+    </div>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
