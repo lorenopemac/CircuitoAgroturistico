@@ -14,6 +14,8 @@ use Yii;
  */
 class Producto extends \yii\db\ActiveRecord
 {
+    public $imagen;
+
     /**
      * {@inheritdoc}
      */
@@ -47,6 +49,7 @@ class Producto extends \yii\db\ActiveRecord
             'idProductor'  => 'Productor'
         ];
     }
+
 
     /**
      * {@inheritdoc}
