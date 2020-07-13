@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Localidad;
-use app\models\LocalidadSearch;
+use app\models\RedSocial;
+use app\models\RedSocialSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * LocalidadController implements the CRUD actions for Localidad model.
+ * RedSocialController implements the CRUD actions for RedSocial model.
  */
-class LocalidadController extends Controller
+class RedsocialController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,24 +30,22 @@ class LocalidadController extends Controller
     }
 
     /**
-     * Lists all Localidad models.
+     * Lists all RedSocial models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new LocalidadSearch();
+        $searchModel = new RedSocialSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'provinciasModel' => $provinciasModel,
         ]);
     }
 
     /**
-     * Displays a single Localidad model.
+     * Displays a single RedSocial model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -60,27 +58,25 @@ class LocalidadController extends Controller
     }
 
     /**
-     * Creates a new Localidad model.
+     * Creates a new RedSocial model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Localidad();
-        $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
+        $model = new RedSocial();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idLocalidad]);
+            return $this->redirect(['view', 'id' => $model->idRed_social]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'provinciasModel' => $provinciasModel,
         ]);
     }
 
     /**
-     * Updates an existing Localidad model.
+     * Updates an existing RedSocial model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -89,20 +85,18 @@ class LocalidadController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idLocalidad]);
+            return $this->redirect(['view', 'id' => $model->idRed_social]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'provinciasModel' => $provinciasModel,
         ]);
     }
 
     /**
-     * Deletes an existing Localidad model.
+     * Deletes an existing RedSocial model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -116,15 +110,15 @@ class LocalidadController extends Controller
     }
 
     /**
-     * Finds the Localidad model based on its primary key value.
+     * Finds the RedSocial model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Localidad the loaded model
+     * @return RedSocial the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Localidad::findOne($id)) !== null) {
+        if (($model = RedSocial::findOne($id)) !== null) {
             return $model;
         }
 

@@ -4,34 +4,31 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\LocalidadSearch */
+/* @var $searchModel app\models\RedSocialSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Localidades';
+$this->title = 'Redes Sociales';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="localidad-index">
+<div class="red-social-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Agregar Localidad', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Agregar Red Social', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
-    <?php  echo $this->render('_search', ['model' => $searchModel,'provinciasModel' => $provinciasModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-    
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            
             'nombre',
-            ['attribute'=>'Provincia',
-             'value'=> 'provincia.nombre'],
-            'codigoPostal',
+            
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

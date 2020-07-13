@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     
     
-    <div class="producto-search" style="border-style: outset; border-width: 1px; border-color: lightgrey;  ">
+    <div class="producto-search" >
         <div class="box box-success">
         <div class="box-header with-border">
             

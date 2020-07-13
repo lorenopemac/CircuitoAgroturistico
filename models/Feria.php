@@ -26,8 +26,9 @@ class Feria extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre'], 'required'],
+            [['nombre','idLocalidad'], 'required'],
             [['nombre'], 'string', 'max' => 45],
+            [['idLocalidad'], 'integer'],
         ];
     }
 
@@ -39,6 +40,7 @@ class Feria extends \yii\db\ActiveRecord
         return [
             'idFeria' => 'Id Feria',
             'nombre' => 'Nombre',
+            'idLocalidad' => 'Localidad'
         ];
     }
 
@@ -49,5 +51,21 @@ class Feria extends \yii\db\ActiveRecord
     public static function find()
     {
         return new FeriaQuery(get_called_class());
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProvincia()
+    {
+        return $this->hasOne(Provincia::className(), ['idProvincia' => 'idProvincia']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLocalidad()
+    {
+        return $this->hasOne(Localidad::className(), ['idLocalidad' => 'idLocalidad']);
     }
 }

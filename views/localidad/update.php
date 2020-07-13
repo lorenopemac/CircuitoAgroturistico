@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Localidad */
 
-$this->title = 'Update Localidad: ' . $model->idLocalidad;
+$this->title = 'Modificar Localidad ';
 $this->params['breadcrumbs'][] = ['label' => 'Localidads', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->idLocalidad, 'url' => ['view', 'id' => $model->idLocalidad]];
 $this->params['breadcrumbs'][] = 'Update';
@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'provinciasModel' => $provinciasModel,
     ]) ?>
 
 </div>

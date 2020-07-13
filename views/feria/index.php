@@ -19,16 +19,19 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php Pjax::begin(); ?>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel,'localidadesModel' => $localidadesModel]); ?>
+
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             
             'nombre',
+            ['attribute'=>'Localidad',
+             'value'=> 'localidad.nombre'],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

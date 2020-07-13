@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $model app\models\LocalidadSearch */
 /* @var $form yii\widgets\ActiveForm */
@@ -18,19 +18,25 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'idLocalidad') ?>
-
-    <?= $form->field($model, 'nombre') ?>
-
-    <?= $form->field($model, 'idProvincia') ?>
-
-    <?= $form->field($model, 'codigoPostal') ?>
-
-    <?= $form->field($model, 'localidadcol') ?>
-
+    
+    <div class="col-md-4 col-xs-12">
+        <?= $form->field($model, 'nombre') ?>
+    </div>
+    <div class="col-md-4 col-xs-12">
+        <?=  $form->field($model, 'idProvincia')->widget(Select2::classname(), [
+            'data' => $provinciasModel,
+            'options' => ['placeholder' => 'Seleccione una Provincia'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ])  ?>
+    </div>
+    <div class="col-md-4 col-xs-12">        
+        <?= $form->field($model, 'codigoPostal') ?>
+    </div>                    
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+        <?= Html::submitButton('Buscar', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Cancelar', ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
