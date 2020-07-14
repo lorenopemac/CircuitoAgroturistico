@@ -46,34 +46,16 @@ use kartik\file\FileInput;
         <?= $form->field($model, 'numeroCalle')->textInput() ?>
     </div>
 
-    <div class="col-md-12 col-xs-12">     
+    <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'numeroTelefono')->textInput() ?>
     </div>
 
-    <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'facebook')->textInput(['maxlength' => true]) ?>
-    </div>
-
-    <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'Instagram')->textInput(['maxlength' => true]) ?>
-    </div>
-
-    <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'twitter')->textInput(['maxlength' => true]) ?>
-    </div>
-
-    <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'web')->textInput(['maxlength' => true]) ?>
-    </div>
+    
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'ferias')->checkboxList($feriasModel, [
-
                 'separator' => '<br>',
-
                 'itemOptions' => [
-
                 'class' => 'feria'
-
                 ]
 
                 ])->label('Ferias en que Participa');
@@ -81,10 +63,16 @@ use kartik\file\FileInput;
         ?>
     </div>
 
-    <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'imagen')->widget(FileInput::classname(), [
-        'options' => ['accept' => 'image/*'],
-        ]);?>
+                    
+
+    <div class="col-md-12 col-xs-12">     
+        
+        <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
+            'options' => ['multiple' => true],
+            'pluginOptions' => ['previewFileType' => 'any', 'maxFileCount'=>10]
+            ]);
+        ?>
+
     </div>
 
     <div class="form-group">

@@ -17,16 +17,12 @@ use Yii;
  * @property string|null $nombreCalle
  * @property int|null $numeroCalle
  * @property int $numeroTelefono
- * @property string|null $facebook
- * @property string|null $Instagram
- * @property string|null $twitter
- * @property string|null $web
  */
 class Productor extends \yii\db\ActiveRecord
 {
 
     public $ferias;
-    public $imagen;
+    public $imagenes;
     /**
      * {@inheritdoc}
      */
@@ -45,10 +41,10 @@ class Productor extends \yii\db\ActiveRecord
             [['cuit', 'idLocalidad', 'idProvincia', 'numeroCalle', 'numeroTelefono'], 'integer'],
             [['nombre'], 'string', 'max' => 45],
             [['nombreCalle'], 'string', 'max' => 100],
-            [['facebook', 'Instagram', 'twitter', 'web'], 'string', 'max' => 150],
             [['idProvincia'], 'exist', 'skipOnError' => true, 'targetClass' => Provincia::className(), 'targetAttribute' => ['idProvincia' => 'idProvincia']],
             [['idLocalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Localidad::className(), 'targetAttribute' => ['idLocalidad' => 'idLocalidad']],
             ['ferias', 'each', 'rule' => ['integer']],
+            [['imagenes'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxFiles' => 4],
         ];
     }
 
@@ -66,11 +62,20 @@ class Productor extends \yii\db\ActiveRecord
             'nombreCalle' => 'Nombre Calle',
             'numeroCalle' => 'Numero Calle',
             'numeroTelefono' => 'Numero Telefono',
-            'facebook' => 'Facebook',
-            'Instagram' => 'Instagram',
-            'twitter' => 'Twitter',
-            'web' => 'Web',
         ];
+    }
+
+
+    public function upload()
+    {
+        if ($this->validate()) { 
+            foreach ($this->imagenes as $file) {
+                $file->saveAs('@app/uploads/' . $file->baseName . '.' . $file->extension);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

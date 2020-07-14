@@ -9,6 +9,8 @@ use app\models\ProductorSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 
 /**
  * ProductorController implements the CRUD actions for Productor model.
@@ -77,9 +79,12 @@ class ProductorController extends Controller
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
 
         if ($model->load(Yii::$app->request->post()) ) {
-            $model->save();
-            $this->guardarFerias($model);
-            return $this->redirect(['view', 'id' => $model->idProductor]);
+            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
+            
+            if($model->save() && $model->upload()){
+                $this->guardarFerias($model);
+                return $this->redirect(['view', 'id' => $model->idProductor]);
+            }
         }
 
         return $this->render('create', [
@@ -97,8 +102,6 @@ class ProductorController extends Controller
             $feriaProductor->idProductor= $model->idProductor;
             $feriaProductor->idFeria= $idFeria;
             $feriaProductor->save();
-            
-
         }
     }
 
@@ -116,7 +119,12 @@ class ProductorController extends Controller
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
         
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
+            $model->upload();
+            $model->imagenes =null;
+            
+            $model->save();
             return $this->redirect(['view', 'id' => $model->idProductor]);
         }
 
