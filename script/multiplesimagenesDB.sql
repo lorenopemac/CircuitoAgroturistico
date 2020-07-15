@@ -32,4 +32,15 @@ ADD COLUMN `baja` BIT(1) NOT NULL AFTER `extension`;
 ALTER TABLE `circuito_agroturistico`.`imagen` 
 CHANGE COLUMN `baja` `baja` BIT(1) NOT NULL DEFAULT 0 ;
 
+ALTER TABLE `circuito_agroturistico`.`producto` 
+CHANGE COLUMN `baja` `baja` BIT(1) NOT NULL DEFAULT 0 ;
+
+
+CREATE TABLE `circuito_agroturistico`.`imagen_feria` (
+  `idImagen_feria` INT NOT NULL AUTO_INCREMENT,
+  `idImagen` INT NOT NULL,
+  `idFeria` INT NOT NULL,
+  `baja` BIT(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`idImagen_feria`));
+
 

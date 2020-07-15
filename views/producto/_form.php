@@ -2,7 +2,7 @@
 use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use kartik\file\FileInput;
 /* @var $this yii\web\View */
 /* @var $model app\models\Producto */
 /* @var $form yii\widgets\ActiveForm */
@@ -12,18 +12,37 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <div class="col-md-12 col-xs-12">     
+        <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
+    </div>
+    <div class="col-md-12 col-xs-12">     
+        <?= $form->field($model,'descripcion')->textInput(['style'=>'width:100%;height: 50px;']);?>
+    </div>
+    <div class="col-md-12 col-xs-12">     
+        <?=  $form->field($model, 'idProductor')->widget(Select2::classname(), [
+            'data' => $productoresModel,
+            'options' => ['placeholder' => 'Seleccione un Productor'],
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+        ])  ?>
+    </div>
+    <div class="col-md-12 col-xs-12">     
+        
+        <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
+            'options' => ['multiple' => true],
+            'pluginOptions' => [
+                'initialPreview'=>[$model->imagenes],
+                'previewFileType' => 'any', 
+                'maxFileCount'=>10,
+                'showCaption'=> false,
+                'showRemove'=> false,
+                
+                'showUpload'=> false]
+            ]);
+        ?>
 
-    <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model,'descripcion')->textInput(['style'=>'width:100%;height: 50px;']);?>
-
-    <?=  $form->field($model, 'idProductor')->widget(Select2::classname(), [
-        'data' => $productoresModel,
-        'options' => ['placeholder' => 'Seleccione un Productor'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ])  ?>
+    </div>
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
