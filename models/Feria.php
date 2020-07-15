@@ -12,6 +12,7 @@ use Yii;
  */
 class Feria extends \yii\db\ActiveRecord
 {
+    public $imagenes;
     /**
      * {@inheritdoc}
      */
@@ -29,6 +30,7 @@ class Feria extends \yii\db\ActiveRecord
             [['nombre','idLocalidad'], 'required'],
             [['nombre'], 'string', 'max' => 45],
             [['idLocalidad'], 'integer'],
+            [['imagenes'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxFiles' => 4],
         ];
     }
 
@@ -42,6 +44,24 @@ class Feria extends \yii\db\ActiveRecord
             'nombre' => 'Nombre',
             'idLocalidad' => 'Localidad'
         ];
+    }
+
+    public function upload($array)
+    {
+        $indice=0;
+        if ($this->validate()) { 
+            foreach ($this->imagenes as $file) {
+                $file->saveAs('@app/uploads/' . $array[$indice]->idImagen . '.' . $file->extension);
+                $indice = $indice + 1;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getImagenesFeria(){
+        return $this->hasMany(ImagenFeria::className(), ['idFeria' => 'idFeria']);
     }
 
     /**

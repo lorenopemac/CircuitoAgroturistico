@@ -18,7 +18,7 @@ class ProductorSearch extends Productor
     {
         return [
             [['idProductor', 'cuit', 'idLocalidad', 'idProvincia', 'numeroCalle', 'numeroTelefono'], 'integer'],
-            [['nombre', 'nombreCalle', 'facebook', 'Instagram', 'twitter', 'web'], 'safe'],
+            [['nombre', 'nombreCalle'], 'safe'],
         ];
     }
 
@@ -67,11 +67,7 @@ class ProductorSearch extends Productor
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'nombreCalle', $this->nombreCalle])
-            ->andFilterWhere(['like', 'facebook', $this->facebook])
-            ->andFilterWhere(['like', 'Instagram', $this->Instagram])
-            ->andFilterWhere(['like', 'twitter', $this->twitter])
-            ->andFilterWhere(['like', 'web', $this->web]);
+            ->andFilterWhere(['like', 'nombreCalle', $this->nombreCalle]);
 
         return $dataProvider;
     }

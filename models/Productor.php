@@ -3,7 +3,7 @@
 namespace app\models;
 use app\models\Provincia;
 use app\models\Localidad;
-
+use yii\helpers\Html;
 use Yii;
 
 /**
@@ -17,15 +17,12 @@ use Yii;
  * @property string|null $nombreCalle
  * @property int|null $numeroCalle
  * @property int $numeroTelefono
- * @property string|null $facebook
- * @property string|null $Instagram
- * @property string|null $twitter
- * @property string|null $web
  */
 class Productor extends \yii\db\ActiveRecord
 {
 
     public $ferias;
+    public $imagenes;
     /**
      * {@inheritdoc}
      */
@@ -44,10 +41,10 @@ class Productor extends \yii\db\ActiveRecord
             [['cuit', 'idLocalidad', 'idProvincia', 'numeroCalle', 'numeroTelefono'], 'integer'],
             [['nombre'], 'string', 'max' => 45],
             [['nombreCalle'], 'string', 'max' => 100],
-            [['facebook', 'Instagram', 'twitter', 'web'], 'string', 'max' => 150],
             [['idProvincia'], 'exist', 'skipOnError' => true, 'targetClass' => Provincia::className(), 'targetAttribute' => ['idProvincia' => 'idProvincia']],
             [['idLocalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Localidad::className(), 'targetAttribute' => ['idLocalidad' => 'idLocalidad']],
             ['ferias', 'each', 'rule' => ['integer']],
+            [['imagenes'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxFiles' => 4],
         ];
     }
 
@@ -65,12 +62,58 @@ class Productor extends \yii\db\ActiveRecord
             'nombreCalle' => 'Nombre Calle',
             'numeroCalle' => 'Numero Calle',
             'numeroTelefono' => 'Numero Telefono',
-            'facebook' => 'Facebook',
-            'Instagram' => 'Instagram',
-            'twitter' => 'Twitter',
-            'web' => 'Web',
         ];
     }
+
+
+    public function upload($array)
+    {
+        $indice=0;
+        if ($this->validate()) { 
+            foreach ($this->imagenes as $file) {
+                $file->saveAs('@app/uploads/' . $array[$indice]->idImagen . '.' . $file->extension);
+                $indice = $indice + 1;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function getDisplayImage($imagen) {
+        if (!($imagen)) {
+            // if you do not want a placeholder)
+            $image = null;
+    
+            // else if you want to display a placeholder
+            $image = Html::img(self::IMAGE_PLACEHOLDER, [
+                'alt'=>Yii::t('app', 'No Imagen'),
+                'title'=>Yii::t('app', 'Upload your avatar by selecting browse below'),
+                'class'=>'file-preview-image'
+                // add a CSS class to make your image styling consistent
+            ]);
+        }
+        else {
+            $image = Html::img('@app/uploads'. '/' . $imagen->idImagen.'.'.$imagen->extension, [
+                'alt'=>Yii::t('app', 'Imagen') . 'imagen',
+                'title'=>Yii::t('app', 'Click remove button below to remove this image'),
+                'class'=>'file-preview-image'
+                // add a CSS class to make your image styling consistent
+            ]);
+
+        }
+    
+        // enclose in a container if you wish with appropriate styles
+        return ($image == null) ? null : 
+            Html::tag('div', $image, ['class' => 'file-preview-frame']); 
+    }
+
+
+    public function getImagenesProductor(){
+        return $this->hasMany(ImagenProductor::className(), ['idProductor' => 'idProductor']);
+    }
+
 
     /**
      * {@inheritdoc}

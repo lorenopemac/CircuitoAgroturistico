@@ -8,6 +8,10 @@ use app\models\ProductoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
+use app\models\Imagen;
+use app\models\ImagenProducto;
 
 /**
  * ProductoController implements the CRUD actions for Producto model.
@@ -75,10 +79,24 @@ class ProductoController extends Controller
 
 
         if ($model->load(Yii::$app->request->post())  ) {
-            //print_r($model);
-            //exit;
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->idProducto]);
+            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
+            
+            if($model->save()){
+                $indice = 0;
+                foreach($model->imagenes as $imagen){
+                    $modelImagen = new Imagen();
+                    $modelImagenProducto = new ImagenProducto();
+                    $modelImagen->extension = $imagen->extension;
+                    $modelImagen->save();
+                    $modelImagenProducto->idImagen = $modelImagen->idImagen;
+                    $modelImagenProducto->idProducto = $model->idProducto;
+                    $modelImagenProducto->save();
+                    $imagenes[$indice]= $modelImagen;
+                    $indice = $indice +1;
+                }
+                $model->upload($imagenes);
+                return $this->redirect(['view', 'id' => $model->idProducto]);
+            }
         }
 
         return $this->render('create', [
@@ -101,6 +119,16 @@ class ProductoController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idProducto]);
         }
+        /*$imagen = Imagen::find()
+                ->where(['idImagen' => 20, 'baja' => 0])
+                ->one();
+        //$imagenVista = $model->getDisplayImage($imagen);
+        
+        $model->imagenes[0] = Html::img("@app/uploads/20.png");;
+        
+        
+        //print_r($imagenVista);
+        //exit;*/
 
         return $this->render('update', [
             'productoresModel' => $productoresModel,
