@@ -1,11 +1,13 @@
 <?php
 
 namespace app\controllers;
-
+use yii\helpers\Html;
 use Yii;
 use app\models\Productor;
 use app\models\FeriaProductor;
 use app\models\ProductorSearch;
+use app\models\Imagen;
+use app\models\ImagenProductor;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -79,9 +81,23 @@ class ProductorController extends Controller
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
 
         if ($model->load(Yii::$app->request->post()) ) {
+            
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
             
-            if($model->save() && $model->upload()){
+            if($model->save()){
+                $indice = 0;
+                foreach($model->imagenes as $imagen){
+                    $modelImagen = new Imagen();
+                    $modelImagenProductor = new ImagenProductor();
+                    $modelImagen->extension = $imagen->extension;
+                    $modelImagen->save();
+                    $modelImagenProductor->idImagen = $modelImagen->idImagen;
+                    $modelImagenProductor->idProductor = $model->idProductor;
+                    $modelImagenProductor->save();
+                    $imagenes[$indice]= $modelImagen;
+                    $indice = $indice +1;
+                }
+                $model->upload($imagenes);
                 $this->guardarFerias($model);
                 return $this->redirect(['view', 'id' => $model->idProductor]);
             }
@@ -118,6 +134,17 @@ class ProductorController extends Controller
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
+        
+        /*$imagen = Imagen::find()
+                ->where(['idImagen' => 20, 'baja' => 0])
+                ->one();
+        //$imagenVista = $model->getDisplayImage($imagen);
+        
+        $model->imagenes[0] = Html::img("@app/uploads/20.png");;
+        
+        
+        //print_r($imagenVista);
+        //exit;*/
         
         if ($model->load(Yii::$app->request->post()) ) {
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');

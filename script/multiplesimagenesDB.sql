@@ -1,3 +1,9 @@
+CREATE TABLE `circuito_agroturistico`.`imagen` (
+  `idImagen` INT NOT NULL AUTO_INCREMENT,
+  `extension` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idImagen`));
+
+
 CREATE TABLE `circuito_agroturistico`.`imagen_productor` (
   `idImagen_productor` INT NOT NULL AUTO_INCREMENT,
   `idImagen` INT NOT NULL,
@@ -19,3 +25,11 @@ DROP COLUMN `web`,
 DROP COLUMN `twitter`,
 DROP COLUMN `Instagram`,
 DROP COLUMN `facebook`;
+
+ALTER TABLE `circuito_agroturistico`.`imagen` 
+ADD COLUMN `baja` BIT(1) NOT NULL AFTER `extension`;
+
+ALTER TABLE `circuito_agroturistico`.`imagen` 
+CHANGE COLUMN `baja` `baja` BIT(1) NOT NULL DEFAULT 0 ;
+
+

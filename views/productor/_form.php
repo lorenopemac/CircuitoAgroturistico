@@ -11,7 +11,7 @@ use kartik\file\FileInput;
 
 <div class="productor-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
@@ -69,7 +69,14 @@ use kartik\file\FileInput;
         
         <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
             'options' => ['multiple' => true],
-            'pluginOptions' => ['previewFileType' => 'any', 'maxFileCount'=>10]
+            'pluginOptions' => [
+                'initialPreview'=>[$model->imagenes],
+                'previewFileType' => 'any', 
+                'maxFileCount'=>10,
+                'showCaption'=> false,
+                'showRemove'=> false,
+                
+                'showUpload'=> false]
             ]);
         ?>
 
