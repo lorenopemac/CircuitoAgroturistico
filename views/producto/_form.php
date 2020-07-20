@@ -28,6 +28,17 @@ use kartik\file\FileInput;
         ])  ?>
     </div>
     <div class="col-md-12 col-xs-12">     
+        <?= $form->field($model, 'categorias')->checkboxList($categoriasModel, [
+                'separator' => '<br>',
+                'itemOptions' => [
+                'class' => 'clasificador'
+                ]
+
+                ])->label('Categorias del Prodcuto');
+
+        ?>
+    </div>
+    <div class="col-md-12 col-xs-12">     
         
         <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
             'options' => ['multiple' => true],

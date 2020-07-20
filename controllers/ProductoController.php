@@ -12,6 +12,7 @@ use app\models\UploadForm;
 use yii\web\UploadedFile;
 use app\models\Imagen;
 use app\models\ImagenProducto;
+use app\models\CategoriaProductor;
 
 /**
  * ProductoController implements the CRUD actions for Producto model.
@@ -75,7 +76,7 @@ class ProductoController extends Controller
     {
         $model = new Producto();
         $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
-        
+        $categoriasModel = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idCategoria', 'nombre');
 
 
         if ($model->load(Yii::$app->request->post())  ) {
@@ -95,6 +96,7 @@ class ProductoController extends Controller
                     $indice = $indice +1;
                 }
                 $model->upload($imagenes);
+                $this->guardarCategorias($model);
                 return $this->redirect(['view', 'id' => $model->idProducto]);
             }
         }
@@ -102,7 +104,18 @@ class ProductoController extends Controller
         return $this->render('create', [
             'model' => $model,
             'productoresModel' => $productoresModel,
+            'categoriasModel' => $categoriasModel,
         ]);
+    }
+
+
+    public function guardarCategorias($model){
+        foreach($model->categorias as $idCategoria){
+            $categoriaProductor = new CategoriaProductor();
+            $categoriaProductor->idProducto= $model->idProducto;
+            $categoriaProductor->idCategoria= $idCategoria;
+            $categoriaProductor->save();
+        }
     }
 
     /**
