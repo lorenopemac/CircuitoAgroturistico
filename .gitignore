@@ -2,3 +2,5 @@
 config/db.php
 
 composer.lock
+
+uploads/

@@ -36,10 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'nombreCalle',
             'numeroCalle',
             'numeroTelefono',
-            'facebook',
-            'Instagram',
-            'twitter',
-            'web',
         ],
     ]) ?>
 

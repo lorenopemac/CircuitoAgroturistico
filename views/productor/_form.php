@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
+use kartik\file\FileInput;
 /* @var $this yii\web\View */
 /* @var $model app\models\Productor */
 /* @var $form yii\widgets\ActiveForm */
@@ -10,7 +11,7 @@ use kartik\select2\Select2;
 
 <div class="productor-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
@@ -45,40 +46,41 @@ use kartik\select2\Select2;
         <?= $form->field($model, 'numeroCalle')->textInput() ?>
     </div>
 
-    <div class="col-md-12 col-xs-12">     
+    <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'numeroTelefono')->textInput() ?>
     </div>
 
+    
     <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'facebook')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'ferias')->checkboxList($feriasModel, [
+                'separator' => '<br>',
+                'itemOptions' => [
+                'class' => 'feria'
+                ]
+
+                ])->label('Ferias en que Participa');
+
+        ?>
     </div>
 
-    <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'Instagram')->textInput(['maxlength' => true]) ?>
+                    
+
+    <div class="col-md-12 col-xs-12">     
+        
+        <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
+            'options' => ['multiple' => true],
+            'pluginOptions' => [
+                'initialPreview'=>[$model->imagenes],
+                'previewFileType' => 'any', 
+                'maxFileCount'=>10,
+                'showCaption'=> false,
+                'showRemove'=> false,
+                
+                'showUpload'=> false]
+            ]);
+        ?>
+
     </div>
-
-    <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'twitter')->textInput(['maxlength' => true]) ?>
-    </div>
-
-    <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'web')->textInput(['maxlength' => true]) ?>
-    </div>
-
-    <?= $form->field($model, 'ferias')->checkboxList($feriasModel, [
-
-            'separator' => '<br>',
-
-            'itemOptions' => [
-
-            'class' => 'feria'
-
-            ]
-
-            ])->label('Ferias en que Participa');
-
-    ?>
-
 
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>

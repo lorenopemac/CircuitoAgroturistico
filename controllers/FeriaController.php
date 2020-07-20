@@ -8,6 +8,10 @@ use app\models\FeriaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
+use app\models\Imagen;
+use app\models\ImagenFeria;
 
 /**
  * FeriaController implements the CRUD actions for Feria model.
@@ -69,8 +73,25 @@ class FeriaController extends Controller
         $model = new Feria();
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idFeria]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
+            
+            if($model->save()){
+                $indice = 0;
+                foreach($model->imagenes as $imagen){
+                    $modelImagen = new Imagen();
+                    $modelImagenFeria = new ImagenFeria();
+                    $modelImagen->extension = $imagen->extension;
+                    $modelImagen->save();
+                    $modelImagenFeria->idImagen = $modelImagen->idImagen;
+                    $modelImagenFeria->idFeria = $model->idFeria;
+                    $modelImagenFeria->save();
+                    $imagenes[$indice]= $modelImagen;
+                    $indice = $indice +1;
+                }
+                $model->upload($imagenes);
+                return $this->redirect(['view', 'id' => $model->idFeria]);
+            }
         }
 
         return $this->render('create', [
