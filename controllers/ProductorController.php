@@ -77,26 +77,13 @@ class ProductorController extends Controller
         $model->idProvincia = 1;
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
-
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
 
         if ($model->load(Yii::$app->request->post()) ) {
             
-            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
-            
+            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
             if($model->save()){
-                $indice = 0;
-                foreach($model->imagenes as $imagen){
-                    $modelImagen = new Imagen();
-                    $modelImagenProductor = new ImagenProductor();
-                    $modelImagen->extension = $imagen->extension;
-                    $modelImagen->save();
-                    $modelImagenProductor->idImagen = $modelImagen->idImagen;
-                    $modelImagenProductor->idProductor = $model->idProductor;
-                    $modelImagenProductor->save();
-                    $imagenes[$indice]= $modelImagen;
-                    $indice = $indice +1;
-                }
+                $this->guardarImagenes($model);
                 $model->upload($imagenes);
                 $this->guardarFerias($model);
                 return $this->redirect(['view', 'id' => $model->idProductor]);
@@ -112,6 +99,31 @@ class ProductorController extends Controller
     }
 
 
+    /**
+     * Guarda las Imagenes del Productor.
+     * @param Productor $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function guardarImagenes($model){
+        $indice = 0;
+        foreach($model->imagenes as $imagen){
+            $modelImagen = new Imagen();
+            $modelImagenProductor = new ImagenProductor();
+            $modelImagen->extension = $imagen->extension;
+            $modelImagen->save();
+            $modelImagenProductor->idImagen = $modelImagen->idImagen;
+            $modelImagenProductor->idProductor = $model->idProductor;
+            $modelImagenProductor->save();
+            $imagenes[$indice]= $modelImagen;
+            $indice = $indice +1;
+        }
+    }
+
+    /**
+     * Guarda las Ferias en las que participa el Productor.
+     * @param Productor $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     public function guardarFerias($model){
         foreach($model->ferias as $idFeria){
             $feriaProductor = new FeriaProductor();

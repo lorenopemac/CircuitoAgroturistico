@@ -9,6 +9,17 @@ use kartik\file\FileInput;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
+<style>
+
+table{
+  border: 0,5px solid black;
+  width: 100%;
+}
+
+tr,th, td {
+    border: 1px solid black;
+}
+</style>
 <div class="productor-form">
 
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
@@ -37,19 +48,15 @@ use kartik\file\FileInput;
                     ],
                 ])  ?>
     </div>
-    
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'nombreCalle')->textInput(['maxlength' => true]) ?>
     </div>
-
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'numeroCalle')->textInput() ?>
     </div>
-
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'numeroTelefono')->textInput() ?>
     </div>
-
     
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'ferias')->checkboxList($feriasModel, [
@@ -66,7 +73,6 @@ use kartik\file\FileInput;
                     
 
     <div class="col-md-12 col-xs-12">     
-        
         <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
             'options' => ['multiple' => true],
             'pluginOptions' => [
@@ -79,7 +85,9 @@ use kartik\file\FileInput;
                 'showUpload'=> false]
             ]);
         ?>
+    </div>
 
+    <div id="divResults" class="col-md-12 col-xs-12">     
     </div>
 
     <div class="form-group">
@@ -106,7 +114,12 @@ $this->registerJs("
         }
     });
 
-")
+    
+    $(document).ready(function() {
+        $('#divResults').append('<table><tr><td >' + 'Nombre' + '</td><td >' + 'Dirección' + '</td></tr><tr><td >' + 'Facebook' + '</td><td contenteditable></td></tr></table>');
+    });
+
+");
 
 ?>
 
