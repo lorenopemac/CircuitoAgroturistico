@@ -26,7 +26,7 @@ tr,th, td {
 <div class="productor-form">
 
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
-
+    
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
     </div>
@@ -89,26 +89,49 @@ tr,th, td {
             ]);
         ?>
     </div>
+    
     <div class="col-md-12 col-xs-12">  
-        <?=  GridView::widget([
-            'dataProvider' => $dataProviderRedes,
-            'columns' => [
-                'nombre',
+        <?php if(!$vista){ ?>
+            <?=  GridView::widget([
+                'dataProvider' => $dataProviderRedes,
+                'columns' => [
+                    'nombre',
 
-                [	'attribute' => 'asignacion', 
-                        'label'  => 'Dirección',
-                        'content'  => function($data){
-                                        return Html::a(
-                                            '<div id="'.$data['idRed_social'].'">
-                                                <input class="renombrar" id="'.$data['idRed_social'].'"  type="text"/>', 
-                                            null, 
-                                            ['title' => 'Modificar',]).
-                                            "</div>";
-                                    }
-                    ],
-                
-            ],
-        ]); ?>
+                    [	'attribute' => 'asignacion', 
+                            'label'  => 'Dirección',
+                            'content'  => function($data){
+                                            return Html::a(
+                                                '<div id="'.$data['idRed_social'].'">
+                                                    <input class="renombrar" id="'.$data['idRed_social'].'"  type="text"/>', 
+                                                null, 
+                                                ['title' => 'Modificar',]).
+                                                "</div>";
+                                        }
+                        ],
+                    
+                ],
+            ]); ?>
+        <?php }else{ ?>
+            <?=  GridView::widget([
+                'dataProvider' => $dataProviderRedes,
+                'columns' => [
+                    'redSocial.nombre',
+
+                    [	'attribute' => 'direccion', 
+                            'label'  => 'Dirección',
+                            'content'  => function($data){
+                                            return Html::a(
+                                                '<div id="'.$data['idRed_social'].'">
+                                                    <input class="renombrar" id="'.$data['idRed_social'].'"  type="text" value="'.$data['direccion'].'"/>', 
+                                                null, 
+                                                ['title' => 'Modificar',]).
+                                                "</div>";
+                                        }
+                        ],
+                    
+                ],
+            ]); ?>
+        <?php } ?>
     </div>
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
@@ -143,14 +166,17 @@ var validar= false;
 
 $('.renombrar').on('blur', function(e){
     
-    console.log($('.renombrar').find('input:eq(0)').text());
+    
     if(!validar){// PARA QUE NO REALICEN MULTIPLES LLAMADAS
+        //console.log($(this).closest('.productor-form').find('input').find(this.id)[0]); 
+        //console.log($(this).next('input').find(this.id));
+        console.log(($(this).closest('input')).eq(0).val());
         validar=true;
         var fila = $(this).closest('tr');
         if(e.type === 'blur' ) {
         //LLAMADA AJAX ACA
         var idRedSocial = this.id;
-        var direccion  = $('#'+this.id).val();
+        var direccion  = $(this).closest('input').eq(0).val();
         var idProductor = '$model->idProductor';
         $.ajax({
             url: '$urlGuardarRed',

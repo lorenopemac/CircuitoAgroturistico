@@ -16,7 +16,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\UploadForm;
 use yii\web\UploadedFile;
-
+use yii\data\ArrayDataProvider;
 /**
  * ProductorController implements the CRUD actions for Productor model.
  */
@@ -64,8 +64,22 @@ class ProductorController extends Controller
      */
     public function actionView($id)
     {
+        $redProductor = RedsocialProductor::find()
+                        ->joinWith('redSocial')
+                        ->where(['idProductor'=>$id])
+                        ->all();
+        $provider = new ArrayDataProvider([
+            'allModels' => $redProductor,
+            'pagination' =>[
+                'pageSize'=>10,
+            ],
+            'sort'=>[
+                'attributes' => [''],
+            ],
+        ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'provider' => $provider,
         ]);
     }
 
@@ -77,27 +91,52 @@ class ProductorController extends Controller
     public function actionCreate()
     {
         $model = new Productor();
-        $model->idProvincia = 1;
+        
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
         $searchModelRedes = new RedSocialSearch();
         $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams);
-        //$redes = RedSocial::find()->asArray()->all();
-        //print_r($redes);
-        //exit;
-
+        
+        //Agrego productor para utilizar el id en la carga de redes sociales
+        $model->baja = true;
+        $model->idProvincia = 1;
+        $model->nombre = "vacio";
+        $model->cuit = 0;
+        $model->idLocalidad = 1;
+        $model->numeroTelefono = 0;
+        $model->save();
+        
+        $model->numeroTelefono = null;
+        $model->nombre = null;
+        $model->idLocalidad= null;
+        $model->cuit = null;
+        $model->idProductorReal = $id;
+        $model->numeroCalle = 0;
+        //fin carga
+        
+        
         if ($model->load(Yii::$app->request->post()) ) {
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
-            if($model->save()){
-                $this->guardarRedes($model);
+            //UPDATE DEL PRODUCTOR YA CREADO
+            $connection = Yii::$app->getDb();
+            $model->idProductor = $model->idProductor-1;//le asigno el modelo anterior que esta vacio
+            $command = $connection->createCommand("
+                        UPDATE productor SET nombre='".$model->nombre."',cuit=".$model->cuit.",idLocalidad=".$model->idLocalidad."
+                        ,idProvincia=".$model->idProvincia.",nombreCalle='".$model->nombreCalle."',
+                        numeroCalle=".$model->numeroCalle.",numeroTelefono=".$model->numeroTelefono.",baja=false
+                        WHERE idProductor=".$model->idProductor)->execute();
+            //FIN UPDATE PRODUCTOR
+
+            $this->guardarRedes($model);
+            if($model->imagenes){
                 if(size($model->imagenes)){
                     $this->guardarImagenes($model);
+                    $model->upload($imagenes);
                 }
-                $model->upload($imagenes);
-                $this->guardarFerias($model);
-                return $this->redirect(['view', 'id' => $model->idProductor]);
             }
+            $this->guardarFerias($model);
+            return $this->redirect(['view', 'id' => $model->idProductor]);
         }
 
         return $this->render('create', [
@@ -106,6 +145,7 @@ class ProductorController extends Controller
             'localidadesModel' => $localidadesModel,
             'feriasModel' => $feriasModel,
             'dataProviderRedes'=>$dataProviderRedes,
+            'vista'=>false,
         ]);
     }
 
@@ -170,11 +210,23 @@ class ProductorController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $redProductor = RedsocialProductor::find()
+                        ->joinWith('redSocial')
+                        ->where(['idProductor'=>$id])
+                        ->all();
+        $providerRedes = new ArrayDataProvider([
+            'allModels' => $redProductor,
+            'pagination' =>[
+                'pageSize'=>10,
+            ],
+            'sort'=>[
+                'attributes' => [''],
+            ],
+        ]);
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
-        $searchModelRedes = new RedSocialSearch();
-        $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams);
+        $vista =true;
         /*$imagen = Imagen::find()
                 ->where(['idImagen' => 20, 'baja' => 0])
                 ->one();
@@ -200,7 +252,8 @@ class ProductorController extends Controller
             'provinciasModel' => $provinciasModel,
             'localidadesModel' => $localidadesModel,
             'feriasModel' => $feriasModel,
-            'dataProviderRedes'=>$dataProviderRedes,
+            'dataProviderRedes'=>$providerRedes,
+            'vista'=>$vista,
         ]);
     }
 
@@ -234,30 +287,30 @@ class ProductorController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+
     public function actionGuardarred(){
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $params= Yii::$app->request->post();
         $retorno=false;
-        
-        $redesLibres = RedsocialProductor::find()
-                        ->where(['direccion'=>$params['direccion']])
-                        ->all();
 
-        if(sizeof($redesLibres)==0){//EVITAR QUE SE GUARDE REPETIDOS
+        $redProductor = new RedsocialProductor();
+        $redProductor = RedsocialProductor::find()
+                        ->where(['idRed_social'=>$params['idRed']])
+                        ->andWhere(['idProductor'=>$params['idProductor']])
+                        ->one();
+
+        if(!($redProductor)){
             $redProductor = new RedsocialProductor();
-            if($params['idProductor'] >0){
-                $redProductor->idProductor= $params['idProductor'];
-            }else{
-                $redProductor->idProductor= 0;
-            }
-            $redProductor->idRed_social= $params['idRed'];
-            $redProductor->direccion= $params['direccion'];
-            if($redProductor->save())    {
-                $retorno=true;
-            }
         }
+        $redProductor->idProductor= $params['idProductor'];
+        $redProductor->idRed_social= $params['idRed'];
+        $redProductor->direccion= $params['direccion'];
+        if($redProductor->save())    {
+            $retorno=true;
+        }
+        
         return[
-            'exito'=> sizeof($redesLibres),
+            'exito'=> $retorno,
         ];
     }
 }

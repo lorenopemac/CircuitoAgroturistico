@@ -46,4 +46,12 @@ class RedsocialProductor extends \yii\db\ActiveRecord
             'direccion' => 'Direccion',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRedSocial()
+    {
+        return $this->hasOne(RedSocial::className(), ['idRed_social' => 'idRed_social']);
+    }
 }

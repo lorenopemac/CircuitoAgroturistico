@@ -8,6 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Crear Productor';
 $this->params['breadcrumbs'][] = ['label' => 'Productors', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="productor-create">
 
@@ -18,8 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'provinciasModel' => $provinciasModel,
         'localidadesModel' => $localidadesModel,
         'feriasModel' => $feriasModel,
-        
         'dataProviderRedes'=>$dataProviderRedes,
+        'vista'=>$vista,
     ]) ?>
 
 </div>

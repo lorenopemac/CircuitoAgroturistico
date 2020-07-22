@@ -2,6 +2,7 @@
 use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Productor */
@@ -25,18 +26,28 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'nombre',
-            'cuit',
-            'provincia.nombre',
-            'localidad.nombre',
-            'nombreCalle',
-            'numeroCalle',
-            'numeroTelefono',
-        ],
-    ]) ?>
+    <div class="col-md-12 col-xs-12">  
+        <?= DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'nombre',
+                'cuit',
+                'provincia.nombre',
+                'localidad.nombre',
+                'nombreCalle',
+                'numeroCalle',
+                'numeroTelefono',
+            ],
+        ]) ?>
+    </div>
+    <div class="col-md-12 col-xs-12">  
+        <?=  GridView::widget([
+            'dataProvider' => $provider,
+            'columns' => [
+                'redSocial.nombre',
+                'direccion'    ,
+            ],
+        ]); ?>
+    </div>
 
 </div>
