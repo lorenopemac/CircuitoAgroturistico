@@ -100,7 +100,7 @@ tr,th, td {
                         'content'  => function($data){
                                         return Html::a(
                                             '<div id="'.$data['idRed_social'].'">
-                                                <span class="renombrar" id="'.$data['idRed_social'].'">'.$data['asignacion'].'</span>', 
+                                                <input class="renombrar" id="'.$data['idRed_social'].'"  type="text"/>', 
                                             null, 
                                             ['title' => 'Modificar',]).
                                             "</div>";
@@ -128,7 +128,7 @@ $urlGuardarRed = Url::to(['productor/guardarred']);
 $validar = false;
 $this->registerJs("
 var validar= false;
-$('.renombrar').click(function(e){
+/*$('.renombrar').click(function(e){
     
     //var value = this.id;
     //var t = $.trim($('#'+value+'nom').html());
@@ -137,37 +137,39 @@ $('.renombrar').click(function(e){
     $(this).closest('div').attr('contenteditable','true'); //lo hace editable
     
     //console.log( $(this).closest('div').value() );
-    console.log($('#'+this.id).html());
-    var asd= true;
+    //console.log($('#'+this.id).html());
+}); */
+
+
+$('.renombrar').on('blur', function(e){
+    
+    console.log($('.renombrar').find('input:eq(0)').text());
     if(!validar){// PARA QUE NO REALICEN MULTIPLES LLAMADAS
-    validar=true;
-    $('#'+this.id).on('blur keyup', function(e){
-            if(e.type === 'blur' ) {
-               //LLAMADA AJAX ACA
-               var idRedSocial = this.id;
-               var direccion  = $(this).closest('div').text();
-               var idProductor = '$model->idProductor';
-               $.ajax({
-                url: '$urlGuardarRed',
-                type: 'post',
-                data: {
-                  'idRed' : idRedSocial,
-                  'direccion' : direccion,
-                  'idProductor' : idProductor
-                },
-                success: function(res){
-                    if(res.exito){
-                        alert('Se agrego la red social de '+fila.find('td:eq(0)').text());
-                    }
-                    validar= false;
-                }
-
-                })
+        validar=true;
+        var fila = $(this).closest('tr');
+        if(e.type === 'blur' ) {
+        //LLAMADA AJAX ACA
+        var idRedSocial = this.id;
+        var direccion  = $('#'+this.id).val();
+        var idProductor = '$model->idProductor';
+        $.ajax({
+            url: '$urlGuardarRed',
+            type: 'post',
+            data: {
+            'idRed' : idRedSocial,
+            'direccion' : direccion,
+            'idProductor' : idProductor
+            },
+            success: function(res){
+                
+                //console.log(res.exito);
+                validar= false;
             }
-    });
-}
-}); 
 
+            })
+        }
+    }
+});
 $( 'document' ).ready(function() {
     console.log( 'ready!' );
 });

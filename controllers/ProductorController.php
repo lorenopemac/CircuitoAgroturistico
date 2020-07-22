@@ -239,7 +239,11 @@ class ProductorController extends Controller
         $params= Yii::$app->request->post();
         $retorno=false;
         
-        if($params['direccion']=='\n++++++++++++++++++++++++++++++++++++++++++++++++Agregar'){
+        $redesLibres = RedsocialProductor::find()
+                        ->where(['direccion'=>$params['direccion']])
+                        ->all();
+
+        if(sizeof($redesLibres)==0){//EVITAR QUE SE GUARDE REPETIDOS
             $redProductor = new RedsocialProductor();
             if($params['idProductor'] >0){
                 $redProductor->idProductor= $params['idProductor'];
@@ -253,7 +257,7 @@ class ProductorController extends Controller
             }
         }
         return[
-            'exito'=> $retorno,
+            'exito'=> sizeof($redesLibres),
         ];
     }
 }
