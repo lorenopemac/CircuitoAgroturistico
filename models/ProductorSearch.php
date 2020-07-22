@@ -40,7 +40,8 @@ class ProductorSearch extends Productor
      */
     public function search($params)
     {
-        $query = Productor::find();
+        $query = Productor::find()
+                ->where(['baja'=>false]);
 
         // add conditions that should always apply here
 

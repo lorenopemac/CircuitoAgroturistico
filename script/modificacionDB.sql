@@ -11,7 +11,7 @@ ADD COLUMN `baja` BIT(1) NOT NULL AFTER `idProductor`;
 
 
 ALTER TABLE `circuito_agroturistico`.`productor` 
-ADD COLUMN `baja` BIT(1) NOT NULL DEFAULT 0 AFTER `web`;
+ADD COLUMN `baja` BIT(1) NOT NULL DEFAULT 0 ;
 
 
 CREATE TABLE `circuito_agroturistico`.`red_social` (

@@ -15,6 +15,7 @@ use Yii;
 class Producto extends \yii\db\ActiveRecord
 {
     public $imagenes;
+    public $categorias;
 
     /**
      * {@inheritdoc}
@@ -35,6 +36,7 @@ class Producto extends \yii\db\ActiveRecord
             [['descripcion'], 'string', 'max' => 200],
             [['idProductor'], 'exist', 'skipOnError' => true, 'targetClass' => Productor::className(), 'targetAttribute' => ['idProductor' => 'idProductor']],
             [['imagenes'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxFiles' => 4],
+            ['categorias', 'each', 'rule' => ['integer']],
         ];
     }
 

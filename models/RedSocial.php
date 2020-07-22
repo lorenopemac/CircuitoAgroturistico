@@ -13,6 +13,7 @@ use Yii;
  */
 class RedSocial extends \yii\db\ActiveRecord
 {
+    public $asignacion;//para asignar productores a la red social
     /**
      * {@inheritdoc}
      */

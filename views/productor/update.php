@@ -19,6 +19,8 @@ $this->params['breadcrumbs'][] = 'Update';
         'provinciasModel' => $provinciasModel,
         'localidadesModel' => $localidadesModel,
         'feriasModel' => $feriasModel,
+        'dataProviderRedes'=>$dataProviderRedes,
+        'vista'=>$vista,
     ]) ?>
 
 </div>
