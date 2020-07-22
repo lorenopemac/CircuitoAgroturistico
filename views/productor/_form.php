@@ -1,9 +1,12 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use yii\grid\GridView;
 use kartik\select2\Select2;
 use kartik\file\FileInput;
+use kartik\grid\EditableColumnAction;
 /* @var $this yii\web\View */
 /* @var $model app\models\Productor */
 /* @var $form yii\widgets\ActiveForm */
@@ -86,10 +89,27 @@ tr,th, td {
             ]);
         ?>
     </div>
+    <div class="col-md-12 col-xs-12">  
+        <?=  GridView::widget([
+            'dataProvider' => $dataProviderRedes,
+            'columns' => [
+                'nombre',
 
-    <div id="divResults" class="col-md-12 col-xs-12">     
+                [	'attribute' => 'asignacion', 
+                        'label'  => 'Dirección',
+                        'content'  => function($data){
+                                        return Html::a(
+                                            '<div id="'.$data['idRed_social'].'">
+                                                <span class="renombrar" id="'.$data['idRed_social'].'">'.$data['asignacion'].'</span>', 
+                                            null, 
+                                            ['title' => 'Modificar',]).
+                                            "</div>";
+                                    }
+                    ],
+                
+            ],
+        ]); ?>
     </div>
-
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
@@ -104,20 +124,53 @@ $this->registerJs(
     \yii\web\View::POS_HEAD,
     'yiiOptions'
 );
-
+$urlGuardarRed = Url::to(['productor/guardarred']);
+$validar = false;
 $this->registerJs("
-// No mas enter para submit
-    $('#resolver').on('keyup keypress', function(e) {
-        var keyCode = e.keyCode;
-        if (keyCode === 13) {
-        e.preventDefault();
-        }
-    });
-
+var validar= false;
+$('.renombrar').click(function(e){
     
-    $(document).ready(function() {
-        $('#divResults').append('<table><tr><td >' + 'Nombre' + '</td><td >' + 'Dirección' + '</td></tr><tr><td >' + 'Facebook' + '</td><td contenteditable></td></tr></table>');
+    //var value = this.id;
+    //var t = $.trim($('#'+value+'nom').html());
+    var fila = $(this).closest('tr');
+    //console.log( fila.find('td:eq(2)').text() );
+    $(this).closest('div').attr('contenteditable','true'); //lo hace editable
+    
+    //console.log( $(this).closest('div').value() );
+    console.log($('#'+this.id).html());
+    var asd= true;
+    if(!validar){// PARA QUE NO REALICEN MULTIPLES LLAMADAS
+    validar=true;
+    $('#'+this.id).on('blur keyup', function(e){
+            if(e.type === 'blur' ) {
+               //LLAMADA AJAX ACA
+               var idRedSocial = this.id;
+               var direccion  = $(this).closest('div').text();
+               var idProductor = '$model->idProductor';
+               $.ajax({
+                url: '$urlGuardarRed',
+                type: 'post',
+                data: {
+                  'idRed' : idRedSocial,
+                  'direccion' : direccion,
+                  'idProductor' : idProductor
+                },
+                success: function(res){
+                    if(res.exito){
+                        alert('Se agrego la red social de '+fila.find('td:eq(0)').text());
+                    }
+                    validar= false;
+                }
+
+                })
+            }
     });
+}
+}); 
+
+$( 'document' ).ready(function() {
+    console.log( 'ready!' );
+});
 
 ");
 

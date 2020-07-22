@@ -21,7 +21,9 @@
         "kartik-v/yii2-widget-select2": "dev-master",
         "dmstr/yii2-adminlte-asset": "^2.1",
         "almasaeed2010/adminlte": "~2.4",
-        "kartik-v/yii2-widget-fileinput": "dev-master"
+        "kartik-v/yii2-widget-fileinput": "dev-master",
+        "kartik-v/yii2-grid": "dev-master",
+        "kartik-v/yii2-widget-touchspin": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

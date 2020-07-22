@@ -6,7 +6,10 @@ use Yii;
 use app\models\Productor;
 use app\models\FeriaProductor;
 use app\models\ProductorSearch;
+use app\models\RedSocial;
 use app\models\Imagen;
+use app\models\RedsocialProductor;
+use app\models\RedSocialSearch;
 use app\models\ImagenProductor;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -78,12 +81,19 @@ class ProductorController extends Controller
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
+        $searchModelRedes = new RedSocialSearch();
+        $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams);
+        //$redes = RedSocial::find()->asArray()->all();
+        //print_r($redes);
+        //exit;
 
         if ($model->load(Yii::$app->request->post()) ) {
-            
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
             if($model->save()){
-                $this->guardarImagenes($model);
+                $this->guardarRedes($model);
+                if(size($model->imagenes)){
+                    $this->guardarImagenes($model);
+                }
                 $model->upload($imagenes);
                 $this->guardarFerias($model);
                 return $this->redirect(['view', 'id' => $model->idProductor]);
@@ -95,7 +105,24 @@ class ProductorController extends Controller
             'provinciasModel' => $provinciasModel,
             'localidadesModel' => $localidadesModel,
             'feriasModel' => $feriasModel,
+            'dataProviderRedes'=>$dataProviderRedes,
         ]);
+    }
+
+
+    /**
+     * Guarda las Redes Sociales del Productor que tienen idProductor=0.
+     * @param Productor $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function guardarRedes($model){
+        $redesLibres = RedsocialProductor::find()
+                        ->where(['idProductor'=>0])
+                        ->all();
+        foreach($redesLibres as $red){
+            $red->idProductor = $model->idProductor;
+            $red->save();
+        }
     }
 
 
@@ -146,7 +173,8 @@ class ProductorController extends Controller
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
-        
+        $searchModelRedes = new RedSocialSearch();
+        $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams);
         /*$imagen = Imagen::find()
                 ->where(['idImagen' => 20, 'baja' => 0])
                 ->one();
@@ -172,6 +200,7 @@ class ProductorController extends Controller
             'provinciasModel' => $provinciasModel,
             'localidadesModel' => $localidadesModel,
             'feriasModel' => $feriasModel,
+            'dataProviderRedes'=>$dataProviderRedes,
         ]);
     }
 
@@ -203,5 +232,28 @@ class ProductorController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionGuardarred(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+        $retorno=false;
+        
+        if($params['direccion']=='\n++++++++++++++++++++++++++++++++++++++++++++++++Agregar'){
+            $redProductor = new RedsocialProductor();
+            if($params['idProductor'] >0){
+                $redProductor->idProductor= $params['idProductor'];
+            }else{
+                $redProductor->idProductor= 0;
+            }
+            $redProductor->idRed_social= $params['idRed'];
+            $redProductor->direccion= $params['direccion'];
+            if($redProductor->save())    {
+                $retorno=true;
+            }
+        }
+        return[
+            'exito'=> $retorno,
+        ];
     }
 }
