@@ -10,6 +10,7 @@ use Yii;
  * @property int $idCategoria
  * @property string $nombre
  * @property string|null $descripcion
+ * @property bool $baja
  */
 class Categoria extends \yii\db\ActiveRecord
 {
@@ -28,6 +29,7 @@ class Categoria extends \yii\db\ActiveRecord
     {
         return [
             [['nombre'], 'required'],
+            [['baja'], 'boolean'],
             [['nombre'], 'string', 'max' => 65],
             [['descripcion'], 'string', 'max' => 150],
         ];
@@ -42,15 +44,7 @@ class Categoria extends \yii\db\ActiveRecord
             'idCategoria' => 'Id Categoria',
             'nombre' => 'Nombre',
             'descripcion' => 'Descripcion',
+            'baja' => 'Baja',
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return CategoriaQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new CategoriaQuery(get_called_class());
     }
 }

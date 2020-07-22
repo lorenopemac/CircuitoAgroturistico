@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'idCategoria',
             'nombre',
             'descripcion',
+            'baja:boolean',
         ],
     ]) ?>
 

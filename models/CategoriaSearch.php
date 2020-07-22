@@ -19,6 +19,7 @@ class CategoriaSearch extends Categoria
         return [
             [['idCategoria'], 'integer'],
             [['nombre', 'descripcion'], 'safe'],
+            [['baja'], 'boolean'],
         ];
     }
 
@@ -59,6 +60,7 @@ class CategoriaSearch extends Categoria
         // grid filtering conditions
         $query->andFilterWhere([
             'idCategoria' => $this->idCategoria,
+            'baja' => $this->baja,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])

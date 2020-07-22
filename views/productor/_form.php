@@ -37,21 +37,13 @@ use kartik\file\FileInput;
                     ],
                 ])  ?>
     </div>
-    
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'nombreCalle')->textInput(['maxlength' => true]) ?>
     </div>
-
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'numeroCalle')->textInput() ?>
     </div>
-
-    <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'numeroTelefono')->textInput() ?>
-    </div>
-
-    
-    <div class="col-md-6 col-xs-12">     
+    <div class="col-md-12 col-xs-12">     
         <?= $form->field($model, 'ferias')->checkboxList($feriasModel, [
                 'separator' => '<br>',
                 'itemOptions' => [
@@ -62,10 +54,10 @@ use kartik\file\FileInput;
 
         ?>
     </div>
-
-                    
-
-    <div class="col-md-12 col-xs-12">     
+    <div class="col-md-4 col-xs-12">     
+        <?= $form->field($model, 'numeroTelefono')->textInput() ?>
+    </div>
+    <div class="col-md-8 col-xs-12">     
         
         <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
             'options' => ['multiple' => true],
