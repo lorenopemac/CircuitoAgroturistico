@@ -111,7 +111,6 @@ class ProductorController extends Controller
         $model->nombre = null;
         $model->idLocalidad= null;
         $model->cuit = null;
-        $model->idProductorReal = $id;
         $model->numeroCalle = 0;
         //fin carga
         

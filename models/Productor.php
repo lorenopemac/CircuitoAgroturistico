@@ -23,7 +23,7 @@ class Productor extends \yii\db\ActiveRecord
 
     public $ferias;
     public $imagenes;
-    public $idProductorReal;
+    
     /**
      * {@inheritdoc}
      */
