@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Productor;
+use app\models\RedsocialProductor;
 
 /**
- * ProductorSearch represents the model behind the search form of `app\models\Productor`.
+ * RedSocialProductorSearch represents the model behind the search form of `app\models\RedsocialProductor`.
  */
-class ProductorSearch extends Productor
+class RedSocialProductorSearch extends RedsocialProductor
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class ProductorSearch extends Productor
     public function rules()
     {
         return [
-            [['idProductor', 'cuit', 'idLocalidad', 'idProvincia', 'numeroCalle', 'numeroTelefono'], 'integer'],
-            [['nombre', 'nombreCalle'], 'safe'],
+            [['idRedsocial_Productor', 'idRed_social', 'idProductor'], 'integer'],
+            [['direccion'], 'safe'],
         ];
     }
 
@@ -40,8 +40,7 @@ class ProductorSearch extends Productor
      */
     public function search($params)
     {
-        $query = Productor::find()
-                ->where(['baja'=>false]);
+        $query = RedsocialProductor::find();
 
         // add conditions that should always apply here
 
@@ -59,16 +58,12 @@ class ProductorSearch extends Productor
 
         // grid filtering conditions
         $query->andFilterWhere([
+            'idRedsocial_Productor' => $this->idRedsocial_Productor,
+            'idRed_social' => $this->idRed_social,
             'idProductor' => $this->idProductor,
-            'cuit' => $this->cuit,
-            'idLocalidad' => $this->idLocalidad,
-            'idProvincia' => $this->idProvincia,
-            'numeroCalle' => $this->numeroCalle,
-            'numeroTelefono' => $this->numeroTelefono,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'nombreCalle', $this->nombreCalle]);
+        $query->andFilterWhere(['like', 'direccion', $this->direccion]);
 
         return $dataProvider;
     }
