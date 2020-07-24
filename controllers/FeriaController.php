@@ -12,7 +12,8 @@ use app\models\UploadForm;
 use yii\web\UploadedFile;
 use app\models\Imagen;
 use app\models\ImagenFeria;
-
+use app\common\components\AccessRule;
+use yii\filters\AccessControl;
 /**
  * FeriaController implements the CRUD actions for Feria model.
  */
@@ -24,10 +25,32 @@ class FeriaController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'only' => ['index', 'view', 'create', 'update', 'delete','createanticipo'],
+                'rules' => [
+                    [
+                        'actions' => ['create', 'index', 'view', 'delete','createanticipo'],
+                        'allow' => true,
+                        // Allow users, moderators and admins to create
+                        'roles' => ['@'],
+
+                    ], [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        // Allow users, moderators and admins to create
+                        'roles' => [1],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'logout' => ['post'],
+
                 ],
             ],
         ];
