@@ -1,16 +1,38 @@
 <?php
 
 namespace app\models;
+use Yii;
+use app\models\Usuario as DbUsuario;
+
 
 class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
+    public $idUsuario;
+    public $token;
     public $authKey;
-    public $accessToken;
+    public $usuario;
+    public $id_registro;
+    public $mail;
+    public $password;
+    public $userName;
+    public $baja;
+    public $ultimaActualizacion;
+    public $nacionalidad;
+    public $direccion;
+    public $id_localidad;
+    public $fecha_nac;
+    public $foto;
+    public $nombre;
+    public  $id_rol;
+    public  $idSector;
+    
+    
+    const ROLE_GESTOR = 1;
+    const ROLE_POSTULANTE = 2;
+    const ROLE_ADMIN = 3;
+    const ROLE_SELECTOR = 4;
 
-    private static $users = [
+ /*   private static $users = [
         '100' => [
             'id' => '100',
             'username' => 'admin',
@@ -25,12 +47,43 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
             'authKey' => 'test101key',
             'accessToken' => '101-token',
         ],
-    ];
+        ];*/ 
 
+    public static function findIdentity($id) {
+
+        
+        $dbUser = DbUsuario::find()->where([ "idUsuario" => $id])->one();
+        
+        if ($dbUser == null) {
+            return null;
+        }
+        return new static($dbUser);
+    }
+    
+    public static function findIdentityByAccessToken($token, $userType = null) {
+        
+        $dbUser = DbUsuario::find()
+        ->where(["token" => $toke])
+        ->one();
+        if (!count($dbUser)) {
+            return null;
+        }
+        return new static($dbUser);
+    }
+
+    public static function findByUsername($username) {
+        
+        $dbUser = Usuario::find()->where(["usuario" => $username])->one();
+        
+        if ($dbUser == null) {
+            return null;
+        }
+        return new static($dbUser);
+    }
 
     /**
      * {@inheritdoc}
-     */
+     *
     public static function findIdentity($id)
     {
         return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
@@ -38,7 +91,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
 
     /**
      * {@inheritdoc}
-     */
+     *
     public static function findIdentityByAccessToken($token, $type = null)
     {
         foreach (self::$users as $user) {
@@ -55,11 +108,11 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      *
      * @param string $username
      * @return static|null
-     */
+     *
     public static function findByUsername($username)
     {
         foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
+            if (strcasecmp($user['userName'], $username) === 0) {
                 return new static($user);
             }
         }
@@ -72,7 +125,7 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function getId()
     {
-        return $this->id;
+        return $this->idUsuario;
     }
 
     /**
@@ -92,6 +145,38 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getNombre()
+    {
+        return $this->userName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApellido()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * @param mixed $nombre
+     */
+    public function setNombre($nombre)
+    {
+        $this->userName = $nombre;
+    }
+
+    /**
+     * @param mixed $apellido
+     */
+    public function setApellido($apellido)
+    {
+        $this->nombre = $apellido;
+    }
+
+    /**
      * Validates password
      *
      * @param string $password password to validate
@@ -99,6 +184,19 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        $dbUser = Usuario::find()
+        ->select("password")
+        ->where([
+            "idUsuario" => $this->idUsuario
+        ])
+        ->one();
+        $passMd5 =md5($password);
+        //if( Yii::$app->getSecurity()->validatePassword($password, $dbUser->password))
+        if($passMd5 = $dbUser->password)
+        {
+            return true;
+        }else {
+            return false;
+        }
     }
 }

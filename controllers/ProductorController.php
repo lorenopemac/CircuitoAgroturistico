@@ -17,6 +17,8 @@ use yii\filters\VerbFilter;
 use app\models\UploadForm;
 use yii\web\UploadedFile;
 use yii\data\ArrayDataProvider;
+use app\common\components\AccessRule;
+use yii\filters\AccessControl;
 /**
  * ProductorController implements the CRUD actions for Productor model.
  */
@@ -28,10 +30,32 @@ class ProductorController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'only' => ['index', 'view', 'create', 'update', 'delete','createanticipo'],
+                'rules' => [
+                    [
+                        'actions' => ['create', 'index', 'view', 'delete','createanticipo'],
+                        'allow' => true,
+                        // Allow users, moderators and admins to create
+                        'roles' => ['@'],
+
+                    ], [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        // Allow users, moderators and admins to create
+                        'roles' => [1],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'logout' => ['post'],
+
                 ],
             ],
         ];
