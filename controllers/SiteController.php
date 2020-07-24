@@ -255,7 +255,8 @@ class SiteController extends Controller
             }
             else{
                  if ($model->save()) {//guardado de los datos 
-                    $this->redirect('/site/login');
+                    $this->redirect('@web/site/login');
+                    
                 }else{//falla
                     echo \yii2mod\alert\Alert::widget([
                         'options' => [
