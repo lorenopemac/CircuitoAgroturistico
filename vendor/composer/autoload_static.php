@@ -37,6 +37,7 @@ class ComposerStaticInit48f39fc1ba066d2bf3dade06f6082a92
             'yii\\composer\\' => 13,
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
+            'yii2mod\\alert\\' => 14,
         ),
         'r' => 
         array (
@@ -156,6 +157,10 @@ class ComposerStaticInit48f39fc1ba066d2bf3dade06f6082a92
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'yii2mod\\alert\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yii2mod/yii2-sweet-alert',
         ),
         'rmrevin\\yii\\fontawesome\\' => 
         array (

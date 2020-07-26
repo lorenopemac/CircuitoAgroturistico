@@ -14,7 +14,8 @@ use yii\web\UploadedFile;
 use app\models\Imagen;
 use app\models\CategoriaProducto;
 use app\models\ImagenProducto;
-
+use app\common\components\AccessRule;
+use yii\filters\AccessControl;
 /**
  * ProductoController implements the CRUD actions for Producto model.
  */
@@ -26,10 +27,32 @@ class ProductoController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'only' => ['index', 'view', 'create', 'update', 'delete','createanticipo'],
+                'rules' => [
+                    [
+                        'actions' => ['create', 'index', 'view', 'delete','createanticipo'],
+                        'allow' => true,
+                        // Allow users, moderators and admins to create
+                        'roles' => ['@'],
+
+                    ], [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        // Allow users, moderators and admins to create
+                        'roles' => [1],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'logout' => ['post'],
+
                 ],
             ],
         ];
