@@ -16,16 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Editar', ['update', 'id' => $model->idProductor], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->idProductor], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    
     <div class="col-md-12 col-xs-12">  
         <?= DetailView::widget([
             'model' => $model,
@@ -50,4 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
         ]); ?>
     </div>
 
+    <p>
+        <?= Html::a('Editar', ['update', 'id' => $model->idProductor], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->idProductor], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Are you sure you want to delete this item?',
+                'method' => 'post',
+            ],
+        ]) ?>
+    </p>
 </div>

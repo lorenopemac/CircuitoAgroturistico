@@ -35,7 +35,7 @@ class Producto extends \yii\db\ActiveRecord
             [['nombre'], 'string', 'max' => 100],
             [['descripcion'], 'string', 'max' => 200],
             [['idProductor'], 'exist', 'skipOnError' => true, 'targetClass' => Productor::className(), 'targetAttribute' => ['idProductor' => 'idProductor']],
-            [['imagenes'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxFiles' => 4],
+            [['imagenes'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 4],
             ['categorias', 'each', 'rule' => ['integer']],
         ];
     }

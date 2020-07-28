@@ -15,6 +15,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    
+
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'nombre',
+            'baja:boolean',
+        ],
+    ]) ?>
+
     <p>
         <?= Html::a('Modificar', ['update', 'id' => $model->idRed_social], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Eliminar', ['delete', 'id' => $model->idRed_social], [
@@ -25,13 +35,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'nombre',
-            'baja:boolean',
-        ],
-    ]) ?>
 
 </div>

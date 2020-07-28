@@ -39,20 +39,20 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Inicio', 'url' => ['/site/index']],
-            ['label' => 'Ferias', 'url' => ['/feria/index']],
+            ['label' => 'Feria', 'url' => ['/feria/index']],
             ['label' => 'Producto', 'url' => ['/producto/index']],
-            ['label' => 'Productores', 'url' => ['/productor/index']],
-            ['label' => 'Categorias', 'url' => ['/categoria/index']],
-            ['label' => 'Redes Sociales', 'url' => ['/redsocial/index']],
-            ['label' => 'Provincias', 'url' => ['/provincia/index']],
-            ['label' => 'Localidades', 'url' => ['/localidad/index']],
+            ['label' => 'Productor', 'url' => ['/productor/index']],
+            ['label' => 'Categoria', 'url' => ['/categoria/index']],
+            ['label' => 'Red Social', 'url' => ['/redsocial/index']],
+            ['label' => 'Provincia', 'url' => ['/provincia/index']],
+            ['label' => 'Localidad', 'url' => ['/localidad/index']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                ['label' => 'Ingresar', 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->usuario . ')',
+                    'Salir (' . Yii::$app->user->identity->usuario . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()

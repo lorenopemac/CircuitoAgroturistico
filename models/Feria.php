@@ -30,7 +30,7 @@ class Feria extends \yii\db\ActiveRecord
             [['nombre','idLocalidad'], 'required'],
             [['nombre'], 'string', 'max' => 45],
             [['idLocalidad'], 'integer'],
-            [['imagenes'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg', 'maxFiles' => 4],
+            [['imagenes'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 4],
         ];
     }
 

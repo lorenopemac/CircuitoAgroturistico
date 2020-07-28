@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Provincia */
 
-$this->title = $model->idProvincia;
+
 $this->params['breadcrumbs'][] = ['label' => 'Provincias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -15,9 +15,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    
+
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'nombre',
+        ],
+    ]) ?>
+
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idProvincia], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idProvincia], [
+        <?= Html::a('Modificar', ['update', 'id' => $model->idProvincia], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->idProvincia], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -25,13 +34,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'idProvincia',
-            'nombre',
-        ],
-    ]) ?>
-
 </div>
