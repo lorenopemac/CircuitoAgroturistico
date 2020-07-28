@@ -4,12 +4,15 @@ namespace app\controllers;
 
 use Yii;
 use app\models\RedSocial;
+use app\models\Imagen;
 use app\models\RedSocialSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\common\components\AccessRule;
 use yii\filters\AccessControl;
+use yii\web\UploadedFile;
+
 /**
  * RedSocialController implements the CRUD actions for RedSocial model.
  */
@@ -29,7 +32,7 @@ class RedsocialController extends Controller
                 'only' => ['index', 'view', 'create', 'update', 'delete','createanticipo'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'index', 'view', 'delete','createanticipo'],
+                        'actions' => ['create', 'update','index', 'view', 'delete','createanticipo'],
                         'allow' => true,
                         // Allow users, moderators and admins to create
                         'roles' => ['@'],
@@ -89,8 +92,19 @@ class RedsocialController extends Controller
     {
         $model = new RedSocial();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idRed_social]);
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->imagen = UploadedFile::getInstances($model, 'imagen');    
+            $modelImagen = new Imagen();
+            $modelImagen->extension = $model->imagen[0]->extension;
+            $modelImagen->save();
+            $model->idImagen = $modelImagen->idImagen;
+            $model->imagen = $model->imagen[0];
+            //print_r($model);
+            //exit;
+            if($model->save()){
+                $model->upload($modelImagen);
+                return $this->redirect(['view', 'id' => $model->idRed_social]);
+            }
         }
 
         return $this->render('create', [

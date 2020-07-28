@@ -13,6 +13,7 @@ use Yii;
  */
 class RedSocial extends \yii\db\ActiveRecord
 {
+    public $imagen;
     public $asignacion;//para asignar productores a la red social
     /**
      * {@inheritdoc}
@@ -31,6 +32,8 @@ class RedSocial extends \yii\db\ActiveRecord
             [['nombre'], 'required'],
             [['baja'], 'boolean'],
             [['nombre'], 'string', 'max' => 45],
+            [['idImagen'],'integer'],
+            [['imagen'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 1],
         ];
     }
 
@@ -53,5 +56,16 @@ class RedSocial extends \yii\db\ActiveRecord
     public static function find()
     {
         return new RedSocialQuery(get_called_class());
+    }
+
+    
+    public function upload($modelImagen)
+    {
+        if ($this->validate()) {
+            $this->imagen->saveAs('@app/uploads/' . $modelImagen->idImagen . '.' . $modelImagen->extension);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
