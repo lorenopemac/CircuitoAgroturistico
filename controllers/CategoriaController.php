@@ -29,7 +29,7 @@ class CategoriaController extends Controller
                 'only' => ['index', 'view', 'create', 'update', 'delete','createanticipo'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'index', 'view', 'delete','createanticipo'],
+                        'actions' => ['create', 'update','index', 'view', 'delete','createanticipo'],
                         'allow' => true,
                         // Allow users, moderators and admins to create
                         'roles' => ['@'],

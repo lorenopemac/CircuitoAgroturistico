@@ -94,15 +94,18 @@ class RedsocialController extends Controller
 
         if ($model->load(Yii::$app->request->post()) ) {
             $model->imagen = UploadedFile::getInstances($model, 'imagen');    
-            $modelImagen = new Imagen();
-            $modelImagen->extension = $model->imagen[0]->extension;
-            $modelImagen->save();
-            $model->idImagen = $modelImagen->idImagen;
-            $model->imagen = $model->imagen[0];
+            if(sizeof($model->imagen)>0){//TIENE UNA IMAGEN CARGADA
+                $modelImagen = new Imagen();
+                $modelImagen->extension = $model->imagen[0]->extension;
+                $modelImagen->save();
+                $model->idImagen = $modelImagen->idImagen;
+                $model->imagen = $model->imagen[0];
+                $model->upload($modelImagen);
+            }
             //print_r($model);
             //exit;
             if($model->save()){
-                $model->upload($modelImagen);
+                
                 return $this->redirect(['view', 'id' => $model->idRed_social]);
             }
         }
