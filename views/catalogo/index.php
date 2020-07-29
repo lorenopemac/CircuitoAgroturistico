@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute'=>'productor',
              'value'=> 'productor.nombre'],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            
         ],
     ]); ?>
 
