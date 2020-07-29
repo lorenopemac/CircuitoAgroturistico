@@ -257,9 +257,21 @@ class ProductorController extends Controller
         
         $model->imagenes[0] = Html::img("@app/uploads/20.png");;
         
-        
         //print_r($imagenVista);
         //exit;*/
+
+        
+        $model->imagenes = $model->getDisplayImage();
+        $feriasProductor = \yii\helpers\ArrayHelper::map(\app\models\FeriaProductor::find()->where(['idProductor'=>$id])->all(), 'idFeria_productor', 'idFeria');
+        $ferias = array();
+        $indice=0;
+        if(sizeof($feriasProductor)){
+            foreach($feriasProductor as $idFeria){
+                $ferias[$indice] =  $idFeria;
+                $indice = $indice +1;
+            }
+        }   
+        $model->ferias = $ferias;
         
         if ($model->load(Yii::$app->request->post()) ) {
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
@@ -267,6 +279,7 @@ class ProductorController extends Controller
             $model->imagenes =null;
             
             $model->save();
+            $this->guardarFerias($model);
             return $this->redirect(['view', 'id' => $model->idProductor]);
         }
 

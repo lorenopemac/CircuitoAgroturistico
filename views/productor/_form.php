@@ -131,6 +131,7 @@ tr,th, td {
                     
                 ],
             ]); ?>
+              <img src="<?php '@app/uploads/2.jpg'; ?>">
         <?php } ?>
     </div>
     <div class="form-group">

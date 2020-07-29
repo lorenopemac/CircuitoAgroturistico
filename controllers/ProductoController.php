@@ -158,6 +158,7 @@ class ProductoController extends Controller
         $indice=0;
         foreach($categoriasProducto as $categoriaProd){
             $categorias[$indice] =  Categoria::find()->where(['idCategoria'=> $categoriaProd])->one();
+            $indice = $indice +1;
         }
         $model->categorias = $categorias;
 

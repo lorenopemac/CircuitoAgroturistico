@@ -42,6 +42,7 @@ class Productor extends \yii\db\ActiveRecord
             [['cuit', 'idLocalidad', 'idProvincia', 'numeroCalle', 'numeroTelefono'], 'integer'],
             [['nombre'], 'string', 'max' => 45],
             [['nombreCalle'], 'string', 'max' => 100],
+            [['latitud','longitud'], 'string', 'max' => 500],
             [['idProvincia'], 'exist', 'skipOnError' => true, 'targetClass' => Provincia::className(), 'targetAttribute' => ['idProvincia' => 'idProvincia']],
             [['idLocalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Localidad::className(), 'targetAttribute' => ['idLocalidad' => 'idLocalidad']],
             ['ferias', 'each', 'rule' => ['integer']],
@@ -82,34 +83,6 @@ class Productor extends \yii\db\ActiveRecord
     }
 
 
-    public function getDisplayImage($imagen) {
-        if (!($imagen)) {
-            // if you do not want a placeholder)
-            $image = null;
-    
-            // else if you want to display a placeholder
-            $image = Html::img(self::IMAGE_PLACEHOLDER, [
-                'alt'=>Yii::t('app', 'No Imagen'),
-                'title'=>Yii::t('app', 'Upload your avatar by selecting browse below'),
-                'class'=>'file-preview-image'
-                // add a CSS class to make your image styling consistent
-            ]);
-        }
-        else {
-            $image = Html::img('@app/uploads'. '/' . $imagen->idImagen.'.'.$imagen->extension, [
-                'alt'=>Yii::t('app', 'Imagen') . 'imagen',
-                'title'=>Yii::t('app', 'Click remove button below to remove this image'),
-                'class'=>'file-preview-image'
-                // add a CSS class to make your image styling consistent
-            ]);
-
-        }
-    
-        // enclose in a container if you wish with appropriate styles
-        return ($image == null) ? null : 
-            Html::tag('div', $image, ['class' => 'file-preview-frame']); 
-    }
-
 
     public function getImagenesProductor(){
         return $this->hasMany(ImagenProductor::className(), ['idProductor' => 'idProductor']);
@@ -140,6 +113,34 @@ class Productor extends \yii\db\ActiveRecord
     public function getLocalidad()
     {
         return $this->hasOne(Localidad::className(), ['idLocalidad' => 'idLocalidad']);
+    }
+
+    public function getDisplayImage() {
+        if (empty($model->imagenes)) {
+            // if you do not want a placeholder
+            $image = null;
+    
+            // else if you want to display a placeholder
+            $image = Html::img(self::IMAGE_PLACEHOLDER, [
+                'alt'=>Yii::t('app', 'No avatar yet'),
+                'title'=>Yii::t('app', 'Upload your avatar by selecting browse below'),
+                'class'=>'file-preview-image'
+                // add a CSS class to make your image styling consistent
+            ]);
+        }
+        else {
+            
+            $image = Html::img(Yii::$app->urlManager->baseUrl . '/uploads/' . $model->imagenes, [
+                'alt'=>Yii::t('app', 'Avatar for ') ,
+                'title'=>Yii::t('app', 'Click remove button below to remove this image'),
+                'class'=>'file-preview-image'
+                // add a CSS class to make your image styling consistent
+            ]);
+        }
+    
+        // enclose in a container if you wish with appropriate styles
+        return ($image == null) ? null : 
+            Html::tag('div', $image, ['class' => 'file-preview-frame']); 
     }
 
 }
