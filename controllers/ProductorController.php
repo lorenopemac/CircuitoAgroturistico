@@ -237,6 +237,7 @@ class ProductorController extends Controller
                         ->joinWith('redSocial')
                         ->where(['idProductor'=>$id])
                         ->all();
+        
         $providerRedes = new ArrayDataProvider([
             'allModels' => $redProductor,
             'pagination' =>[
@@ -254,14 +255,14 @@ class ProductorController extends Controller
                 ->where(['idImagen' => 20, 'baja' => 0])
                 ->one();
         //$imagenVista = $model->getDisplayImage($imagen);
-        
-        $model->imagenes[0] = Html::img("@app/uploads/20.png");;
+        */
+        $model->imagenes[0] = Html::img("@app/uploads/1.jpg");;
         
         //print_r($imagenVista);
-        //exit;*/
+        //exit;
 
         
-        $model->imagenes = $model->getDisplayImage();
+        //$model->imagenes = $model->getDisplayImage();
         $feriasProductor = \yii\helpers\ArrayHelper::map(\app\models\FeriaProductor::find()->where(['idProductor'=>$id])->all(), 'idFeria_productor', 'idFeria');
         $ferias = array();
         $indice=0;

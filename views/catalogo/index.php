@@ -31,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Imagen',
                 'value' => function ($data) {
                     //Html::a("<img src='".Url::to(['uploads/'.'2.jpg'])."' class='user-image' />");
-                    return Html::a('<img src='.Yii::$app->basePath. '/uploads/2.jpg" style= "border-radius:50%;height: 90px; width: 90px;" class="img-circle" alt="User Image"/>' );
+                    //return Html::a('<img src='.Yii::$app->basePath. '/uploads/1.jpg" style= "border-radius:50%;height: 90px; width: 90px;" class="img-circle" alt="User Image"/>' );
+                    //return Html::img(Yii::$app->basePath.'/uploads/1.jpg',['width' => '60px']);
                     //return Html::a('<img src="https://image.freepik.com/vector-gratis/perfil-empresario-dibujos-animados_18591-58479.jpg" style= "border-radius:50%;height: 60px; width: 60px;" class="img-circle" alt="User Image"/>' );
                 },
             ],

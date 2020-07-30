@@ -116,7 +116,7 @@ class Productor extends \yii\db\ActiveRecord
     }
 
     public function getDisplayImage() {
-        if (empty($model->imagenes)) {
+        /*if (empty($model->imagenes)) {
             // if you do not want a placeholder
             $image = null;
     
@@ -140,7 +140,7 @@ class Productor extends \yii\db\ActiveRecord
     
         // enclose in a container if you wish with appropriate styles
         return ($image == null) ? null : 
-            Html::tag('div', $image, ['class' => 'file-preview-frame']); 
+            Html::tag('div', $image, ['class' => 'file-preview-frame']); */
     }
 
 }
