@@ -125,7 +125,7 @@ class RedsocialController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $modelImagen = null;
         if ($model->load(Yii::$app->request->post())) {
 
             $model->imagen = UploadedFile::getInstances($model, 'imagen');    
@@ -140,7 +140,9 @@ class RedsocialController extends Controller
             //print_r($model);
             //exit;
             if($model->save()){
-                $model->upload($modelImagen);
+                if($modelImagen){
+                    $model->upload($modelImagen);
+                }
                 return $this->redirect(['view', 'id' => $model->idRed_social]);
             }
         }
