@@ -112,7 +112,9 @@ class FeriaController extends Controller
                     $imagenes[$indice]= $modelImagen;
                     $indice = $indice +1;
                 }
-                $model->upload($imagenes);
+                if(!$model->imagenes){
+                    $model->upload($model->imagenes);
+                }
                 return $this->redirect(['view', 'id' => $model->idFeria]);
             }
         }

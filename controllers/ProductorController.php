@@ -237,6 +237,7 @@ class ProductorController extends Controller
                         ->joinWith('redSocial')
                         ->where(['idProductor'=>$id])
                         ->all();
+        
         $providerRedes = new ArrayDataProvider([
             'allModels' => $redProductor,
             'pagination' =>[
@@ -254,12 +255,24 @@ class ProductorController extends Controller
                 ->where(['idImagen' => 20, 'baja' => 0])
                 ->one();
         //$imagenVista = $model->getDisplayImage($imagen);
-        
-        $model->imagenes[0] = Html::img("@app/uploads/20.png");;
-        
+        */
+        $model->imagenes[0] = Html::img("@app/uploads/1.jpg");;
         
         //print_r($imagenVista);
-        //exit;*/
+        //exit;
+
+        
+        //$model->imagenes = $model->getDisplayImage();
+        $feriasProductor = \yii\helpers\ArrayHelper::map(\app\models\FeriaProductor::find()->where(['idProductor'=>$id])->all(), 'idFeria_productor', 'idFeria');
+        $ferias = array();
+        $indice=0;
+        if(sizeof($feriasProductor)){
+            foreach($feriasProductor as $idFeria){
+                $ferias[$indice] =  $idFeria;
+                $indice = $indice +1;
+            }
+        }   
+        $model->ferias = $ferias;
         
         if ($model->load(Yii::$app->request->post()) ) {
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
@@ -267,6 +280,7 @@ class ProductorController extends Controller
             $model->imagenes =null;
             
             $model->save();
+            $this->guardarFerias($model);
             return $this->redirect(['view', 'id' => $model->idProductor]);
         }
 

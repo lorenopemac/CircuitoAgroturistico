@@ -41,9 +41,14 @@ use kartik\file\FileInput;
                 'showUpload'=> false]
             ]);
         ?>
-
+    </div>
+    <div class="col-md-6 col-xs-12" style="display:none">     
+        <?= $form->field($model, 'latitud')->textInput(['maxlength' => true]) ?>
     </div>
 
+    <div class="col-md-6 col-xs-12" style="display:none">     
+        <?= $form->field($model, 'longitud')->textInput(['maxlength' => true]) ?>
+    </div>
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
