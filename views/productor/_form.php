@@ -142,7 +142,7 @@ tr,th, td {
         <?= $form->field($model, 'longitud')->textInput(['maxlength' => true]) ?>
     </div>
     <div class="form-group">
-        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success','name' =>'idProductor','value' => $idProductor]) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -159,57 +159,33 @@ $urlGuardarRed = Url::to(['productor/guardarred']);
 $validar = false;
 $this->registerJs("
 var validar= false;
-/*$('.renombrar').click(function(e){
-    
-    //var value = this.id;
-    //var t = $.trim($('#'+value+'nom').html());
-    var fila = $(this).closest('tr');
-    //console.log( fila.find('td:eq(2)').text() );
-    $(this).closest('div').attr('contenteditable','true'); //lo hace editable
-    
-    //console.log( $(this).closest('div').value() );
-    //console.log($('#'+this.id).html());
-}); */
-
 
 $('.renombrar').on('blur', function(e){
-    
-    
     if(!validar){// PARA QUE NO REALICEN MULTIPLES LLAMADAS
-        //console.log($(this).closest('.productor-form').find('input').find(this.id)[0]); 
-        //console.log($(this).next('input').find(this.id));
-        console.log(($(this).closest('input')).eq(0).val());
         validar=true;
         var fila = $(this).closest('tr');
         if(e.type === 'blur' ) {
-        //LLAMADA AJAX ACA
-        var idRedSocial = this.id;
-        var direccion  = $(this).closest('input').eq(0).val();
-        var idProductor = '$model->idProductor';
-        $.ajax({
-            url: '$urlGuardarRed',
-            type: 'post',
-            data: {
-            'idRed' : idRedSocial,
-            'direccion' : direccion,
-            'idProductor' : idProductor
-            },
-            success: function(res){
-                
-                //console.log(res.exito);
-                validar= false;
-            }
-
+            //LLAMADA AJAX ACA
+            var idRedSocial = this.id;
+            var direccion  = $(this).closest('input').eq(0).val();
+            var idProductor = '$model->idProductor';
+            $.ajax({
+                url: '$urlGuardarRed',
+                type: 'post',
+                data: {
+                'idRed' : idRedSocial,
+                'direccion' : direccion,
+                'idProductor' : idProductor
+                },
+                success: function(res){
+                    //console.log(res.exito);
+                    validar= false;
+                }
             })
         }
     }
 });
-$( 'document' ).ready(function() {
-    console.log( 'ready!' );
-});
-
 ");
-
 ?>
 
 
