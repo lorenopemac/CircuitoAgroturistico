@@ -141,9 +141,14 @@ class ProductorController extends Controller
         
         
         if ($model->load(Yii::$app->request->post()) ) {
+            $model->idProductor= $_POST['idProductor'];
+            if($model->ferias>0){
+                $this->guardarFerias($model);    
+            }
             if($_POST['idProductor'] > 0){
                 $model=$this->findModel($_POST['idProductor']);
             }
+            $model->setAttributes(Yii::$app->request->post()['Productor'], false);
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
             $model->baja = 0;
             if($model->save()){
@@ -158,12 +163,11 @@ class ProductorController extends Controller
                 //FIN UPDATE PRODUCTOR
                 //$this->guardarRedes($model);
                 if($model->imagenes){
-                    if(size($model->imagenes)>0){
-                        $this->guardarImagenes($model);
+                    if(sizeof($model->imagenes)>0){
+                        $imagenes = $this->guardarImagenes($model);
                         $model->upload($imagenes);
                     }
                 }
-                $this->guardarFerias($model);
                 return $this->redirect(['index']);
             }
         }
@@ -214,6 +218,7 @@ class ProductorController extends Controller
             $imagenes[$indice]= $modelImagen;
             $indice = $indice +1;
         }
+        return $imagenes;
     }
 
     /**
@@ -223,7 +228,8 @@ class ProductorController extends Controller
      */
     private function guardarFerias($model){
         foreach($model->ferias as $idFeria){
-            $feriaProductor -> $model->idProductor;
+            $feriaProductor = new FeriaProductor();
+            $feriaProductor->idProductor =$model->idProductor;
             $feriaProductor->idFeria= $idFeria;
             $feriaProductor->save();
         }
@@ -329,7 +335,7 @@ class ProductorController extends Controller
                
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
             if($model->imagenes){
-                if(size($model->imagenes)>0){
+                if(sizeof($model->imagenes)>0){
                     $this->guardarImagenes($model);
                     $model->upload($imagenes);
                 }

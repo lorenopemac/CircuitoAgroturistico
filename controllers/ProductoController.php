@@ -107,6 +107,7 @@ class ProductoController extends Controller
             
             if($model->save()){
                 $indice = 0;
+                $imagenes = array();
                 foreach($model->imagenes as $imagen){
                     $modelImagen = new Imagen();
                     $modelImagenProducto = new ImagenProducto();
@@ -118,8 +119,12 @@ class ProductoController extends Controller
                     $imagenes[$indice]= $modelImagen;
                     $indice = $indice +1;
                 }
-                $model->upload($imagenes);
-                $this->guardarCategorias($model);
+                if(sizeof($imagenes)>0){
+                    $model->upload($imagenes);
+                }
+                if(sizeof($model->categorias)){
+                    $this->guardarCategorias($model);
+                }
                 return $this->redirect(['view', 'id' => $model->idProducto]);
             }
         }

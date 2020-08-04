@@ -67,11 +67,10 @@ tr,th, td {
                 'itemOptions' => [
                 'class' => 'feria'
                 ]
-
                 ])->label('Ferias en que Participa');
 
         ?>
-    </div>
+    </div>feria
 
                     
 
