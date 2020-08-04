@@ -23,8 +23,8 @@
         "almasaeed2010/adminlte": "~2.4",
         "kartik-v/yii2-widget-fileinput": "dev-master",
         "kartik-v/yii2-grid": "dev-master",
-        "kartik-v/yii2-widget-touchspin": "dev-master",
-        "yii2mod/yii2-sweet-alert": "*"
+        "yii2mod/yii2-sweet-alert": "*",
+        "kartik-v/yii2-markdown": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
