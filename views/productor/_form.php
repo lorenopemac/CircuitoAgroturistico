@@ -70,7 +70,7 @@ tr,th, td {
                 ])->label('Ferias en que Participa');
 
         ?>
-    </div>feria
+    </div>
 
                     
 

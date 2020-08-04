@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $model app\models\Productor */
 
 $this->title = 'Modificar Productor: ' . $model->nombre;
-$this->params['breadcrumbs'][] = ['label' => 'Productors', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idProductor, 'url' => ['view', 'id' => $model->idProductor]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => 'Productores', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->nombre, 'url' => ['view', 'id' => $model->nombre]];
+$this->params['breadcrumbs'][] = 'Modificar';
 ?>
 <div class="productor-update">
 

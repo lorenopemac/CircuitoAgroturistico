@@ -152,16 +152,7 @@ class ProductorController extends Controller
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
             $model->baja = 0;
             if($model->save()){
-                //UPDATE DEL PRODUCTOR YA CREADO
-                //$connection = Yii::$app->getDb();
-                /*$connection->createCommand("
-                            UPDATE productor SET nombre='".$model->nombre."',cuit=".$model->cuit.",idLocalidad=".$model->idLocalidad."
-                            ,idProvincia=".$model->idProvincia.",nombreCalle='".$model->nombreCalle."',
-                            numeroCalle=".$model->numeroCalle.",numeroTelefono=".$model->numeroTelefono.",baja=false
-                            WHERE idProductor=".$_POST['idProductor'])->execute();*/
-                //$connection->createCommand(" DELETE FROM productor WHERE baja = 1 and nombre='vacio'")->execute();
-                //FIN UPDATE PRODUCTOR
-                //$this->guardarRedes($model);
+                $this->guardarRedesFaltantes($model);
                 if($model->imagenes){
                     if(sizeof($model->imagenes)>0){
                         $imagenes = $this->guardarImagenes($model);
@@ -185,17 +176,28 @@ class ProductorController extends Controller
 
 
     /**
-     * Guarda las Redes Sociales del Productor que tienen idProductor=0.
+     * Guarda las Redes Sociales del Productor faltante.
+     * Hace mas sencilla la busqueda para editar
      * @param Productor $model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    private function guardarRedes($model){
-        $redesLibres = RedsocialProductor::find()
-                        ->where(['idProductor'=>0])
-                        ->all();
-        foreach($redesLibres as $red){
-            $red->idProductor = $model->idProductor;
-            $red->save();
+    private function guardarRedesFaltantes($model){
+        //REDES
+        $redes = RedSocial::find()
+                ->where(['baja'=>false])
+                ->all();
+        foreach($redes as $red){
+            $redProductor = RedsocialProductor::find()
+                        ->where(['idProductor'=>$model->idProductor,'idRed_social'=>$red->idRed_social])
+                        ->one();
+            if(!$redProductor){//SI NO EXISTE ESA RED SOCIAL PARA EL PRODUCTOR, CREO UNA VACIA
+                $redProductor = new RedsocialProductor();
+                $redProductor->idProductor= $model->idProductor;
+                $redProductor->idRed_social= $red->idRed_social;
+                $redProductor->direccion= "No Informa";
+                $redProductor->save();
+                
+            }
         }
     }
 
@@ -309,7 +311,7 @@ class ProductorController extends Controller
                 ->one();
         //$imagenVista = $model->getDisplayImage($imagen);
         */
-        $model->imagenes[0] = Html::img(Yii::getAlias('@web')."/uploads/1.jpg",['class'=>'file-preview-image']);;
+        //$model->imagenes[0] = Html::img(Yii::getAlias('@web')."/uploads/1.jpg",['class'=>'file-preview-image']);;
         
         //print_r($imagenVista);
         //exit;
@@ -330,9 +332,8 @@ class ProductorController extends Controller
         $model->ferias = $ferias;
         
         if ($model->load(Yii::$app->request->post()) ) {
-            
             $this->editarFerias($model,$feriasProductor);    
-               
+            $this->guardarRedesFaltantes($model);
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
             if($model->imagenes){
                 if(sizeof($model->imagenes)>0){
