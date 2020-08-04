@@ -131,7 +131,11 @@ class ProductoController extends Controller
         ]);
     }
 
-
+    /**
+     * Guarda las Categorias en las que participa el Productor.
+     * @param Producto $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     public function guardarCategorias($model){
         foreach($model->categorias as $idCategoria){
             $categoriaProductor = new CategoriaProducto();
@@ -162,8 +166,11 @@ class ProductoController extends Controller
         }
         $model->categorias = $categorias;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idProducto]);
+        if ($model->load(Yii::$app->request->post())) {
+            if( $model->save()){
+                $this->editarCategorias($model,$categoriasProducto);
+                return $this->redirect(['view', 'id' => $model->idProducto]);
+            }
         }
         /*$imagen = Imagen::find()
                 ->where(['idImagen' => 20, 'baja' => 0])
@@ -182,6 +189,46 @@ class ProductoController extends Controller
             'categoriasModel' => $categoriasModel,
         ]);
     }
+
+
+    /**
+     * Guarda o Borra las Categorias en las que participa el Productor.
+     * @param Producto $model
+     * @param CategoriaProducto $categoriasProducto
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    private function editarCategorias($model,$categoriasProducto){
+        
+        //ELIMINAR
+        if(!(is_string($model->categorias) && sizeof($categoriasProducto)==0)){
+            if(is_string($model->categorias) && sizeof($categoriasProducto)>0){//se eliminan todos 
+                foreach($categoriasProducto  as $idCategoria){    
+                    $categoriaProducto = CategoriaProducto::find()
+                                    ->where(['idProducto'=>$model->idProducto, 'idCategoria'=>$idCategoria])
+                                    ->one();
+                    $categoriaProducto->delete();
+                }    
+            }else{
+                foreach($categoriasProducto  as $idCategoria){// se eliminan solo algunos
+                    if(!is_numeric(array_search($idCategoria,$model->categorias))){//si no existia esa categoria para el producto y ya no esta mas
+                        $categoriaProducto = CategoriaProducto::find()
+                                        ->where(['idProducto'=>$model->idProducto, 'idCategoria'=>$idCategoria])
+                                        ->one();
+                        $categoriaProducto->delete();
+                    }
+                }
+                //guardado
+                foreach($model->categorias  as $idCategoria){//se agregan
+                    if(array_search($idCategoria,$categoriasProducto)==false){//si no existia esa categoria para el producto
+                        $categoriaProducto = new CategoriaProducto();
+                        $categoriaProducto->idProducto = $model->idProducto;
+                        $categoriaProducto->idCategoria= $idCategoria;
+                        $categoriaProducto->save();
+                    }                            
+                }
+            }
+        }
+    }    
 
     /**
      * Deletes an existing Producto model.
