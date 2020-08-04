@@ -114,8 +114,6 @@ class ProductorController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Productor();
-        
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
@@ -123,36 +121,42 @@ class ProductorController extends Controller
         $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams);
         
         //Agrego productor para utilizar el id en la carga de redes sociales
-        $model->baja = true;
-        $model->idProvincia = 1;
-        $model->nombre = "vacio";
-        $model->cuit = 0;
-        $model->idLocalidad = 1;
-        $model->numeroTelefono = 0;
-        $model->save();
-        $idProductor = $model->idProductor;
-        $model->numeroTelefono = null;
-        $model->nombre = null;
-        $model->idLocalidad= null;
-        $model->cuit = null;
-        $model->numeroCalle = 0;
+        $model = new Productor();
+        if (!(Yii::$app->request->isPost)) {
+            $model->baja = true;
+            $model->idProvincia = 1;
+            $model->nombre = "vacio";
+            $model->cuit = 0;
+            $model->idLocalidad = 1;
+            $model->numeroTelefono = 0;
+            $model->save();
+            $idProductor = $model->idProductor;
+            $model->numeroTelefono = null;
+            $model->nombre = null;
+            $model->idLocalidad= null;
+            $model->cuit = null;
+            $model->numeroCalle = 0;
+        }
         //fin carga
         
         
         if ($model->load(Yii::$app->request->post()) ) {
+            if($_POST['idProductor'] > 0){
+                $model=$this->findModel($_POST['idProductor']);
+            }
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
             $model->baja = 0;
             if($model->save()){
                 //UPDATE DEL PRODUCTOR YA CREADO
-                $connection = Yii::$app->getDb();
+                //$connection = Yii::$app->getDb();
                 /*$connection->createCommand("
                             UPDATE productor SET nombre='".$model->nombre."',cuit=".$model->cuit.",idLocalidad=".$model->idLocalidad."
                             ,idProvincia=".$model->idProvincia.",nombreCalle='".$model->nombreCalle."',
                             numeroCalle=".$model->numeroCalle.",numeroTelefono=".$model->numeroTelefono.",baja=false
                             WHERE idProductor=".$_POST['idProductor'])->execute();*/
-                $connection->createCommand(" DELETE FROM productor WHERE baja = 1 and nombre='vacio'")->execute();
+                //$connection->createCommand(" DELETE FROM productor WHERE baja = 1 and nombre='vacio'")->execute();
                 //FIN UPDATE PRODUCTOR
-                $this->guardarRedes($model);
+                //$this->guardarRedes($model);
                 if($model->imagenes){
                     if(size($model->imagenes)>0){
                         $this->guardarImagenes($model);
