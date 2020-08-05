@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\Html;
 use app\models\Feria;
 use app\models\FeriaSearch;
 use yii\web\Controller;
@@ -95,25 +96,15 @@ class FeriaController extends Controller
     {
         $model = new Feria();
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
-
+        $vista = false;
         if ($model->load(Yii::$app->request->post())) {
-            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
-            
+            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
             if($model->save()){
-                $indice = 0;
-                foreach($model->imagenes as $imagen){
-                    $modelImagen = new Imagen();
-                    $modelImagenFeria = new ImagenFeria();
-                    $modelImagen->extension = $imagen->extension;
-                    $modelImagen->save();
-                    $modelImagenFeria->idImagen = $modelImagen->idImagen;
-                    $modelImagenFeria->idFeria = $model->idFeria;
-                    $modelImagenFeria->save();
-                    $imagenes[$indice]= $modelImagen;
-                    $indice = $indice +1;
-                }
-                if(!$model->imagenes){
-                    $model->upload($model->imagenes);
+                if($model->imagenes){
+                    if(sizeof($model->imagenes)>0){
+                        $imagenes = $this->guardarImagenes($model);
+                        $model->upload($imagenes);
+                    }
                 }
                 return $this->redirect(['view', 'id' => $model->idFeria]);
             }
@@ -122,7 +113,30 @@ class FeriaController extends Controller
         return $this->render('create', [
             'model' => $model,
             'localidadesModel' => $localidadesModel,
+            'vista' => $vista,
         ]);
+    }
+
+    /**
+     * Guarda las Imagenes de la Feria.
+     * @param Feria $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    private function guardarImagenes($model){
+        $imagenes = array();
+        $indice = 0;
+        foreach($model->imagenes as $imagen){
+            $modelImagen = new Imagen();
+            $modelImagenFeria = new ImagenFeria();
+            $modelImagen->extension = $imagen->extension;
+            $modelImagen->save();
+            $modelImagenFeria->idImagen = $modelImagen->idImagen;
+            $modelImagenFeria->idFeria = $model->idFeria;
+            $modelImagenFeria->save();
+            $imagenes[$indice]= $modelImagen;
+            $indice = $indice +1;
+        }
+        return $imagenes;
     }
 
     /**
@@ -136,7 +150,8 @@ class FeriaController extends Controller
     {
         $model = $this->findModel($id);
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
-
+        $vista = true;
+        $this->cargarImagenes($model);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idFeria]);
         }
@@ -144,7 +159,26 @@ class FeriaController extends Controller
         return $this->render('update', [
             'model' => $model,
             'localidadesModel' => $localidadesModel,
+            'vista' => $vista,
         ]);
+    }
+
+    /**
+     * Carga las imagenes del productor 
+     * @param Productor $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    private function cargarImagenes($model){
+        $imagenesFeria= ImagenFeria::find()
+                            ->where(['idFeria'=>$model->idFeria])
+                            ->all();
+        $model->imagenes = array();
+        foreach($imagenesFeria as $imgFeria){
+            $imagen = Imagen::find()
+                    ->where(['idImagen'=>$imgFeria->idImagen])
+                    ->one();
+            array_push($model->imagenes,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px'])) ;          
+        }
     }
 
     /**

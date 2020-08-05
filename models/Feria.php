@@ -52,7 +52,7 @@ class Feria extends \yii\db\ActiveRecord
         $indice=0;
         if ($this->validate()) { 
             foreach ($this->imagenes as $file) {
-                $file->saveAs('@app/uploads/' . $array[$indice]->idImagen . '.' . $file->extension);
+                $file->saveAs(Yii::getAlias('@app')."/web/uploads/" . $array[$indice]->idImagen . '.' . $file->extension);
                 $indice = $indice + 1;
             }
             return true;

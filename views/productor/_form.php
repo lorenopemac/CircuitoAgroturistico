@@ -75,19 +75,34 @@ tr,th, td {
                     
 
     <div class="col-md-12 col-xs-12">     
-        <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
-            'options' => ['accept'=>'image/*','multiple' => true],
-            'pluginOptions' => [
-                'initialPreview'=>$model->imagenes,
-                'previewFileType' => 'any', 
-                'maxFileCount'=>10,
-                'showRemove' => true,
-                'showCaption'=> false,
-                'showRemove'=> false,
-                
-                'showUpload'=> false]
-            ]);
-        ?>
+        <?php if(!$vista){ ?>
+            <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
+                'options' => ['multiple' => true],
+                'pluginOptions' => [
+                    'previewFileType' => 'any', 
+                    'maxFileCount'=>10,
+                    'showRemove' => true,
+                    'showCaption'=> false,
+                    'showRemove'=> false,
+                    
+                    'showUpload'=> false]
+                ]);
+            ?>
+        <?php }else{ ?>
+            <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
+                'options' => ['multiple' => true],
+                'pluginOptions' => [
+                    'initialPreview'=>$model->imagenes,
+                    'previewFileType' => 'any', 
+                    'maxFileCount'=>10,
+                    'showRemove' => true,
+                    'showCaption'=> false,
+                    'showRemove'=> false,
+                    
+                    'showUpload'=> false]
+                ]);
+            ?>
+        <?php } ?>
     </div>
     
     <div class="col-md-12 col-xs-12">  

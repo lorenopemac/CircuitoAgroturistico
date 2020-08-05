@@ -354,9 +354,6 @@ class ProductorController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     private function cargarImagenes($model){
-        /*$imagen = Imagen::find()
-                ->where(['idImagen' => 20, 'baja' => 0])
-                ->one();*/
         $imagenProductor = ImagenProductor::find()
                             ->where(['idProductor'=>$model->idProductor])
                             ->all();

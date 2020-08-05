@@ -62,7 +62,7 @@ class RedSocial extends \yii\db\ActiveRecord
     public function upload($modelImagen)
     {
         if ($this->validate()) {
-            $this->imagen->saveAs('@app/uploads/' . $modelImagen->idImagen . '.' . $modelImagen->extension);
+            $this->imagen->saveAs(Yii::getAlias('@app')."/web/uploads/" . $modelImagen->idImagen . '.' . $modelImagen->extension);
             return true;
         } else {
             return false;
