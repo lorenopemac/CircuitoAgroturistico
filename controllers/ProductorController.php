@@ -306,16 +306,7 @@ class ProductorController extends Controller
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
         $vista =true;
-        /*$imagen = Imagen::find()
-                ->where(['idImagen' => 20, 'baja' => 0])
-                ->one();
-        //$imagenVista = $model->getDisplayImage($imagen);
-        */
-        //$model->imagenes[0] = Html::img(Yii::getAlias('@web')."/uploads/1.jpg",['class'=>'file-preview-image']);;
-        
-        //print_r($imagenVista);
-        //exit;
-            
+        $this->cargarImagenes($model);
         
         //$model->imagenes = $model->getDisplayImage();
         $feriasProductor = \yii\helpers\ArrayHelper::map(\app\models\FeriaProductor::find()->where(['idProductor'=>$id])->all(), 'idFeria_productor', 'idFeria');
@@ -354,6 +345,28 @@ class ProductorController extends Controller
             'vista'=>$vista,
             'idProductor' =>$model->idProductor,                      
         ]);
+    }
+
+
+    /**
+     * Carga las imagenes del productor 
+     * @param Productor $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    private function cargarImagenes($model){
+        /*$imagen = Imagen::find()
+                ->where(['idImagen' => 20, 'baja' => 0])
+                ->one();*/
+        $imagenProductor = ImagenProductor::find()
+                            ->where(['idProductor'=>$model->idProductor])
+                            ->all();
+        $model->imagenes = array();
+        foreach($imagenProductor as $imgProductor){
+            $imagen = Imagen::find()
+                    ->where(['idImagen'=>$imgProductor->idImagen])
+                    ->one();
+            array_push($model->imagenes,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px'])) ;          
+        }
     }
 
     /**

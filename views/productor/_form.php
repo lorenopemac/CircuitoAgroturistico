@@ -76,11 +76,12 @@ tr,th, td {
 
     <div class="col-md-12 col-xs-12">     
         <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
-            'options' => ['multiple' => true],
+            'options' => ['accept'=>'image/*','multiple' => true],
             'pluginOptions' => [
-                'initialPreview'=>[$model->imagenes],
+                'initialPreview'=>$model->imagenes,
                 'previewFileType' => 'any', 
                 'maxFileCount'=>10,
+                'showRemove' => true,
                 'showCaption'=> false,
                 'showRemove'=> false,
                 
