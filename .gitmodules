@@ -1,0 +1,4 @@
+[submodule "yii2-markdown"]
+	path = yii2-markdown
+	url = https://github.com/kartik-v/yii2-markdown.git
+	branch = master
