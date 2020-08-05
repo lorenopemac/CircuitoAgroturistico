@@ -59,11 +59,11 @@ use kartik\file\FileInput;
             ?>
         <?php } ?>
     </div>
-    <div class="col-md-6 col-xs-12" style="display:none">     
+    <div class="col-md-6 col-xs-12" >     
         <?= $form->field($model, 'latitud')->textInput(['maxlength' => true]) ?>
     </div>
 
-    <div class="col-md-6 col-xs-12" style="display:none">     
+    <div class="col-md-6 col-xs-12" >     
         <?= $form->field($model, 'longitud')->textInput(['maxlength' => true]) ?>
     </div>
     <div class="form-group">
