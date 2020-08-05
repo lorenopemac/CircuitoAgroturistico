@@ -73,6 +73,15 @@ if (YII_ENV_DEV) {
     $config['modules']['gridview'] = [
         'class' => '\kartik\grid\Module',
     ];
+    $config['modules']['markdown'] = [
+        'class' => 'kartik\markdown\Module',
+        'previewAction' => '/markdown/parse/preview',
+        'downloadAction' => '/markdown/parse/download',
+        'customConversion' => [
+            '<table>' => '<table class="table table-bordered table-striped">'
+        ],
+        'smartyPants' => true,
+    ];
 }
 
 return $config;

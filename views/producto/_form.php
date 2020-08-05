@@ -3,6 +3,8 @@ use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
+use kartik\markdown\MarkdownEditor;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Producto */
 /* @var $form yii\widgets\ActiveForm */
@@ -15,8 +17,11 @@ use kartik\file\FileInput;
     <div class="col-md-12 col-xs-12">     
         <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
     </div>
-    <div class="col-md-12 col-xs-12">     
-        <?= $form->field($model,'descripcion')->textInput(['style'=>'width:100%;height: 50px;']);?>
+    <div class="col-md-12 col-xs-12" id='editor-en' name='editor-en'>     
+        <?= $form->field($model, 'descripcion')->widget(
+            MarkdownEditor::classname(), 
+            ['height' => 300, 'encodeLabels' => false, 'language'=> 'ru']
+        );?>
     </div>
     <div class="col-md-12 col-xs-12">     
         <?=  $form->field($model, 'idProductor')->widget(Select2::classname(), [
@@ -72,6 +77,6 @@ $this->registerJs("
         e.preventDefault();
         }
     });
-
+    
 ")
 ?>
