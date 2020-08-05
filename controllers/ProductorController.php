@@ -114,8 +114,6 @@ class ProductorController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Productor();
-        
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
@@ -123,43 +121,46 @@ class ProductorController extends Controller
         $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams);
         
         //Agrego productor para utilizar el id en la carga de redes sociales
-        $model->baja = true;
-        $model->idProvincia = 1;
-        $model->nombre = "vacio";
-        $model->cuit = 0;
-        $model->idLocalidad = 1;
-        $model->numeroTelefono = 0;
-        $model->save();
-        
-        $model->numeroTelefono = null;
-        $model->nombre = null;
-        $model->idLocalidad= null;
-        $model->cuit = null;
-        $model->numeroCalle = 0;
+        $model = new Productor();
+        if (!(Yii::$app->request->isPost)) {
+            $model->baja = true;
+            $model->idProvincia = 1;
+            $model->nombre = "vacio";
+            $model->cuit = 0;
+            $model->idLocalidad = 1;
+            $model->numeroTelefono = 0;
+            $model->save();
+            $idProductor = $model->idProductor;
+            $model->numeroTelefono = null;
+            $model->nombre = null;
+            $model->idLocalidad= null;
+            $model->cuit = null;
+            $model->numeroCalle = 0;
+        }
         //fin carga
         
         
         if ($model->load(Yii::$app->request->post()) ) {
-            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
-            //UPDATE DEL PRODUCTOR YA CREADO
-            $connection = Yii::$app->getDb();
-            $model->idProductor = $model->idProductor-1;//le asigno el modelo anterior que esta vacio
-            $command = $connection->createCommand("
-                        UPDATE productor SET nombre='".$model->nombre."',cuit=".$model->cuit.",idLocalidad=".$model->idLocalidad."
-                        ,idProvincia=".$model->idProvincia.",nombreCalle='".$model->nombreCalle."',
-                        numeroCalle=".$model->numeroCalle.",numeroTelefono=".$model->numeroTelefono.",baja=false
-                        WHERE idProductor=".$model->idProductor)->execute();
-            //FIN UPDATE PRODUCTOR
-
-            $this->guardarRedes($model);
-            if($model->imagenes){
-                if(size($model->imagenes)){
-                    $this->guardarImagenes($model);
-                    $model->upload($imagenes);
-                }
+            $model->idProductor= $_POST['idProductor'];
+            if($model->ferias>0){
+                $this->guardarFerias($model);    
             }
-            $this->guardarFerias($model);
-            return $this->redirect(['view', 'id' => $model->idProductor]);
+            if($_POST['idProductor'] > 0){
+                $model=$this->findModel($_POST['idProductor']);
+            }
+            $model->setAttributes(Yii::$app->request->post()['Productor'], false);
+            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
+            $model->baja = 0;
+            if($model->save()){
+                $this->guardarRedesFaltantes($model);
+                if($model->imagenes){
+                    if(sizeof($model->imagenes)>0){
+                        $imagenes = $this->guardarImagenes($model);
+                        $model->upload($imagenes);
+                    }
+                }
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('create', [
@@ -169,22 +170,34 @@ class ProductorController extends Controller
             'feriasModel' => $feriasModel,
             'dataProviderRedes'=>$dataProviderRedes,
             'vista'=>false,
+            'idProductor' =>$idProductor,                      
         ]);
     }
 
 
     /**
-     * Guarda las Redes Sociales del Productor que tienen idProductor=0.
+     * Guarda las Redes Sociales del Productor faltante.
+     * Hace mas sencilla la busqueda para editar
      * @param Productor $model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function guardarRedes($model){
-        $redesLibres = RedsocialProductor::find()
-                        ->where(['idProductor'=>0])
-                        ->all();
-        foreach($redesLibres as $red){
-            $red->idProductor = $model->idProductor;
-            $red->save();
+    private function guardarRedesFaltantes($model){
+        //REDES
+        $redes = RedSocial::find()
+                ->where(['baja'=>false])
+                ->all();
+        foreach($redes as $red){
+            $redProductor = RedsocialProductor::find()
+                        ->where(['idProductor'=>$model->idProductor,'idRed_social'=>$red->idRed_social])
+                        ->one();
+            if(!$redProductor){//SI NO EXISTE ESA RED SOCIAL PARA EL PRODUCTOR, CREO UNA VACIA
+                $redProductor = new RedsocialProductor();
+                $redProductor->idProductor= $model->idProductor;
+                $redProductor->idRed_social= $red->idRed_social;
+                $redProductor->direccion= "No Informa";
+                $redProductor->save();
+                
+            }
         }
     }
 
@@ -194,7 +207,7 @@ class ProductorController extends Controller
      * @param Productor $model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function guardarImagenes($model){
+    private function guardarImagenes($model){
         $indice = 0;
         foreach($model->imagenes as $imagen){
             $modelImagen = new Imagen();
@@ -207,6 +220,7 @@ class ProductorController extends Controller
             $imagenes[$indice]= $modelImagen;
             $indice = $indice +1;
         }
+        return $imagenes;
     }
 
     /**
@@ -214,12 +228,51 @@ class ProductorController extends Controller
      * @param Productor $model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function guardarFerias($model){
+    private function guardarFerias($model){
         foreach($model->ferias as $idFeria){
             $feriaProductor = new FeriaProductor();
-            $feriaProductor->idProductor= $model->idProductor;
+            $feriaProductor->idProductor =$model->idProductor;
             $feriaProductor->idFeria= $idFeria;
             $feriaProductor->save();
+        }
+
+    }
+
+    /**
+     * Guarda las Ferias en las que participa el Productor.
+     * @param Productor $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    private function editarFerias($model,$feriasProductor){
+        
+        //ELIMINAR
+        if(!(is_string($model->ferias) && sizeof($feriasProductor)==0)){
+            if(is_string($model->ferias) && sizeof($feriasProductor)>0){//se eliminan todos 
+                foreach($feriasProductor  as $idFeria){    
+                    $feriaProductor = FeriaProductor::find()
+                                    ->where(['idProductor'=>$model->idProductor, 'idFeria'=>$idFeria])
+                                    ->one();
+                    $feriaProductor->delete();
+                }    
+            }else{
+                foreach($feriasProductor  as $idFeria){// se eliminan solo algunos
+                    if(!is_numeric(array_search($idFeria,$model->ferias))){//si no existia esa feria para el productor y ya no esta mas
+                        $feriaProductor = FeriaProductor::find()
+                                        ->where(['idProductor'=>$model->idProductor, 'idFeria'=>$idFeria])
+                                        ->one();
+                        $feriaProductor->delete();
+                    }
+                }
+                //guardado
+                foreach($model->ferias  as $idFeria){//se agregan
+                    if(array_search($idFeria,$feriasProductor)==false){//si no existia esa feria para el productor
+                        $feriaProductor = new FeriaProductor();
+                        $feriaProductor->idProductor = $model->idProductor;
+                        $feriaProductor->idFeria= $idFeria;
+                        $feriaProductor->save();
+                    }                            
+                }
+            }
         }
     }
 
@@ -233,6 +286,7 @@ class ProductorController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        //REDES SOCIALES
         $redProductor = RedsocialProductor::find()
                         ->joinWith('redSocial')
                         ->where(['idProductor'=>$id])
@@ -247,20 +301,12 @@ class ProductorController extends Controller
                 'attributes' => [''],
             ],
         ]);
+        //FIN REDES SOCIALES
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
         $vista =true;
-        /*$imagen = Imagen::find()
-                ->where(['idImagen' => 20, 'baja' => 0])
-                ->one();
-        //$imagenVista = $model->getDisplayImage($imagen);
-        */
-        $model->imagenes[0] = Html::img("@app/uploads/1.jpg");;
-        
-        //print_r($imagenVista);
-        //exit;
-
+        $this->cargarImagenes($model);
         
         //$model->imagenes = $model->getDisplayImage();
         $feriasProductor = \yii\helpers\ArrayHelper::map(\app\models\FeriaProductor::find()->where(['idProductor'=>$id])->all(), 'idFeria_productor', 'idFeria');
@@ -272,15 +318,21 @@ class ProductorController extends Controller
                 $indice = $indice +1;
             }
         }   
+
+        
         $model->ferias = $ferias;
         
         if ($model->load(Yii::$app->request->post()) ) {
+            $this->editarFerias($model,$feriasProductor);    
+            $this->guardarRedesFaltantes($model);
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
-            $model->upload();
-            $model->imagenes =null;
-            
+            if($model->imagenes){
+                if(sizeof($model->imagenes)>0){
+                    $this->guardarImagenes($model);
+                    $model->upload($imagenes);
+                }
+            }
             $model->save();
-            $this->guardarFerias($model);
             return $this->redirect(['view', 'id' => $model->idProductor]);
         }
 
@@ -291,7 +343,30 @@ class ProductorController extends Controller
             'feriasModel' => $feriasModel,
             'dataProviderRedes'=>$providerRedes,
             'vista'=>$vista,
+            'idProductor' =>$model->idProductor,                      
         ]);
+    }
+
+
+    /**
+     * Carga las imagenes del productor 
+     * @param Productor $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    private function cargarImagenes($model){
+        /*$imagen = Imagen::find()
+                ->where(['idImagen' => 20, 'baja' => 0])
+                ->one();*/
+        $imagenProductor = ImagenProductor::find()
+                            ->where(['idProductor'=>$model->idProductor])
+                            ->all();
+        $model->imagenes = array();
+        foreach($imagenProductor as $imgProductor){
+            $imagen = Imagen::find()
+                    ->where(['idImagen'=>$imgProductor->idImagen])
+                    ->one();
+            array_push($model->imagenes,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px'])) ;          
+        }
     }
 
     /**

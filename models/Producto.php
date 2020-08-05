@@ -71,7 +71,6 @@ class Producto extends \yii\db\ActiveRecord
         return $this->hasMany(ImagenProducto::className(), ['idProducto' => 'idProducto']);
     }
 
-
     /**
      * {@inheritdoc}
      * @return ProductoQuery the active query used by this AR class.
