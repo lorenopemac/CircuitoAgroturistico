@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $model app\models\Productor */
 
 $this->title = 'Crear Productor';
-$this->params['breadcrumbs'][] = ['label' => 'Productores', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Productor', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['breadcrumbs'][] = 'Modificar';
+$this->params['breadcrumbs'][] = 'Crear';
 ?>
 <div class="productor-create">
 

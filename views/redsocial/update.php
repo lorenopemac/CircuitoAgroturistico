@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $model app\models\RedSocial */
 
 $this->title = 'Modificar Red Social ';
-$this->params['breadcrumbs'][] = ['label' => 'Red Socials', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idRed_social, 'url' => ['view', 'id' => $model->idRed_social]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => 'Red Social', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->nombre, 'url' => ['view', 'id' => $model->idRed_social]];
+$this->params['breadcrumbs'][] = 'Modificar';
 ?>
 <div class="red-social-update">
 

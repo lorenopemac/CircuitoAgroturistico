@@ -3,6 +3,7 @@
 namespace app\models;
 use app\models\Productor;
 use Yii;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "producto".
@@ -58,7 +59,7 @@ class Producto extends \yii\db\ActiveRecord
         $indice=0;
         if ($this->validate()) { 
             foreach ($this->imagenes as $file) {
-                $file->saveAs('@app/uploads/' . $array[$indice]->idImagen . '.' . $file->extension);
+                $file->saveAs(Yii::getAlias('@app')."/web/uploads/" . $array[$indice]->idImagen . '.' . $file->extension);
                 $indice = $indice + 1;
             }
             return true;

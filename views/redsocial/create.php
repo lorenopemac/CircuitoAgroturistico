@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\RedSocial */
 
 $this->title = 'Crear Red Social';
-$this->params['breadcrumbs'][] = ['label' => 'Red Socials', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Red Social', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="red-social-create">

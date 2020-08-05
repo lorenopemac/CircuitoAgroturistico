@@ -44,7 +44,8 @@ use kartik\file\FileInput;
             ?>
         <?php }else{ ?>
             <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
-                'options' => ['multiple' => true],
+          
+      'options' => ['multiple' => true],
                 'pluginOptions' => [
                     'initialPreview'=>$model->imagenes,
                     'previewFileType' => 'any', 

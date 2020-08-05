@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Categoria */
 
 $this->title = 'Agregar Categoria';
-$this->params['breadcrumbs'][] = ['label' => 'Categorias', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Categoria', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categoria-create">

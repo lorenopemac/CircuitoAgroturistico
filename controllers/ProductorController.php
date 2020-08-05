@@ -318,10 +318,7 @@ class ProductorController extends Controller
                 $indice = $indice +1;
             }
         }   
-
-        
         $model->ferias = $ferias;
-        
         if ($model->load(Yii::$app->request->post()) ) {
             $this->editarFerias($model,$feriasProductor);    
             $this->guardarRedesFaltantes($model);
