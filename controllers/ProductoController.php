@@ -16,6 +16,7 @@ use app\models\CategoriaProducto;
 use app\models\ImagenProducto;
 use app\common\components\AccessRule;
 use yii\filters\AccessControl;
+use yii\helpers\Html;
 /**
  * ProductoController implements the CRUD actions for Producto model.
  */
@@ -101,7 +102,7 @@ class ProductoController extends Controller
         $model = new Producto();
         $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
         $categoriasModel = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idCategoria', 'nombre');
-        
+        $vista =false;
         if ($model->load(Yii::$app->request->post())  ) {
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
             
@@ -133,6 +134,7 @@ class ProductoController extends Controller
             'model' => $model,
             'productoresModel' => $productoresModel,
             'categoriasModel' => $categoriasModel,
+            'vista'=>$vista,
         ]);
     }
 
@@ -163,6 +165,8 @@ class ProductoController extends Controller
         $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
         $categoriasModel = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idCategoria', 'nombre');
         $categoriasProducto = \yii\helpers\ArrayHelper::map(\app\models\CategoriaProducto::find()->where(['idProducto'=>$id])->all(), 'idCategoria_producto', 'idCategoria');
+        $vista =true;
+        $this->cargarImagenes($model);
         $categorias = array();
         $indice=0;
         foreach($categoriasProducto as $categoriaProd){
@@ -177,24 +181,32 @@ class ProductoController extends Controller
                 return $this->redirect(['view', 'id' => $model->idProducto]);
             }
         }
-        /*$imagen = Imagen::find()
-                ->where(['idImagen' => 20, 'baja' => 0])
-                ->one();
-        //$imagenVista = $model->getDisplayImage($imagen);
-        
-        $model->imagenes[0] = Html::img("@app/uploads/20.png");;
-        
-        
-        //print_r($imagenVista);
-        //exit;*/
-
         return $this->render('update', [
             'productoresModel' => $productoresModel,
             'model' => $model,
             'categoriasModel' => $categoriasModel,
+            'vista'=>$vista,
         ]);
     }
 
+
+    /**
+     * Carga las imagenes del producto
+     * @param Productor $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    private function cargarImagenes($model){
+        $imagenProducto = ImagenProducto::find()
+                            ->where(['idProducto'=>$model->idProducto])
+                            ->all();
+        $model->imagenes = array();
+        foreach($imagenProducto as $imgProducto){
+            $imagen = Imagen::find()
+                    ->where(['idImagen'=>$imgProducto->idImagen])
+                    ->one();
+            array_push($model->imagenes,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px'])) ;          
+        }
+    }
 
     /**
      * Guarda o Borra las Categorias en las que participa el Productor.

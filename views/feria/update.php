@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $model app\models\Feria */
 
 $this->title = 'Modificar Feria ';
-$this->params['breadcrumbs'][] = ['label' => 'Ferias', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idFeria, 'url' => ['view', 'id' => $model->idFeria]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => 'Feria', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->nombre, 'url' => ['view', 'id' => $model->idFeria]];
+$this->params['breadcrumbs'][] = 'Modificar';
 ?>
 <div class="feria-update">
 
@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = 'Update';
     <?= $this->render('_form', [
         'model' => $model,
         'localidadesModel' => $localidadesModel,
+        'vista' => $vista,
     ]) ?>
 
 </div>

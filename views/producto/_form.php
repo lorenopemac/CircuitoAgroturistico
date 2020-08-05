@@ -44,22 +44,35 @@ use kartik\markdown\MarkdownEditor;
         ?>
     </div>
     <div class="col-md-12 col-xs-12">     
-        
-        <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
-            'options' => ['multiple' => true],
-            'pluginOptions' => [
-                'initialPreview'=>[$model->imagenes],
-                'previewFileType' => 'any', 
-                'maxFileCount'=>10,
-                'showCaption'=> false,
-                'showRemove'=> false,
-                
-                'showUpload'=> false]
-            ]);
-        ?>
-
+        <?php if(!$vista){ ?>
+            <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
+                'options' => ['multiple' => true],
+                'pluginOptions' => [
+                    'previewFileType' => 'any', 
+                    'maxFileCount'=>10,
+                    'showRemove' => true,
+                    'showCaption'=> false,
+                    'showRemove'=> false,
+                    
+                    'showUpload'=> false]
+                ]);
+            ?>
+        <?php }else{ ?>
+            <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
+                'options' => ['multiple' => true],
+                'pluginOptions' => [
+                    'initialPreview'=>$model->imagenes,
+                    'previewFileType' => 'any', 
+                    'maxFileCount'=>10,
+                    'showRemove' => true,
+                    'showCaption'=> false,
+                    'showRemove'=> false,
+                    
+                    'showUpload'=> false]
+                ]);
+            ?>
+        <?php } ?>
     </div>
-
     <div class="form-group">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>

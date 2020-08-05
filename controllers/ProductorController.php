@@ -318,10 +318,7 @@ class ProductorController extends Controller
                 $indice = $indice +1;
             }
         }   
-
-        
         $model->ferias = $ferias;
-        
         if ($model->load(Yii::$app->request->post()) ) {
             $this->editarFerias($model,$feriasProductor);    
             $this->guardarRedesFaltantes($model);
@@ -354,9 +351,6 @@ class ProductorController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     private function cargarImagenes($model){
-        /*$imagen = Imagen::find()
-                ->where(['idImagen' => 20, 'baja' => 0])
-                ->one();*/
         $imagenProductor = ImagenProductor::find()
                             ->where(['idProductor'=>$model->idProductor])
                             ->all();

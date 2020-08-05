@@ -7,8 +7,8 @@ use yii\helpers\Html;
 
 $this->title = 'Modificación de Producto ' ;
 $this->params['breadcrumbs'][] = ['label' => 'Productos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idProducto, 'url' => ['view', 'id' => $model->idProducto]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = ['label' => $model->nombre, 'url' => ['view', 'id' => $model->idProducto]];
+$this->params['breadcrumbs'][] = 'Modificar';
 ?>
 <div class="producto-update">
 
@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = 'Update';
         'model' => $model,
         'productoresModel' => $productoresModel,
         'categoriasModel' => $categoriasModel,
+        'vista'=>$vista,
     ]) ?>
 
 </div>
