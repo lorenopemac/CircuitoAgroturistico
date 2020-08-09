@@ -22,6 +22,9 @@ table{
 tr,th, td {
     border: 1px solid black;
 }
+div{
+    overflow: auto;
+}
 </style>
 <div class="productor-form">
 
@@ -32,6 +35,12 @@ tr,th, td {
     </div>
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'cuit')->textInput() ?>
+    </div>
+    <div class="col-md-6 col-xs-12">     
+        <?= $form->field($model, 'nombreFantasia')->textInput() ?>
+    </div>
+    <div class="col-md-6 col-xs-12">     
+        <?= $form->field($model, 'nombreApellido')->textInput() ?>
     </div>
     <div class="col-md-6 col-xs-12">     
         <?=  $form->field($model, 'idProvincia')->widget(Select2::classname(), [
@@ -146,7 +155,6 @@ tr,th, td {
                     
                 ],
             ]); ?>
-              <img src="<?php '@app/uploads/2.jpg'; ?>">
         <?php } ?>
     </div>
     <div class="col-md-6 col-xs-12" >     
@@ -156,7 +164,7 @@ tr,th, td {
     <div class="col-md-6 col-xs-12" >     
         <?= $form->field($model, 'longitud')->textInput(['maxlength' => true]) ?>
     </div>
-    <div class="form-group">
+    <div class="form-group col-md-12 col-xs-12">
         <?= Html::submitButton('Guardar', ['class' => 'btn btn-success','name' =>'idProductor','value' => $idProductor]) ?>
     </div>
 
