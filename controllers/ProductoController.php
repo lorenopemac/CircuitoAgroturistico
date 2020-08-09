@@ -100,8 +100,8 @@ class ProductoController extends Controller
     public function actionCreate()
     {
         $model = new Producto();
-        $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
-        $categoriasModel = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idCategoria', 'nombre');
+        $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
+        $categoriasModel = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idCategoria', 'nombre');
         $vista =false;
         if ($model->load(Yii::$app->request->post())  ) {
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
@@ -162,8 +162,8 @@ class ProductoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
-        $categoriasModel = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idCategoria', 'nombre');
+        $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
+        $categoriasModel = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idCategoria', 'nombre');
         $categoriasProducto = \yii\helpers\ArrayHelper::map(\app\models\CategoriaProducto::find()->where(['idProducto'=>$id])->all(), 'idCategoria_producto', 'idCategoria');
         $vista =true;
         $this->cargarImagenes($model);
@@ -256,8 +256,9 @@ class ProductoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $model->baja = 1;
+        $model->save();
         return $this->redirect(['index']);
     }
 

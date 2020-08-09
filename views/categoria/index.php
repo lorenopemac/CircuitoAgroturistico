@@ -29,7 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'nombre',
             'descripcion',
-            'baja:boolean',
+            ['label'=>'Activo',
+              'format'=>'raw',
+              'value' => function($model, $key, $index, $column) { return $model->baja == 0 ? 'Si' : 'No';},],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
