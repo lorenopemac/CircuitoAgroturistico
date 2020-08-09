@@ -83,9 +83,10 @@ tr,th, td {
                     'maxFileCount'=>10,
                     'showRemove' => true,
                     'showCaption'=> false,
-                    'showRemove'=> false,
+                    'showRemove' => true,
                     
-                    'showUpload'=> false]
+                    'showUpload'=> false,
+                    'deleteUrl' => Url::to('<url>'),]
                 ]);
             ?>
         <?php }else{ ?>
