@@ -212,4 +212,11 @@ class FeriaController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionBorrarimagen($key){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+
+        return $key;
+    }
 }

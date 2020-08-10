@@ -86,7 +86,8 @@ tr,th, td {
                     'showRemove' => true,
                     
                     'showUpload'=> false,
-                    'deleteUrl' => Url::to('<url>'),]
+                    //'deleteUrl' => Url::to('<url>'),
+                    ]
                 ]);
             ?>
         <?php }else{ ?>

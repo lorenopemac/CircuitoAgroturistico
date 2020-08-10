@@ -54,7 +54,7 @@ use kartik\markdown\MarkdownEditor;
                     'showCaption'=> false,
                     'showRemove' => true,
                     'showUpload'=> false,
-                    'deleteUrl' => Url::to('<url>'),
+                    //'deleteUrl' => Url::to('<url>'),
                     ]
                 ]);
             ?>
