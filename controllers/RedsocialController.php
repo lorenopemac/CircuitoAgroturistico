@@ -13,6 +13,7 @@ use app\common\components\AccessRule;
 use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 
+use yii\helpers\Html;
 /**
  * RedSocialController implements the CRUD actions for RedSocial model.
  */
@@ -94,13 +95,14 @@ class RedsocialController extends Controller
 
         if ($model->load(Yii::$app->request->post()) ) {
             $model->imagen = UploadedFile::getInstances($model, 'imagen');    
-            if(sizeof($model->imagen)>0){//TIENE UNA IMAGEN CARGADA
+            if($model->imagen){//TIENE UNA IMAGEN CARGADA
                 $modelImagen = new Imagen();
                 $modelImagen->extension = $model->imagen[0]->extension;
                 $modelImagen->save();
                 $model->idImagen = $modelImagen->idImagen;
                 $model->imagen = $model->imagen[0];
                 $model->upload($modelImagen);
+                $model->imagen = null;
             }
             //print_r($model);
             //exit;
@@ -125,7 +127,10 @@ class RedsocialController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $modelImagen = null;
+        $imagen = Imagen::find()
+                    ->where(['idImagen'=>$model->idImagen])
+                    ->one();
+        $model->imagen = Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px']);
         if ($model->load(Yii::$app->request->post())) {
 
             $model->imagen = UploadedFile::getInstances($model, 'imagen');    
