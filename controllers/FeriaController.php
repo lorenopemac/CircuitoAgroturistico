@@ -15,6 +15,10 @@ use app\models\Imagen;
 use app\models\ImagenFeria;
 use app\common\components\AccessRule;
 use yii\filters\AccessControl;
+use app\models\RedsocialFeria;
+use app\models\RedSocialSearch;
+use app\models\RedSocial;
+use yii\data\ArrayDataProvider;
 /**
  * FeriaController implements the CRUD actions for Feria model.
  */
@@ -97,9 +101,27 @@ class FeriaController extends Controller
         $model = new Feria();
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $vista = false;
+        $searchModelRedes = new RedSocialSearch();
+        $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams);
+        if (!(Yii::$app->request->isPost)) {
+            $model->baja = true;
+            $model->nombre = "vacio";
+            $model->idLocalidad = 1;
+            $model->save();
+            $idFeria = $model->idFeria;
+            $model->nombre = " ";
+            $model->idLocalidad = 0;
+        }
         if ($model->load(Yii::$app->request->post())) {
+            $model->idFeria= $_POST['idFeria'];
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
+            if($_POST['idFeria'] > 0){
+                $model=$this->findModel($_POST['idFeria']);
+            }
+            $model->setAttributes(Yii::$app->request->post()['Feria'], false);
+            $model->baja = 0;
             if($model->save()){
+                $this->guardarRedesFaltantes($model);
                 if($model->imagenes){
                     if(sizeof($model->imagenes)>0){
                         $imagenes = $this->guardarImagenes($model);
@@ -114,7 +136,35 @@ class FeriaController extends Controller
             'model' => $model,
             'localidadesModel' => $localidadesModel,
             'vista' => $vista,
+            'dataProviderRedes'=>$dataProviderRedes,
+            'idFeria' =>$idFeria,                      
         ]);
+    }
+
+
+    /**
+     * Guarda las Redes Sociales del Feria faltante.
+     * Hace mas sencilla la busqueda para editar
+     * @param Feria $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    private function guardarRedesFaltantes($model){
+        //REDES
+        $redes = RedSocial::find()
+                ->where(['baja'=>false])
+                ->all();
+        foreach($redes as $red){
+            $redFeria = RedsocialFeria::find()
+                        ->where(['idFeria'=>$model->idFeria,'idRed_social'=>$red->idRed_social])
+                        ->one();
+            if(!$redFeria){//SI NO EXISTE ESA RED SOCIAL PARA EL Feria, CREO UNA VACIA
+                $redFeria = new RedsocialFeria();
+                $redFeria->idFeria= $model->idFeria;
+                $redFeria->idRed_social= $red->idRed_social;
+                $redFeria->direccion= "No Informa";
+                $redFeria->save();   
+            }
+        }
     }
 
     /**
@@ -149,6 +199,20 @@ class FeriaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $redFeria = RedsocialFeria::find()
+                        ->joinWith('redSocial')
+                        ->where(['idFeria'=>$id])
+                        ->all();
+        
+        $providerRedes = new ArrayDataProvider([
+            'allModels' => $redFeria,
+            'pagination' =>[
+                'pageSize'=>10,
+            ],
+            'sort'=>[
+                'attributes' => [''],
+            ],
+        ]);
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $vista = true;
         $this->cargarImagenes($model);
@@ -160,12 +224,14 @@ class FeriaController extends Controller
             'model' => $model,
             'localidadesModel' => $localidadesModel,
             'vista' => $vista,
+            'dataProviderRedes'=>$providerRedes,
+            'idFeria' =>$model->idFeria,            
         ]);
     }
 
     /**
-     * Carga las imagenes del productor 
-     * @param Productor $model
+     * Carga las imagenes del Feria 
+     * @param Feria $model
      * @throws NotFoundHttpException if the model cannot be found
      */
     private function cargarImagenes($model){
@@ -209,5 +275,31 @@ class FeriaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionGuardarred(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+        $retorno=false;
+
+        $redFeria = new RedsocialFeria();
+        $redFeria = RedsocialFeria::find()
+                        ->where(['idRed_social'=>$params['idRed']])
+                        ->andWhere(['idFeria'=>$params['idFeria']])
+                        ->one();
+
+        if(!($redFeria)){
+            $redFeria = new RedsocialFeria();
+        }
+        $redFeria->idFeria= $params['idFeria'];
+        $redFeria->idRed_social= $params['idRed'];
+        $redFeria->direccion= $params['direccion'];
+        if($redFeria->save())    {
+            $retorno=true;
+        }
+        
+        return[
+            'exito'=> $retorno,
+        ];
     }
 }

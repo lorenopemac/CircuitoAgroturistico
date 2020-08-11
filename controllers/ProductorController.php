@@ -196,7 +196,6 @@ class ProductorController extends Controller
                 $redProductor->idRed_social= $red->idRed_social;
                 $redProductor->direccion= "No Informa";
                 $redProductor->save();
-                
             }
         }
     }
