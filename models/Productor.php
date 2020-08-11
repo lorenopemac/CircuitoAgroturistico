@@ -38,10 +38,10 @@ class Productor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'cuit', 'idLocalidad', 'idProvincia', 'numeroTelefono'], 'required'],
+            [['nombre',  'idLocalidad', 'idProvincia', 'numeroTelefono'], 'required'],
             [['cuit', 'idLocalidad', 'idProvincia', 'numeroCalle', 'numeroTelefono'], 'integer'],
             [['nombre'], 'string', 'max' => 45],
-            [['nombreCalle'], 'string', 'max' => 100],
+            [['nombreApellido','nombreFantasia','nombreCalle'], 'string', 'max' => 100],
             [['latitud','longitud'], 'string', 'max' => 500],
             [['idProvincia'], 'exist', 'skipOnError' => true, 'targetClass' => Provincia::className(), 'targetAttribute' => ['idProvincia' => 'idProvincia']],
             [['idLocalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Localidad::className(), 'targetAttribute' => ['idLocalidad' => 'idLocalidad']],
@@ -57,13 +57,15 @@ class Productor extends \yii\db\ActiveRecord
     {
         return [
             'idProductor' => 'Id Productor',
-            'nombre' => 'Nombre o Razón Social',
+            'nombre' => 'Razón Social',
             'cuit' => 'Cuit',
             'idLocalidad' => 'Localidad',
             'idProvincia' => 'Provincia',
             'nombreCalle' => 'Nombre Calle',
             'numeroCalle' => 'Numero Calle',
             'numeroTelefono' => 'Numero Telefono',
+            'nombreFantasia' => 'Nombre de Fantasía',
+            'nombreApellido' => 'Nombre y Apellido'
         ];
     }
 
