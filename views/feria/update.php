@@ -18,6 +18,8 @@ $this->params['breadcrumbs'][] = 'Modificar';
         'model' => $model,
         'localidadesModel' => $localidadesModel,
         'vista' => $vista,
+        'dataProviderRedes'=>$dataProviderRedes,
+        'idFeria' =>$idFeria,    
     ]) ?>
 
 </div>
