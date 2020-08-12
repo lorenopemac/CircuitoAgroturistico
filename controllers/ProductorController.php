@@ -158,6 +158,9 @@ class ProductorController extends Controller
                         $model->upload($imagenes);
                     }
                 }
+                //Borrado de Produtores vacio
+                $connection = Yii::$app->getDb();
+                $command = $connection->createCommand("DELETE FROM productor WHERE nombre='vacio' AND baja=true")->execute();
                 return $this->redirect(['index']);
             }
         }
