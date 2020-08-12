@@ -103,6 +103,7 @@ class FeriaController extends Controller
         $vista = false;
         $searchModelRedes = new RedSocialSearch();
         $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams);
+
         if (!(Yii::$app->request->isPost)) {
             $model->baja = true;
             $model->nombre = "vacio";
@@ -121,6 +122,7 @@ class FeriaController extends Controller
             $model->imagenes = $imagenes;
             $model->setAttributes(Yii::$app->request->post()['Feria'], false);
             $model->baja = 0;
+            
             if($model->save()){
                 $this->guardarRedesFaltantes($model);
                 if($model->imagenes){
@@ -129,6 +131,9 @@ class FeriaController extends Controller
                         $model->upload($imagenes);
                     }
                 }
+                //BORRADO DE FERIAS TEMPORALES
+                $connection = Yii::$app->getDb();
+                $command = $connection->createCommand("DELETE FROM feria  WHERE nombre='vacio' AND baja=true")->execute();
                 return $this->redirect(['view', 'id' => $model->idFeria]);
             }
         }

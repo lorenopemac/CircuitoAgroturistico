@@ -40,7 +40,7 @@ class FeriaSearch extends Feria
      */
     public function search($params)
     {
-        $query = Feria::find();
+        $query = Feria::find()->where(['<>','nombre', 'vacio']);
 
         // add conditions that should always apply here
 
