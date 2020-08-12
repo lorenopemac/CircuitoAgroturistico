@@ -114,10 +114,11 @@ class FeriaController extends Controller
         }
         if ($model->load(Yii::$app->request->post())) {
             $model->idFeria= $_POST['idFeria'];
-            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
+            $imagenes = UploadedFile::getInstances($model, 'imagenes');    
             if($_POST['idFeria'] > 0){
                 $model=$this->findModel($_POST['idFeria']);
             }
+            $model->imagenes = $imagenes;
             $model->setAttributes(Yii::$app->request->post()['Feria'], false);
             $model->baja = 0;
             if($model->save()){
