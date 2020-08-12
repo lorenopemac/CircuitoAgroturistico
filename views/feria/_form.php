@@ -38,8 +38,7 @@ use yii\grid\GridView;
                     'maxFileCount'=>10,
                     'showRemove' => true,
                     'showCaption'=> false,
-                    'showRemove'=> false,
-                    
+                    'showRemove'=> true,
                     'showUpload'=> false]
                 ]);
             ?>
@@ -53,9 +52,8 @@ use yii\grid\GridView;
                     'maxFileCount'=>10,
                     'showRemove' => true,
                     'showCaption'=> false,
-                    'showRemove' => true,
-                    'showUpload'=> false,
-                    //'deleteUrl' => Url::to(['feria/borrarimagen','key' => ]),
+                    'showRemove'=> true,
+                    'showUpload'=> false
                     ]
                 ]);
             ?>

@@ -23,7 +23,7 @@ use kartik\file\FileInput;
                 'previewFileType' => 'any', 
                 'maxFileCount'=>10,
                 'showCaption'=> false,
-                'showRemove'=> false,
+                'showRemove'=> true,
                 
                 'showUpload'=> false]
             ]);
