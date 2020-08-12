@@ -67,7 +67,7 @@ use kartik\markdown\MarkdownEditor;
                     'maxFileCount'=>10,
                     'showRemove' => true,
                     'showCaption'=> false,
-                    'showRemove'=> false,
+                    'showRemove'=> true,
                     
                     'showUpload'=> false]
                 ]);
