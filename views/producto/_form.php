@@ -52,9 +52,10 @@ use kartik\markdown\MarkdownEditor;
                     'maxFileCount'=>10,
                     'showRemove' => true,
                     'showCaption'=> false,
-                    'showRemove'=> false,
-                    
-                    'showUpload'=> false]
+                    'showRemove' => true,
+                    'showUpload'=> false,
+                    //'deleteUrl' => Url::to('<url>'),
+                    ]
                 ]);
             ?>
         <?php }else{ ?>

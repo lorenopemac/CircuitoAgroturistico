@@ -27,12 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
         
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            
             'nombre',
             ['attribute'=>'Localidad',
              'value'=> 'localidad.nombre'],
-
+             ['label'=>'Activo',
+              'format'=>'raw',
+              'value' => function($model, $key, $index, $column) { return $model->baja == 0 ? 'Si' : 'No';},],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

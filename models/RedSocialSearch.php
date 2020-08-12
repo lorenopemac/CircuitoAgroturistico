@@ -36,12 +36,17 @@ class RedSocialSearch extends RedSocial
      * Creates data provider instance with search query applied
      *
      * @param array $params
+     * @param boolean $validacion : si se quiere una validacion de la baja
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$validacion=null)
     {
-        $query = RedSocial::find();
+        if($validacion){
+            $query = RedSocial::find()->where(['baja'=>0]);
+        }else{
+            $query = RedSocial::find();
+        }
 
         // add conditions that should always apply here
 

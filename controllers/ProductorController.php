@@ -116,9 +116,9 @@ class ProductorController extends Controller
     {
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
-        $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
+        $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
         $searchModelRedes = new RedSocialSearch();
-        $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams);
+        $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams,true);
         
         //Agrego productor para utilizar el id en la carga de redes sociales
         $model = new Productor();
@@ -138,7 +138,6 @@ class ProductorController extends Controller
             $model->numeroCalle = 0;
         }
         //fin carga
-        
         
         if ($model->load(Yii::$app->request->post()) ) {
             $model->idProductor= $_POST['idProductor'];
@@ -371,8 +370,10 @@ class ProductorController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        //$this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->baja = 1;
+        $model->save();
         return $this->redirect(['index']);
     }
 
@@ -418,4 +419,6 @@ class ProductorController extends Controller
             'exito'=> $retorno,
         ];
     }
+
+
 }
