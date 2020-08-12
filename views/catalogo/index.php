@@ -18,27 +18,18 @@ $this->params['breadcrumbs'][] = $this->title;
 <h1> Productos en Venta </h1>
 <div class="categoria-index" >
 <?php \yii\widgets\Pjax::begin();?>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'nombre',
-            'descripcion',
-            [
-                'attribute' => 'imagenes',
-                'format' => 'html',
-                'label' => 'Imagen',
-                'value' => function ($data) {
-                    return Html::a('<img src='.Yii::getAlias('@web'). '/uploads/1.jpg" style= "border-radius:50%;height: 90px; width: 90px;" class="img-circle" alt="User Image"/>' );
-                },
-            ],
-            ['attribute'=>'productor',
-             'value'=> 'productor.nombre'],
+<?php foreach($productos as $producto):?>
+    <div class="col-lg-4">
+        <p></p><h2 style="text-align:center"><?= Html::a(Html::encode($producto->nombre)) ?></h2><p></p>
+        
+        <p style="text-align:center"><?= $producto->imagenes[0] ?>  </p>
 
-            
-        ],
-    ]); ?>
+        <p style="text-align:center" ><?= $producto->descripcion ?></p>
+        
+        <p style="text-align:center"><?= Html::a('Ver más', ['/producto/view','id'=>$producto->idProducto], ['class'=>'btn btn-success']) ?></p>
+    </div>
+<?php endforeach; ?>
 
 <?php Pjax::end(); ?>
 
