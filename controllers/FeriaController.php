@@ -223,6 +223,13 @@ class FeriaController extends Controller
         $vista = true;
         $this->cargarImagenes($model);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
+            if($model->imagenes){
+                if(sizeof($model->imagenes)>0){
+                    $imagenes = $this->guardarImagenes($model);
+                    $model->upload($imagenes);
+                }
+            }
             return $this->redirect(['view', 'id' => $model->idFeria]);
         }
 
