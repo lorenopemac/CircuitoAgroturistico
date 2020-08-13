@@ -177,6 +177,23 @@ class ProductoController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if( $model->save()){
+                $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
+                $indice = 0;
+                $imagenes = array();
+                foreach($model->imagenes as $imagen){
+                    $modelImagen = new Imagen();
+                    $modelImagenProducto = new ImagenProducto();
+                    $modelImagen->extension = $imagen->extension;
+                    $modelImagen->save();
+                    $modelImagenProducto->idImagen = $modelImagen->idImagen;
+                    $modelImagenProducto->idProducto = $model->idProducto;
+                    $modelImagenProducto->save();
+                    $imagenes[$indice]= $modelImagen;
+                    $indice = $indice +1;
+                }
+                if(sizeof($imagenes)>0){
+                    $model->upload($imagenes);
+                }
                 $this->editarCategorias($model,$categoriasProducto);
                 return $this->redirect(['view', 'id' => $model->idProducto]);
             }
