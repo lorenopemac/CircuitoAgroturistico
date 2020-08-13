@@ -326,8 +326,9 @@ class ProductorController extends Controller
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
             if($model->imagenes){
                 if(sizeof($model->imagenes)>0){
-                    $this->guardarImagenes($model);
+                    $imagenes = $this->guardarImagenes($model);
                     $model->upload($imagenes);
+                    $model->imagenes= null;
                 }
             }
             $model->save();
