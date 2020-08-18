@@ -119,7 +119,7 @@ class ProvinciaController extends Controller
     }
 
     /**
-     * Deletes an existing Provincia model.
+     * Deletes an existing Producto model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -127,8 +127,9 @@ class ProvinciaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        $model->baja = 1;
+        $model->save();
         return $this->redirect(['index']);
     }
 
@@ -146,5 +147,13 @@ class ProvinciaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionActivar($id)
+    {
+        $model = $this->findModel($id);
+        $model->baja = 0;
+        $model->save();
+        return $this->redirect(['index']);
     }
 }

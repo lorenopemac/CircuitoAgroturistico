@@ -133,6 +133,14 @@ class CategoriaController extends Controller
 
         return $this->redirect(['index']);
     }
+    
+    public function actionActivar($id)
+    {
+        $model = $this->findModel($id);
+        $model->baja = 0;
+        $model->save();
+        return $this->redirect(['index']);
+    }
 
     /**
      * Finds the Categoria model based on its primary key value.
