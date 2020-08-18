@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = 'Modificar';
         'vista' => $vista,
         'dataProviderRedes'=>$dataProviderRedes,
         'idFeria' =>$idFeria,    
+        'initialPreviewConfig' => $initialPreviewConfig, 
     ]) ?>
 
 </div>

@@ -166,7 +166,7 @@ class ProductoController extends Controller
         $categoriasModel = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idCategoria', 'nombre');
         $categoriasProducto = \yii\helpers\ArrayHelper::map(\app\models\CategoriaProducto::find()->where(['idProducto'=>$id])->all(), 'idCategoria_producto', 'idCategoria');
         $vista =true;
-        $this->cargarImagenes($model);
+        $initialPreviewConfig = $this->cargarImagenes($model);
         $categorias = array();
         $indice=0;
         foreach($categoriasProducto as $categoriaProd){
@@ -203,6 +203,7 @@ class ProductoController extends Controller
             'model' => $model,
             'categoriasModel' => $categoriasModel,
             'vista'=>$vista,
+            'initialPreviewConfig' => $initialPreviewConfig,                
         ]);
     }
 
@@ -213,6 +214,7 @@ class ProductoController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     private function cargarImagenes($model){
+        $initialPreview =  array();
         $imagenProducto = ImagenProducto::find()
                             ->where(['idProducto'=>$model->idProducto])
                             ->all();
@@ -222,7 +224,10 @@ class ProductoController extends Controller
                     ->where(['idImagen'=>$imgProducto->idImagen])
                     ->one();
             array_push($model->imagenes,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px'])) ;          
+            $elemento=array('caption' => $imagen->idImagen.".".$imagen->extension, 'size' => '873727', 'key'=>$imagen->idImagen );
+            array_push($initialPreview,$elemento);
         }
+        return $initialPreview;
     }
 
     /**
@@ -294,4 +299,17 @@ class ProductoController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionEliminarimagen(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+        
+        $imagenProducto = ImagenProducto::find()
+                            ->where(['idImagen'=>$params['key']])
+                            ->one();
+        $imagenProducto->delete();
+        
+        return true;
+    }
 }
+

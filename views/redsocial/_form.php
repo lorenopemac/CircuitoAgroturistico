@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\RedSocial */
@@ -20,10 +21,12 @@ use kartik\file\FileInput;
             'options' => ['multiple' => true],
             'pluginOptions' => [
                 'initialPreview'=>[$model->imagen],
+                'initialPreviewConfig' => $initialPreviewConfig,
                 'previewFileType' => 'any', 
                 'maxFileCount'=>10,
                 'showCaption'=> false,
                 'showRemove'=> true,
+                'deleteUrl' => Url::to('eliminarimagen'),
                 
                 'showUpload'=> false]
             ]);

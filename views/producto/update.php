@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = 'Modificar';
         'productoresModel' => $productoresModel,
         'categoriasModel' => $categoriasModel,
         'vista'=>$vista,
+        'initialPreviewConfig' => $initialPreviewConfig,                
     ]) ?>
 
 </div>

@@ -21,7 +21,8 @@ $this->params['breadcrumbs'][] = 'Modificar';
         'feriasModel' => $feriasModel,
         'dataProviderRedes'=>$dataProviderRedes,
         'vista'=>$vista,
-        'idProductor' =>$idProductor,                      
+        'idProductor' =>$idProductor,        
+        'initialPreviewConfig' => $initialPreviewConfig,                    
     ]) ?>
 
 </div>

@@ -307,7 +307,7 @@ class ProductorController extends Controller
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
         $vista =true;
-        $this->cargarImagenes($model);
+        $initialPreviewConfig = $this->cargarImagenes($model);
         
         //$model->imagenes = $model->getDisplayImage();
         $feriasProductor = \yii\helpers\ArrayHelper::map(\app\models\FeriaProductor::find()->where(['idProductor'=>$id])->all(), 'idFeria_productor', 'idFeria');
@@ -342,7 +342,8 @@ class ProductorController extends Controller
             'feriasModel' => $feriasModel,
             'dataProviderRedes'=>$providerRedes,
             'vista'=>$vista,
-            'idProductor' =>$model->idProductor,                      
+            'idProductor' =>$model->idProductor,      
+            'initialPreviewConfig' => $initialPreviewConfig,                
         ]);
     }
 
@@ -353,6 +354,7 @@ class ProductorController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     private function cargarImagenes($model){
+        $initialPreview =  array();
         $imagenProductor = ImagenProductor::find()
                             ->where(['idProductor'=>$model->idProductor])
                             ->all();
@@ -362,7 +364,12 @@ class ProductorController extends Controller
                     ->where(['idImagen'=>$imgProductor->idImagen])
                     ->one();
             array_push($model->imagenes,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px'])) ;          
+            $elemento=array('caption' => $imagen->idImagen.".".$imagen->extension, 'size' => '873727', 'key'=>$imagen->idImagen );
+            array_push($initialPreview,$elemento);
         }
+        //print_r($initialPreview);
+        //exit;
+        return $initialPreview;
     }
 
     /**
@@ -424,5 +431,16 @@ class ProductorController extends Controller
         ];
     }
 
+    public function actionEliminarimagen(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+        
+        $imagenProductor = ImagenProductor::find()
+                            ->where(['idImagen'=>$params['key']])
+                            ->one();
+        $imagenProductor->delete();
+        
+        return true;
+    }
 
 }

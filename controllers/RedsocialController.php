@@ -126,11 +126,16 @@ class RedsocialController extends Controller
      */
     public function actionUpdate($id)
     {
+        $initialPreview =  array();
         $model = $this->findModel($id);
         $imagen = Imagen::find()
                     ->where(['idImagen'=>$model->idImagen])
                     ->one();
-        $model->imagen = Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px']);
+        if($imagen){
+            $model->imagen = Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px']);
+            $elemento=array('caption' => $imagen->idImagen.".".$imagen->extension, 'size' => '873727', 'key'=>$imagen->idImagen );
+            array_push($initialPreview,$elemento);
+        }
         if ($model->load(Yii::$app->request->post())) {
 
             $model->imagen = UploadedFile::getInstances($model, 'imagen');    
@@ -154,6 +159,7 @@ class RedsocialController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'initialPreviewConfig' => $initialPreview,        
         ]);
     }
 
@@ -187,5 +193,17 @@ class RedsocialController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionEliminarimagen(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+        
+        $redSocial = RedSocial::find()
+                            ->where(['idImagen'=>$params['key']])
+                            ->one();
+        $redSocial->idImagen = null;
+        $redSocial->save();
+        return true;
     }
 }

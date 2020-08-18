@@ -86,7 +86,7 @@ div{
     <div class="col-md-12 col-xs-12">     
         <?php if(!$vista){ ?>
             <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
-                'options' => ['multiple' => true],
+                'options' => ['multiple' => true, 'class' => 'fileInputClass'],
                 'pluginOptions' => [
                     'previewFileType' => 'any', 
                     'maxFileCount'=>10,
@@ -95,21 +95,27 @@ div{
                     'showRemove' => true,
                     
                     'showUpload'=> false,
-                    //'deleteUrl' => Url::to('<url>'),
+                    'deleteUrl' => Url::to(''),
                     ]
                 ]);
             ?>
         <?php }else{ ?>
             <?= $form->field($model, 'imagenes[]')->widget(FileInput::classname(), [
-                'options' => ['multiple' => true],
+                'options' => ['multiple' => true, 'class' => 'fileInputClass'],
                 'pluginOptions' => [
                     'initialPreview'=>$model->imagenes,
+                    'initialPreviewConfig' => $initialPreviewConfig,
+                   /* 'initialPreviewConfig' => [
+                        ['caption' => 'Moon.jpg', 'size' => '873727', 'key'=>1 ],
+                        ['caption' => 'Earth.jpg', 'size' => '1287883', 'key'=>2 ],
+                        ['caption' => 'Earth.jpg', 'size' => '1287883', 'key'=>3 ],
+                    ],*/
                     'previewFileType' => 'any', 
                     'maxFileCount'=>10,
                     'showRemove' => true,
                     'showCaption'=> false,
                     'showRemove'=> false,
-                    
+                    'deleteUrl' => Url::to('eliminarimagen'),
                     'showUpload'=> false]
                 ]);
             ?>
@@ -210,6 +216,20 @@ $('.renombrar').on('blur', function(e){
         }
     }
 });
+
+const fileInput = $('.file-input');
+
+fileInput.on('filebeforedelete', handleRemovedFile);
+
+/**
+ * Cuando se elimina el archivo dentro del input
+ * se borra la tabla y se esconde el boton
+*/
+function handleRemovedFile(event, id, index)
+{
+    
+}
+
 ");
 ?>
 
