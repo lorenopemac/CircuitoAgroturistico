@@ -204,6 +204,11 @@ class RedsocialController extends Controller
                             ->one();
         $redSocial->idImagen = null;
         $redSocial->save();
+        $imagen = Imagen::find()
+                ->where(['idImagen'=>$params['key']])
+                ->one();
+        unlink(Yii::getAlias('@app')."/web/uploads/".$imagen->idImagen.".".$imagen->extension);
+        $imagen->delete();
         return true;
     }
 }

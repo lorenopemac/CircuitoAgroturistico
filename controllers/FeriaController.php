@@ -332,7 +332,11 @@ class FeriaController extends Controller
                             ->where(['idImagen'=>$params['key']])
                             ->one();
         $imagenProductor->delete();
-        
+        $imagen = Imagen::find()
+                ->where(['idImagen'=>$params['key']])
+                ->one();
+        unlink(Yii::getAlias('@app')."/web/uploads/".$imagen->idImagen.".".$imagen->extension);
+        $imagen->delete();
         return true;
     }
 }
