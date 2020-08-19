@@ -317,4 +317,12 @@ class FeriaController extends Controller
             'exito'=> $retorno,
         ];
     }
+
+    public function actionActivar($id)
+    {
+        $model = $this->findModel($id);
+        $model->baja = 0;
+        $model->save();
+        return $this->redirect(['index']);
+    }
 }

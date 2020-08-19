@@ -173,6 +173,14 @@ class RedsocialController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionActivar($id)
+    {
+        $model = $this->findModel($id);
+        $model->baja = 0;
+        $model->save();
+        return $this->redirect(['index']);
+    }
+
     /**
      * Finds the RedSocial model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
