@@ -4,6 +4,9 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Producto;
+use app\models\Productor;
+use app\models\RedSocialSearch;
+use app\models\RedsocialProductor;
 use app\models\ProductoSearch;
 use app\models\Categoria;
 use yii\web\Controller;
@@ -17,6 +20,7 @@ use app\models\ImagenProducto;
 use app\common\components\AccessRule;
 use yii\filters\AccessControl;
 use yii\helpers\Html;
+use yii\data\ArrayDataProvider;
 /**
  * ProductoController implements the CRUD actions for Producto model.
  */
@@ -87,8 +91,28 @@ class ProductoController extends Controller
      */
     public function actionView($id)
     {
+        $model=$this->findModel($id);
+        $data = $this->cargarImagenes($model);
+
+        $modelProductor = Productor::find()->where(['idProductor'=>$model->idProductor])->one();
+        $redProductor = RedsocialProductor::find()
+                        ->joinWith('redSocial')
+                        ->where(['idProductor'=>$modelProductor->idProductor,'baja'=>0])
+                        ->all();
+        $providerProductor = new ArrayDataProvider([
+            'allModels' => $redProductor,
+            'pagination' =>[
+                'pageSize'=>10,
+            ],
+            'sort'=>[
+                'attributes' => [''],
+            ],
+        ]);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'modelProductor'=> $modelProductor,
+            'providerProductor' => $providerProductor,
         ]);
     }
 
@@ -223,7 +247,7 @@ class ProductoController extends Controller
             $imagen = Imagen::find()
                     ->where(['idImagen'=>$imgProducto->idImagen])
                     ->one();
-            array_push($model->imagenes,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px'])) ;          
+            array_push($model->imagenes,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '170px'])) ;          
             $elemento=array('caption' => $imagen->idImagen.".".$imagen->extension, 'size' => '873727', 'key'=>$imagen->idImagen );
             array_push($initialPreview,$elemento);
         }
