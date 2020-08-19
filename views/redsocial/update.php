@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = 'Modificar';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'initialPreviewConfig' => $initialPreviewConfig,      
     ]) ?>
 
 </div>

@@ -221,7 +221,7 @@ class FeriaController extends Controller
         ]);
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $vista = true;
-        $this->cargarImagenes($model);
+        $initialPreviewConfig = $this->cargarImagenes($model);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
             if($model->imagenes){
@@ -239,6 +239,7 @@ class FeriaController extends Controller
             'vista' => $vista,
             'dataProviderRedes'=>$providerRedes,
             'idFeria' =>$model->idFeria,            
+            'initialPreviewConfig' => $initialPreviewConfig,    
         ]);
     }
 
@@ -248,6 +249,7 @@ class FeriaController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     private function cargarImagenes($model){
+        $initialPreview =  array();
         $imagenesFeria= ImagenFeria::find()
                             ->where(['idFeria'=>$model->idFeria])
                             ->all();
@@ -257,7 +259,10 @@ class FeriaController extends Controller
                     ->where(['idImagen'=>$imgFeria->idImagen])
                     ->one();
             array_push($model->imagenes,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px'])) ;          
+            $elemento=array('caption' => $imagen->idImagen.".".$imagen->extension, 'size' => '873727', 'key'=>$imagen->idImagen );
+            array_push($initialPreview,$elemento);
         }
+        return $initialPreview;
     }
 
     /**
@@ -316,6 +321,23 @@ class FeriaController extends Controller
         return[
             'exito'=> $retorno,
         ];
+    }
+
+
+    public function actionEliminarimagen(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+        
+        $imagenProductor = ImagenFeria::find()
+                            ->where(['idImagen'=>$params['key']])
+                            ->one();
+        $imagenProductor->delete();
+        $imagen = Imagen::find()
+                ->where(['idImagen'=>$params['key']])
+                ->one();
+        unlink(Yii::getAlias('@app')."/web/uploads/".$imagen->idImagen.".".$imagen->extension);
+        $imagen->delete();
+        return true;
     }
 
     public function actionActivar($id)

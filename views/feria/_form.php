@@ -48,12 +48,14 @@ use yii\grid\GridView;
       'options' => ['multiple' => true],
                 'pluginOptions' => [
                     'initialPreview'=>$model->imagenes,
+                    'initialPreviewConfig' => $initialPreviewConfig,
                     'previewFileType' => 'any', 
                     'maxFileCount'=>10,
                     'showRemove' => true,
                     'showCaption'=> false,
                     'showRemove'=> true,
-                    'showUpload'=> false
+                    'showUpload'=> false,
+                    'deleteUrl' => Url::to('eliminarimagen'),
                     ]
                 ]);
             ?>
@@ -155,6 +157,11 @@ $('.renombrar').on('blur', function(e){
         }
     }
 });
+
+$('.file-preview').on('click', function() {
+    console.log('File deletion was successful! ' );
+});    
+
 ");
 ?>
 

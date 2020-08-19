@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
 use kartik\markdown\MarkdownEditor;
-
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model app\models\Producto */
 /* @var $form yii\widgets\ActiveForm */
@@ -63,11 +63,13 @@ use kartik\markdown\MarkdownEditor;
                 'options' => ['multiple' => true],
                 'pluginOptions' => [
                     'initialPreview'=>$model->imagenes,
+                    'initialPreviewConfig' => $initialPreviewConfig,
                     'previewFileType' => 'any', 
                     'maxFileCount'=>10,
                     'showRemove' => true,
                     'showCaption'=> false,
                     'showRemove'=> true,
+                    'deleteUrl' => Url::to('eliminarimagen'),
                     
                     'showUpload'=> false]
                 ]);
