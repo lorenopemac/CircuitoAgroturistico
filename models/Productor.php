@@ -38,7 +38,7 @@ class Productor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre',  'idLocalidad', 'idProvincia', 'numeroTelefono'], 'required'],
+            [[  'nombreFantasia','idLocalidad', 'idProvincia', 'numeroTelefono'], 'required'],
             [['cuit', 'idLocalidad', 'idProvincia', 'numeroCalle', 'numeroTelefono'], 'integer'],
             [['nombre'], 'string', 'max' => 45],
             [['nombreApellido','nombreFantasia','nombreCalle'], 'string', 'max' => 100],

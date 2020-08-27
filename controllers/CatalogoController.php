@@ -91,6 +91,13 @@ class CatalogoController extends Controller
     }
 
 
+    public function actionMapa(){
+
+
+        return $this->render('mapa', [
+        ]);
+    }
+
 
     /**
      * Displays a single Categoria model.

@@ -31,16 +31,16 @@ div{
 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
     
     <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
-    </div>
-    <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'cuit')->textInput() ?>
+        <?= $form->field($model, 'nombreApellido')->textInput() ?>
     </div>
     <div class="col-md-6 col-xs-12">     
         <?= $form->field($model, 'nombreFantasia')->textInput() ?>
     </div>
     <div class="col-md-6 col-xs-12">     
-        <?= $form->field($model, 'nombreApellido')->textInput() ?>
+        <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
+    </div>
+    <div class="col-md-6 col-xs-12">     
+        <?= $form->field($model, 'cuit')->textInput() ?>
     </div>
     <div class="col-md-6 col-xs-12">     
         <?=  $form->field($model, 'idProvincia')->widget(Select2::classname(), [
