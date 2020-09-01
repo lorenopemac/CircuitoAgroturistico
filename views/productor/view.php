@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </div>
-    <div class="col-md-12 col-xs-12">  
+    <div class="col-md-6 col-xs-12">  
         <?=  GridView::widget([
             'dataProvider' => $provider,
             'columns' => [
@@ -41,14 +41,44 @@ $this->params['breadcrumbs'][] = $this->title;
         ]); ?>
     </div>
 
-    <p>
-        <?= Html::a('Editar', ['update', 'id' => $model->idProductor], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->idProductor], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+
+    <div class="col-md-6 col-xs-12">  
+        <h4> Ubicación   <h4>    
+        <div id="googleMap" style="width:100%;height:200px;"></div>
+
+    </div>
+
+    <div class="col-md-12 col-xs-12">              
+        <p>
+            <?= Html::a('Editar', ['update', 'id' => $model->idProductor], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Eliminar', ['delete', 'id' => $model->idProductor], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                    'confirm' => 'Are you sure you want to delete this item?',
+                    'method' => 'post',
+                ],
+            ]) ?>
+        </p>
+    </div>
 </div>
+
+<script>
+    var latitud = parseFloat(<?php echo json_encode($model->latitud) ?>);
+    var longitud = parseFloat(<?php echo json_encode($model->longitud) ?>);
+    function myMap() {
+        const myLatLng = { lat: latitud, lng: longitud };
+        var mapProp= {
+            center:new google.maps.LatLng(-38.95146614,-68.05905819),
+            zoom:15,
+        };
+ 
+    var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+ 
+    new google.maps.Marker({
+        position: myLatLng,
+        map,
+        title: "Productor"
+    });
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbryvr-215IpAVrBJ50KY6DToPUplMcmM&callback=myMap"></script>
