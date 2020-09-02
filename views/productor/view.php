@@ -67,8 +67,17 @@ $this->params['breadcrumbs'][] = $this->title;
     var longitud = parseFloat(<?php echo json_encode($model->longitud) ?>);
     function myMap() {
         const myLatLng = { lat: latitud, lng: longitud };
+        lat = 0;
+        long = 0;
+        if(!isNaN(latitud)){
+            lat = latitud;
+            long = longitud ;
+        }else{
+            lat = -38.95146614;
+            long = -68.05905819;
+        }
         var mapProp= {
-            center:new google.maps.LatLng(-38.95146614,-68.05905819),
+            center:new google.maps.LatLng(lat,long),
             zoom:15,
         };
  
