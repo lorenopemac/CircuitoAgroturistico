@@ -165,9 +165,25 @@ class CatalogoController extends Controller
                     ->joinWith('categorias')
                     ->where(['baja'=>0,'idCategoria'=>$params['idCategoria']]) 
                     ->all();
-
+        $imagenes = array();//ARRAY CON NOMBRES DE LAS IMAGENES DE SALIDA
+        foreach($productos as $producto){
+            
+            $productorImagen = ImagenProducto::find()
+                                ->where(['idProducto'=>$producto->idProducto])
+                                ->one();
+            if($productorImagen){
+                $imagen = Imagen::find()
+                            ->where(['idImagen'=>$productorImagen->idImagen])
+                            ->one();    
+                array_push($imagenes,$imagen->idImagen.".".$imagen->extension);
+            }else{
+                array_push($imagenes,"default.png");
+            }
+        }
+        
         return[
             'productos' => $productos,
+            'imagenes' => $imagenes,
         ];
     }
    
