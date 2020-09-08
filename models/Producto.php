@@ -2,6 +2,7 @@
 
 namespace app\models;
 use app\models\Productor;
+use app\models\CategoriaProducto;
 use Yii;
 use yii\helpers\Html;
 
@@ -87,5 +88,14 @@ class Producto extends \yii\db\ActiveRecord
     public function getProductor()
     {
         return $this->hasOne(Productor::className(), ['idProductor' => 'idProductor']);
+    }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategorias()
+    {
+        return $this->hasMany(CategoriaProducto::className(), ['idProducto' => 'idProducto']);
     }
 }
