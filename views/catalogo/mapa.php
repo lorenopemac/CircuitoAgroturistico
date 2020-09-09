@@ -10,9 +10,9 @@
 
 </style>
 
-<h1>Mapa de Google</h1>
+<h1>Productores</h1>
 
-<div id="googleMap" style="width:50%;height:200px;"></div>
+<div id="googleMap" style="width:80%;height:250px;"></div>
 
 <script>
 
