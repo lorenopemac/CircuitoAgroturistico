@@ -20,7 +20,6 @@ use yii\web\NotFoundHttpException;
 <div class="categoria-index" >
 <?php \yii\widgets\Pjax::begin();?>
 
-
 <div class="mb-2" fxlayout="row" fxlayout.lt-md="column" fxlayoutalign="space-between start" fxlayoutalign.lt-md="start center" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: flex-start space-between; align-items: flex-start;">
     <div fxlayout="row wrap" fxlayoutalign="center strech" class="ng-star-inserted" style="flex-flow: row wrap; box-sizing: border-box; display: flex; place-content: stretch center; align-items: stretch;">
         <div  class="col-lg-3 jumbotron" fxflex.gt-sm="20"  id="filtros" style="flex: 1 1 100%; box-sizing: border-box; max-width: 20%; background: #d8dde6 ;"> 
@@ -65,6 +64,7 @@ $this->registerJs(
 );
 
 
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 $urlFiltrarCategoria = Url::to(['catalogo/filtrocategoria']);
 $urlProducto = Url::to(['producto/view']);
 $validar = false;
@@ -84,7 +84,7 @@ $('.categoria').click(function(e){
                 var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=col-lg-4 ><p></p><h4 style=text-align:center>'+ \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=file-preview-image src=/uploads/'+ res.imagenes[indice] \n
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=file-preview-image src='$url'/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p style=text-align:center> <button type= button1 button class=btn btn-lg id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
                 
