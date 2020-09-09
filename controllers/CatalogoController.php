@@ -70,7 +70,7 @@ class CatalogoController extends Controller
 
         $categorias = Categoria::find()
         ->where(['baja'=>0]) 
-        ->orderBy(['nombre'=>SORT_DESC])
+        ->orderBy(['nombre'=>SORT_ASC])
         ->all();
         //Productos
         foreach($productos as $producto){
