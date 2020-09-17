@@ -45,11 +45,18 @@ class ProductoController extends Controller
                         // Allow users, moderators and admins to create
                         'roles' => ['@'],
 
-                    ], [
+                    ], 
+                    [
                         'actions' => ['update'],
                         'allow' => true,
                         // Allow users, moderators and admins to create
                         'roles' => [1],
+                    ],
+                    [
+                        'actions' => ['view'],
+                        'allow' => true,
+                        // Allow users, moderators and admins to create
+                        'roles' => ['?'],
                     ],
                 ],
             ],
@@ -91,6 +98,7 @@ class ProductoController extends Controller
      */
     public function actionView($id)
     {
+        $this->layout = 'catalogo';
         $model=$this->findModel($id);
         $data = $this->cargarImagenes($model);
 

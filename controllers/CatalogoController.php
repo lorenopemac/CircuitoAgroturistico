@@ -63,11 +63,16 @@ class CatalogoController extends Controller
      */
     public function actionIndex()
     {
-        //$searchModel = new ProductoSearch();
-        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $this->layout = 'catalogo';
         $productos = Producto::find()
                     ->where(['baja'=>0]) 
                     ->all();
+
+        $categorias = Categoria::find()
+        ->where(['baja'=>0]) 
+        ->orderBy(['nombre'=>SORT_ASC])
+        ->all();
+        //Productos
         foreach($productos as $producto){
             $productorImagen = ImagenProducto::find()
                                 ->where(['idProducto'=>$producto->idProducto])
@@ -80,12 +85,13 @@ class CatalogoController extends Controller
                 $producto->imagenes[0]= Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px']);
             }else{
                 $producto->imagenes[0]= Html::img(Yii::getAlias('@web')."/uploads/default.png",['class'=>'file-preview-image','width' => '200px','height' => '210px']);    
-            }
-            
+            }   
         }
+
         return $this->render('index', [
             //'searchModel' => $searchModel, 
             //'dataProvider' => $dataProvider,
+            'categorias' => $categorias,
             'productos' => $productos,
         ]);
     }
@@ -150,6 +156,36 @@ class CatalogoController extends Controller
         ]);
     }
 
+
+    public function actionFiltrocategoria(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+        
+        $productos = Producto::find()
+                    ->joinWith('categorias')
+                    ->where(['baja'=>0,'idCategoria'=>$params['idCategoria']]) 
+                    ->all();
+        $imagenes = array();//ARRAY CON NOMBRES DE LAS IMAGENES DE SALIDA
+        foreach($productos as $producto){
+            
+            $productorImagen = ImagenProducto::find()
+                                ->where(['idProducto'=>$producto->idProducto])
+                                ->one();
+            if($productorImagen){
+                $imagen = Imagen::find()
+                            ->where(['idImagen'=>$productorImagen->idImagen])
+                            ->one();    
+                array_push($imagenes,$imagen->idImagen.".".$imagen->extension);
+            }else{
+                array_push($imagenes,"default.png");
+            }
+        }
+        
+        return[
+            'productos' => $productos,
+            'imagenes' => $imagenes,
+        ];
+    }
    
 
     

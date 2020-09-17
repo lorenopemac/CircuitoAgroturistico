@@ -6,9 +6,6 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Producto */
 
-
-$this->params['breadcrumbs'][] = ['label' => 'Productos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="producto-view">
@@ -97,6 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="col-md-12 col-xs-12">   
         <p>
+                            
             <?= Html::a('Modificar', ['update', 'id' => $model->idProducto], ['class' => 'btn btn-primary']) ?>
             <?= Html::a('Eliminar', ['delete', 'id' => $model->idProducto], [
                 'class' => 'btn btn-danger',
