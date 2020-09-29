@@ -86,7 +86,7 @@ $('.categoria').click(function(e){
                 var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=col-lg-4 ><p></p><h4 style=text-align:center>'+ \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=file-preview-image src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=file-preview-image src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p style=text-align:center> <button type= button1 button class=btn btn-lg id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
                 
