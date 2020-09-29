@@ -51,19 +51,19 @@ $this->params['breadcrumbs'][] = $this->title;
                   ],
                 'urlCreator' => function ($action, $model, $key, $index) {
                                 if ($action === 'activar') {
-                                    $url =Url::to(['redSocial/activar?id='.$model->idRed_social]);
+                                    $url =Url::to(['redsocial/activar?id='.$model->idRed_social]);
                                     return $url;
                                 }else{
                                     if ($action === 'update') {
-                                        $url =Url::to(['redSocial/update?id='.$model->idRed_social]);
+                                        $url =Url::to(['redsocial/update?id='.$model->idRed_social]);
                                         return $url;
                                     }
                                     if ($action === 'delete') {
-                                        $url =Url::to(['redSocial/delete?id='.$model->idRed_social]);
+                                        $url =Url::to(['redsocial/delete?id='.$model->idRed_social]);
                                         return $url;
                                     }
                                     if ($action === 'view') {
-                                        $url =Url::to(['redSocial/view?id='.$model->idRed_social]);
+                                        $url =Url::to(['redsocial/view?id='.$model->idRed_social]);
                                         return $url;
                                     }
                                 }
