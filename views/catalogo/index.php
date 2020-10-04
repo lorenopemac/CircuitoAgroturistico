@@ -24,10 +24,16 @@ use yii\web\NotFoundHttpException;
     <div fxlayout="row wrap" fxlayoutalign="center strech" class="ng-star-inserted" style="flex-flow: row wrap; box-sizing: border-box; display: flex; place-content: stretch ; align-items: stretch;">
         <div  class="col-lg-3 jumbotron" fxflex.gt-sm="20"  id="filtros" style="flex: 1 1 100%; box-sizing: border-box; max-width: 20%; background: #d8dde6 ;"> 
             <div style=" width: 100%;">
-                <div  class="titulo"><h3>Categorías</h3></div>
+                <div  class="titulo"><h3>Categoría</h3></div>
                 <div class="categorias">
                     <?php foreach($categorias as $categoria):?>        
                         <label><input type="radio" class="categoria" name="categoria" id=<?= $categoria->idCategoria ?>> <?= $categoria->nombre ?> </label>
+                    <?php endforeach; ?>
+                </div>
+                <div  class="titulo"><h3>Feria</h3></div>
+                <div class="ferias">
+                    <?php foreach($ferias as $feria):?>        
+                        <label><input type="radio" class="feria" name="feria" id=<?= $feria->idFeria ?>> <?= $feria->nombre ?> </label>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -96,6 +102,10 @@ $('.categoria').click(function(e){
         })
     }
 });
+
+
+
+
 
 
 $( '.productos' ).on('click','.btn', function(){

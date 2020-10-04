@@ -76,6 +76,11 @@ class CatalogoController extends Controller
         ->where(['baja'=>0]) 
         ->orderBy(['nombre'=>SORT_ASC])
         ->all();
+
+        $ferias = Feria::find()
+        ->where(['baja'=>0]) 
+        ->orderBy(['nombre'=>SORT_ASC])
+        ->all();
         //Productos
         foreach($productos as $producto){
             $productorImagen = ImagenProducto::find()
@@ -97,6 +102,7 @@ class CatalogoController extends Controller
             //'dataProvider' => $dataProvider,
             'categorias' => $categorias,
             'productos' => $productos,
+            'ferias' => $ferias,
         ]);
     }
 
@@ -207,6 +213,12 @@ class CatalogoController extends Controller
     }
 
 
+    /**
+     * Updates an existing Categoria model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return productores filtrados
+     */
     public function actionFiltrocategoria(){
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $params= Yii::$app->request->post();
@@ -235,6 +247,27 @@ class CatalogoController extends Controller
             'productos' => $productos,
             'imagenes' => $imagenes,
         ];
+    }
+
+    public function actionFiltroferia(){
+        /*\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+        $productores = Productor::find()
+                    ->joinWith('feria')
+                    ->where(['baja'=>0,'idFeria'=>$params['idFeria']]) 
+                    ->all();
+        $arrayIds = array();
+        foreach($productores as $productor){
+            array_push($arrayIds,$productor->idProductor);
+        }
+
+        $productos = Producto::find()
+                    ->joinWith('productor')
+                    ->where(['baja'=>0,'idProductor'=>$arrayIds]) 
+                    ->all();
+        
+*/
+
     }
    
 
