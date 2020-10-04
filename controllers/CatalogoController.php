@@ -15,6 +15,10 @@ use yii\filters\AccessControl;
 use yii\helpers\Html;
 use app\models\ImagenProducto;
 use app\models\Imagen;
+use app\models\Feria;
+use app\models\Productor;
+
+
 /**
  * CategoriaController implements the CRUD actions for Categoria model.
  */
@@ -96,14 +100,60 @@ class CatalogoController extends Controller
         ]);
     }
 
-
-    public function actionMapa(){
-
-
-        return $this->render('mapa', [
+    /**
+     * Mapa con todas las ferias.
+     * @return mixed
+     */
+    public function actionMapaferias(){
+        $this->layout = 'catalogo';
+        $ferias = Feria::find()
+                    ->where(['baja'=>0]) 
+                    ->all();
+        $arrayPrincipal = array();
+        $arrayIteracion = array();
+        $indice = 0;
+        //ARMADO DE ARREGLO CON NOMBRE, LATITUD, LONGITUD DE FERIA
+        foreach($ferias as $feria){
+            if($feria->longitud && $feria->latitud){
+                $arrayIteracion[0] = $feria->nombre;
+                $arrayIteracion[1] = $feria->latitud;
+                $arrayIteracion[2] = $feria->longitud;
+                $arrayPrincipal[$indice] = $arrayIteracion;
+                $indice= $indice + 1;
+            }
+        }
+        return $this->render('mapaFerias', [
+            'ferias' => $arrayPrincipal,
         ]);
     }
 
+
+    /**
+     * Mapa con todos los productores.
+     * @return mixed
+     */
+    public function actionMapaproductores(){
+        $this->layout = 'catalogo';
+        $productores = Productor::find()
+                    ->where(['baja'=>0]) 
+                    ->all();
+        $arrayPrincipal = array();
+        $arrayIteracion = array();
+        $indice = 0;
+        //ARMADO DE ARREGLO CON NOMBRE, LATITUD, LONGITUD DE PRODUCTOR
+        foreach($productores as $productor){
+            if($productor->longitud && $productor->latitud){
+                $arrayIteracion[0] = $productor->nombre;
+                $arrayIteracion[1] = $productor->latitud;
+                $arrayIteracion[2] = $productor->longitud;
+                $arrayPrincipal[$indice] = $arrayIteracion;
+                $indice= $indice + 1;
+            }
+        }
+        return $this->render('mapaProductores', [
+            'productores' => $arrayPrincipal,
+        ]);
+    }
 
     /**
      * Displays a single Categoria model.

@@ -20,8 +20,8 @@ use yii\web\NotFoundHttpException;
 <div class="categoria-index" >
 <?php \yii\widgets\Pjax::begin();?>
 
-<div class="mb-2" fxlayout="row" fxlayout.lt-md="column" fxlayoutalign="space-between start" fxlayoutalign.lt-md="start center" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: flex-start space-between; align-items: flex-start;">
-    <div fxlayout="row wrap" fxlayoutalign="center strech" class="ng-star-inserted" style="flex-flow: row wrap; box-sizing: border-box; display: flex; place-content: stretch center; align-items: stretch;">
+<div class="mb-2" fxlayout="row" fxlayout.lt-md="column" fxlayoutalign="space-between start" fxlayoutalign.lt-md="start" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: flex-start space-between; align-items: flex-start;">
+    <div fxlayout="row wrap" fxlayoutalign="center strech" class="ng-star-inserted" style="flex-flow: row wrap; box-sizing: border-box; display: flex; place-content: stretch ; align-items: stretch;">
         <div  class="col-lg-3 jumbotron" fxflex.gt-sm="20"  id="filtros" style="flex: 1 1 100%; box-sizing: border-box; max-width: 20%; background: #d8dde6 ;"> 
             <div style=" width: 100%;">
                 <div  class="titulo"><h3>Categorías</h3></div>
@@ -33,6 +33,7 @@ use yii\web\NotFoundHttpException;
             </div>
         </div>
         <div fxlayout="row wrap" fxlayoutalign="center strech" class="col-lg-9 jumbotron" style="flex-flow: row wrap; box-sizing: border-box; display: flex; place-content: stretch center; align-items: stretch; ">
+            
             <div class="productos">
                 <?php foreach($productos as $producto):?>
                     <div class="col-lg-4 producto">
@@ -42,7 +43,7 @@ use yii\web\NotFoundHttpException;
                         <!--
                         <p style="text-align:center" ><?= $producto->descripcion ?></p> !-->
                         
-                        <p style="text-align:center"><button type="button" class="btn" id= <?=$producto->idProducto?> >Ver más</button></p>
+                        <p style="text-align:center"><button type="button" class="btn btn-success" id= <?=$producto->idProducto?> >Ver más</button></p>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -86,8 +87,8 @@ $('.categoria').click(function(e){
                 var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=col-lg-4 ><p></p><h4 style=text-align:center>'+ \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=file-preview-image src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
-                +' width=200px height=210px > </p><p style=text-align:center> <button type= button1 button class=btn btn-lg id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
+                +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
                 
 
