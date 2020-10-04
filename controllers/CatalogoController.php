@@ -249,9 +249,14 @@ class CatalogoController extends Controller
         ];
     }
 
+    /**
+     * @return productores filtrados
+     */
     public function actionFiltroferia(){
-        /*\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $params= Yii::$app->request->post();
+
+        //BUSCO PRODUCTORES QUE PARTICIPEN EN LA FERIA DE PARAMETRO
         $productores = Productor::find()
                     ->joinWith('feria')
                     ->where(['baja'=>0,'idFeria'=>$params['idFeria']]) 
@@ -265,9 +270,26 @@ class CatalogoController extends Controller
                     ->joinWith('productor')
                     ->where(['baja'=>0,'idProductor'=>$arrayIds]) 
                     ->all();
-        
-*/
 
+        $imagenes = array();//ARRAY CON NOMBRES DE LAS IMAGENES DE SALIDA
+        foreach($productos as $producto){
+            $productorImagen = ImagenProducto::find()
+                                ->where(['idProducto'=>$producto->idProducto])
+                                ->one();
+            if($productorImagen){
+                $imagen = Imagen::find()
+                            ->where(['idImagen'=>$productorImagen->idImagen])
+                            ->one();    
+                array_push($imagenes,$imagen->idImagen.".".$imagen->extension);
+            }else{
+                array_push($imagenes,"default.png");
+            }
+        }
+
+        return[
+            'productos' => $productos,
+            'imagenes' => $imagenes,
+        ];
     }
    
 
