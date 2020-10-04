@@ -16,6 +16,7 @@ use yii\helpers\Html;
 use app\models\ImagenProducto;
 use app\models\Imagen;
 use app\models\Feria;
+use app\models\Localidad;
 use app\models\Productor;
 
 
@@ -67,21 +68,26 @@ class CatalogoController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = 'catalogo';
+        $this->layout = 'catalogo';//LAYOUT SIN FOOT - HEAD
         $productos = Producto::find()
                     ->where(['baja'=>0]) 
                     ->all();
-
+        //CATEGORIAS PARA EL FILTRADO
         $categorias = Categoria::find()
         ->where(['baja'=>0]) 
         ->orderBy(['nombre'=>SORT_ASC])
         ->all();
-
+        //FERIAS PARA EL FILTRADO
         $ferias = Feria::find()
         ->where(['baja'=>0]) 
         ->orderBy(['nombre'=>SORT_ASC])
         ->all();
-        //Productos
+        //LOCALIDADES PARA EL FILTRADO
+        $localidades = Localidad::find()
+        ->where(['baja'=>0]) 
+        ->orderBy(['nombre'=>SORT_ASC])
+        ->all();
+        //TODOS LOS PRODUCTOS + IMAGENES SIN FILTRADO
         foreach($productos as $producto){
             $productorImagen = ImagenProducto::find()
                                 ->where(['idProducto'=>$producto->idProducto])
@@ -98,11 +104,10 @@ class CatalogoController extends Controller
         }
 
         return $this->render('index', [
-            //'searchModel' => $searchModel, 
-            //'dataProvider' => $dataProvider,
             'categorias' => $categorias,
             'productos' => $productos,
             'ferias' => $ferias,
+            'localidades' => $localidades,
         ]);
     }
 
@@ -249,11 +254,16 @@ class CatalogoController extends Controller
         ];
     }
 
+    /**
+     * @return productores filtrados
+     */
     public function actionFiltroferia(){
-        /*\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $params= Yii::$app->request->post();
+
+        //BUSCO PRODUCTORES QUE PARTICIPEN EN LA FERIA DE PARAMETRO
         $productores = Productor::find()
-                    ->joinWith('feria')
+                    ->joinWith('feriaproductor')
                     ->where(['baja'=>0,'idFeria'=>$params['idFeria']]) 
                     ->all();
         $arrayIds = array();
@@ -263,13 +273,73 @@ class CatalogoController extends Controller
 
         $productos = Producto::find()
                     ->joinWith('productor')
-                    ->where(['baja'=>0,'idProductor'=>$arrayIds]) 
+                    ->where(['producto.baja'=>0,'producto.idProductor'=>$arrayIds]) 
                     ->all();
-        
-*/
 
+        $imagenes = array();//ARRAY CON NOMBRES DE LAS IMAGENES DE SALIDA
+        foreach($productos as $producto){
+            $productorImagen = ImagenProducto::find()
+                                ->where(['idProducto'=>$producto->idProducto])
+                                ->one();
+            if($productorImagen){
+                $imagen = Imagen::find()
+                            ->where(['idImagen'=>$productorImagen->idImagen])
+                            ->one();    
+                array_push($imagenes,$imagen->idImagen.".".$imagen->extension);
+            }else{
+                array_push($imagenes,"default.png");
+            }
+        }
+
+        return[
+            'productos' => $productos,
+            'imagenes' => $imagenes,
+        ];
     }
    
+
+    /**
+     * @return productores filtrados
+     */
+    public function actionFiltrolocalidad(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+
+        //BUSCO PRODUCTORES QUE PARTICIPEN EN LA FERIA DE PARAMETRO
+        $productores = Productor::find()
+                    ->where(['baja'=>0,'idLocalidad'=>$params['idLocalidad']]) 
+                    ->all();
+        //ARRAY DE IDS DE PRODUCTORES
+        $arrayIds = array();
+        foreach($productores as $productor){
+            array_push($arrayIds,$productor->idProductor);
+        }
+
+        $productos = Producto::find()
+                    ->joinWith('productor')
+                    ->where(['producto.baja'=>0,'producto.idProductor'=>$arrayIds]) 
+                    ->all();
+
+        $imagenes = array();//ARRAY CON NOMBRES DE LAS IMAGENES DE SALIDA
+        foreach($productos as $producto){
+            $productorImagen = ImagenProducto::find()
+                                ->where(['idProducto'=>$producto->idProducto])
+                                ->one();
+            if($productorImagen){
+                $imagen = Imagen::find()
+                            ->where(['idImagen'=>$productorImagen->idImagen])
+                            ->one();    
+                array_push($imagenes,$imagen->idImagen.".".$imagen->extension);
+            }else{
+                array_push($imagenes,"default.png");
+            }
+        }
+
+        return[
+            'productos' => $productos,
+            'imagenes' => $imagenes,
+        ];
+    }
 
     
 }
