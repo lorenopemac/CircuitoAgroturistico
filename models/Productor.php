@@ -44,6 +44,7 @@ class Productor extends \yii\db\ActiveRecord
             [['nombre'], 'string', 'max' => 45],
             [['nombreApellido','nombreFantasia','nombreCalle'], 'string', 'max' => 100],
             [['latitud','longitud'], 'string', 'max' => 500],
+            [['descripcion'], 'string', 'max' => 1000],
             [['idProvincia'], 'exist', 'skipOnError' => true, 'targetClass' => Provincia::className(), 'targetAttribute' => ['idProvincia' => 'idProvincia']],
             [['idLocalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Localidad::className(), 'targetAttribute' => ['idLocalidad' => 'idLocalidad']],
             ['ferias', 'each', 'rule' => ['integer']],
@@ -66,7 +67,8 @@ class Productor extends \yii\db\ActiveRecord
             'numeroCalle' => 'Numero Calle',
             'numeroTelefono' => 'Numero Telefono',
             'nombreFantasia' => 'Nombre de Fantasía',
-            'nombreApellido' => 'Nombre y Apellido'
+            'nombreApellido' => 'Nombre y Apellido',
+            'descripcion' => 'Descripción',
         ];
     }
 
