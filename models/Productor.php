@@ -3,6 +3,7 @@
 namespace app\models;
 use app\models\Provincia;
 use app\models\Localidad;
+use app\models\FeriaProductor;
 use yii\helpers\Html;
 use Yii;
 
@@ -90,6 +91,9 @@ class Productor extends \yii\db\ActiveRecord
         return $this->hasMany(ImagenProductor::className(), ['idProductor' => 'idProductor']);
     }
 
+    public function getFeriaproductor(){
+        return $this->hasMany(Feriaproductor::className(), ['idProductor' => 'idProductor']);
+    }
 
     /**
      * {@inheritdoc}

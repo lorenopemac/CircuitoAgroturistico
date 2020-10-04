@@ -24,16 +24,22 @@ use yii\web\NotFoundHttpException;
     <div fxlayout="row wrap" fxlayoutalign="center strech" class="ng-star-inserted" style="flex-flow: row wrap; box-sizing: border-box; display: flex; place-content: stretch ; align-items: stretch;">
         <div  class="col-lg-3 jumbotron" fxflex.gt-sm="20"  id="filtros" style="flex: 1 1 100%; box-sizing: border-box; max-width: 20%; background: #d8dde6 ;"> 
             <div style=" width: 100%;">
-                <div  class="titulo"><h3>Categoría</h3></div>
+                <div  class="titulo"><h3><u>Categoría</u></h3></div>
                 <div class="categorias">
                     <?php foreach($categorias as $categoria):?>        
                         <label><input type="radio" class="categoria" name="categoria" id=<?= $categoria->idCategoria ?>> <?= $categoria->nombre ?> </label>
                     <?php endforeach; ?>
                 </div>
-                <div  class="titulo"><h3>Feria</h3></div>
+                <div  class="titulo"><h3><u>Feria</u></h3></div>
                 <div class="ferias">
                     <?php foreach($ferias as $feria):?>        
                         <label><input type="radio" class="feria" name="feria" id=<?= $feria->idFeria ?>> <?= $feria->nombre ?> </label>
+                    <?php endforeach; ?>
+                </div>
+                <div  class="titulo"><h3><u>Localidad</u></h3></div>
+                <div class="localidad">
+                    <?php foreach($localidades as $localidad):?>        
+                        <label><input type="radio" class="localidad" name="localidad" id=<?= $localidad->idLocalidad ?>> <?= $localidad->nombre ?> </label>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -72,6 +78,7 @@ $this->registerJs(
 
 
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+$urlFiltrarLocalidad = Url::to(['catalogo/filtrolocalidad']);
 $urlFiltrarCategoria = Url::to(['catalogo/filtrocategoria']);
 $urlFiltrarFeria = Url::to(['catalogo/filtroferia']);
 $urlProducto = Url::to(['producto/view']);
@@ -114,6 +121,32 @@ $('.feria').click(function(e){
             type: 'post',
             data: {
             'idFeria' : this.id,
+            },
+            success: function(res){
+                $( '.col-lg-4' ).remove();
+                var tamaño = Object.keys(res.productos).length;
+                var clase = 'col-lg-4 producto';
+                for (var indice = 0; indice < tamaño; indice++) {
+                $( '.productos' ).append('<div class=col-lg-4 ><p></p><h4 style=text-align:center>'+ \n
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
+                +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
+                }
+                
+
+            }
+        })
+    }
+});
+
+
+$('.localidad').click(function(e){
+    if(this.id > 0){// PARA QUE NO REALICEN MULTIPLES LLAMADAS
+        direccion = '$url';
+        $.ajax({
+            url: '$urlFiltrarLocalidad',
+            type: 'post',
+            data: {
+            'idLocalidad' : this.id,
             },
             success: function(res){
                 $( '.col-lg-4' ).remove();
