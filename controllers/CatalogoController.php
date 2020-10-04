@@ -15,6 +15,10 @@ use yii\filters\AccessControl;
 use yii\helpers\Html;
 use app\models\ImagenProducto;
 use app\models\Imagen;
+use app\models\Feria;
+use app\models\Productor;
+
+
 /**
  * CategoriaController implements the CRUD actions for Categoria model.
  */
@@ -72,6 +76,11 @@ class CatalogoController extends Controller
         ->where(['baja'=>0]) 
         ->orderBy(['nombre'=>SORT_ASC])
         ->all();
+
+        $ferias = Feria::find()
+        ->where(['baja'=>0]) 
+        ->orderBy(['nombre'=>SORT_ASC])
+        ->all();
         //Productos
         foreach($productos as $producto){
             $productorImagen = ImagenProducto::find()
@@ -93,17 +102,64 @@ class CatalogoController extends Controller
             //'dataProvider' => $dataProvider,
             'categorias' => $categorias,
             'productos' => $productos,
+            'ferias' => $ferias,
+        ]);
+    }
+
+    /**
+     * Mapa con todas las ferias.
+     * @return mixed
+     */
+    public function actionMapaferias(){
+        $this->layout = 'catalogo';
+        $ferias = Feria::find()
+                    ->where(['baja'=>0]) 
+                    ->all();
+        $arrayPrincipal = array();
+        $arrayIteracion = array();
+        $indice = 0;
+        //ARMADO DE ARREGLO CON NOMBRE, LATITUD, LONGITUD DE FERIA
+        foreach($ferias as $feria){
+            if($feria->longitud && $feria->latitud){
+                $arrayIteracion[0] = $feria->nombre;
+                $arrayIteracion[1] = $feria->latitud;
+                $arrayIteracion[2] = $feria->longitud;
+                $arrayPrincipal[$indice] = $arrayIteracion;
+                $indice= $indice + 1;
+            }
+        }
+        return $this->render('mapaFerias', [
+            'ferias' => $arrayPrincipal,
         ]);
     }
 
 
-    public function actionMapa(){
-
-
-        return $this->render('mapa', [
+    /**
+     * Mapa con todos los productores.
+     * @return mixed
+     */
+    public function actionMapaproductores(){
+        $this->layout = 'catalogo';
+        $productores = Productor::find()
+                    ->where(['baja'=>0]) 
+                    ->all();
+        $arrayPrincipal = array();
+        $arrayIteracion = array();
+        $indice = 0;
+        //ARMADO DE ARREGLO CON NOMBRE, LATITUD, LONGITUD DE PRODUCTOR
+        foreach($productores as $productor){
+            if($productor->longitud && $productor->latitud){
+                $arrayIteracion[0] = $productor->nombre;
+                $arrayIteracion[1] = $productor->latitud;
+                $arrayIteracion[2] = $productor->longitud;
+                $arrayPrincipal[$indice] = $arrayIteracion;
+                $indice= $indice + 1;
+            }
+        }
+        return $this->render('mapaProductores', [
+            'productores' => $arrayPrincipal,
         ]);
     }
-
 
     /**
      * Displays a single Categoria model.
@@ -157,6 +213,12 @@ class CatalogoController extends Controller
     }
 
 
+    /**
+     * Updates an existing Categoria model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return productores filtrados
+     */
     public function actionFiltrocategoria(){
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $params= Yii::$app->request->post();
@@ -185,6 +247,27 @@ class CatalogoController extends Controller
             'productos' => $productos,
             'imagenes' => $imagenes,
         ];
+    }
+
+    public function actionFiltroferia(){
+        /*\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+        $productores = Productor::find()
+                    ->joinWith('feria')
+                    ->where(['baja'=>0,'idFeria'=>$params['idFeria']]) 
+                    ->all();
+        $arrayIds = array();
+        foreach($productores as $productor){
+            array_push($arrayIds,$productor->idProductor);
+        }
+
+        $productos = Producto::find()
+                    ->joinWith('productor')
+                    ->where(['baja'=>0,'idProductor'=>$arrayIds]) 
+                    ->all();
+        
+*/
+
     }
    
 

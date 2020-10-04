@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Agregar Productor', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Mapa de Productores', ['catalogo/mapaproductores'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?php Pjax::begin(); ?>

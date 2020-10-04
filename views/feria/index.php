@@ -17,8 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Crear Feria', ['create'], ['class' => 'btn btn-success']) ?>
+    
+        <?= Html::a('Mapa de Ferias', ['catalogo/mapaferias'], ['class' => 'btn btn-primary']) ?>
     </p>
-
     <?php Pjax::begin(); ?>
     <?php echo $this->render('_search', ['model' => $searchModel,'localidadesModel' => $localidadesModel]); ?>
 

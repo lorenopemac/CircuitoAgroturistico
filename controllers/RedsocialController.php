@@ -33,7 +33,7 @@ class RedsocialController extends Controller
                 'only' => ['index', 'view', 'create', 'update', 'delete','createanticipo'],
                 'rules' => [
                     [
-                        'actions' => ['create', 'update','index', 'view', 'delete','createanticipo'],
+                        'actions' => ['update','create', 'update','index', 'view', 'delete','createanticipo'],
                         'allow' => true,
                         // Allow users, moderators and admins to create
                         'roles' => ['@'],

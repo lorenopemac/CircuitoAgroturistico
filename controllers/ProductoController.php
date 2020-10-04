@@ -81,7 +81,6 @@ class ProductoController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
 
-
         return $this->render('index', [
             
             'searchModel' => $searchModel,
