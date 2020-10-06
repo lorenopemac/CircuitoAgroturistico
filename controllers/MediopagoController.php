@@ -4,11 +4,15 @@ namespace app\controllers;
 
 use Yii;
 use app\models\MedioPago;
+use app\models\Imagen;
 use app\models\MedioPagoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\UploadedFile;
+use app\common\components\AccessRule;
+use yii\filters\AccessControl;
+use yii\helpers\Html;
 /**
  * MedioPagoController implements the CRUD actions for MedioPago model.
  */
@@ -20,10 +24,32 @@ class MediopagoController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'only' => ['index', 'view', 'create', 'update', 'delete','createanticipo'],
+                'rules' => [
+                    [
+                        'actions' => ['update','create', 'update','index', 'view', 'delete','createanticipo'],
+                        'allow' => true,
+                        // Allow users, moderators and admins to create
+                        'roles' => ['@'],
+
+                    ], [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        // Allow users, moderators and admins to create
+                        'roles' => [1],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'logout' => ['post'],
+
                 ],
             ],
         ];
@@ -66,12 +92,27 @@ class MediopagoController extends Controller
     {
         $model = new MedioPago();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idMedio_pago]);
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->imagen = UploadedFile::getInstances($model, 'imagen');    
+            if($model->imagen){//TIENE UNA IMAGEN CARGADA
+                $modelImagen = new Imagen();
+                $modelImagen->extension = $model->imagen[0]->extension;
+                $modelImagen->save();
+                $model->idImagen = $modelImagen->idImagen;
+                $model->imagen = $model->imagen[0];
+                $model->upload($modelImagen);
+                $model->imagen = null;
+            }
+            
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->idMedio_pago]);
+            }
+            
         }
 
         return $this->render('create', [
             'model' => $model,
+            'initialPreviewConfig' => null,        
         ]);
     }
 
@@ -84,19 +125,43 @@ class MediopagoController extends Controller
      */
     public function actionUpdate($id)
     {
+        $initialPreview =  array();
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idMedio_pago]);
+        $imagen = Imagen::find()
+                    ->where(['idImagen'=>$model->idImagen])
+                    ->one();
+        if($imagen){
+            $model->imagen = Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-preview-image','width' => '200px','height' => '210px']);
+            $elemento=array('caption' => $imagen->idImagen.".".$imagen->extension, 'size' => '873727', 'key'=>$imagen->idImagen );
+            array_push($initialPreview,$elemento);
+        }
+        if ($model->load(Yii::$app->request->post())) {
+            $modelImagen = null;
+            $model->imagen = UploadedFile::getInstances($model, 'imagen');    
+            if(sizeof($model->imagen)>0){//TIENE UNA IMAGEN CARGADA
+                $modelImagen = new Imagen();
+                $modelImagen->extension = $model->imagen[0]->extension;
+                $modelImagen->save();
+                $model->idImagen = $modelImagen->idImagen;
+                $model->imagen = $model->imagen[0];
+            }
+            
+            if($model->save()){
+                if($modelImagen){
+                    $model->upload($modelImagen);
+                }
+                return $this->redirect(['view', 'id' => $model->idMedio_pago]);
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
+            'initialPreviewConfig' => $initialPreview,        
         ]);
     }
 
     /**
-     * Deletes an existing MedioPago model.
+     * Deletes an existing RedSocial model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -104,8 +169,18 @@ class MediopagoController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->baja = 1;
+        $model->save();
 
+        return $this->redirect(['index']);
+    }
+
+    public function actionActivar($id)
+    {
+        $model = $this->findModel($id);
+        $model->baja = 0;
+        $model->save();
         return $this->redirect(['index']);
     }
 
@@ -123,5 +198,22 @@ class MediopagoController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionEliminarimagen(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $params= Yii::$app->request->post();
+        
+        $medioPago = MedioPago::find()
+                            ->where(['idImagen'=>$params['key']])
+                            ->one();
+        $medioPago->idImagen = null;
+        $medioPago->save();
+        $imagen = Imagen::find()
+                ->where(['idImagen'=>$params['key']])
+                ->one();
+        unlink(Yii::getAlias('@app')."/web/uploads/".$imagen->idImagen.".".$imagen->extension);
+        $imagen->delete();
+        return true;
     }
 }

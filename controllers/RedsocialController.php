@@ -137,7 +137,7 @@ class RedsocialController extends Controller
             array_push($initialPreview,$elemento);
         }
         if ($model->load(Yii::$app->request->post())) {
-
+            $modelImagen = null;
             $model->imagen = UploadedFile::getInstances($model, 'imagen');    
             if(sizeof($model->imagen)>0){//TIENE UNA IMAGEN CARGADA
                 $modelImagen = new Imagen();

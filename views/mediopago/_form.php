@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\file\FileInput;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\MedioPago */
@@ -12,16 +14,30 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'idMedio_pago')->textInput() ?>
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'idImagen')->textInput() ?>
+    <div class="col-md-12 col-xs-12">     
+        <?= $form->field($model, 'imagen')->widget(FileInput::classname(), [
+            'options' => ['multiple' => true],
+            'pluginOptions' => [
+                'initialPreview'=>[$model->imagen],
+                'initialPreviewConfig' => $initialPreviewConfig,
+                'previewFileType' => 'any', 
+                'maxFileCount'=>10,
+                'showCaption'=> false,
+                'showRemove'=> true,
+                'deleteUrl' => Url::to('eliminarimagen'),
+                
+                'showUpload'=> false]
+            ]);
+        ?>
+    </div>
 
     <?= $form->field($model, 'baja')->checkbox() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

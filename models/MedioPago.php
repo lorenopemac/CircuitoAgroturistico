@@ -14,6 +14,7 @@ use Yii;
  */
 class MedioPago extends \yii\db\ActiveRecord
 {
+    public $imagen;
     /**
      * {@inheritdoc}
      */
@@ -28,11 +29,12 @@ class MedioPago extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['idMedio_pago', 'nombre'], 'required'],
+            [[ 'nombre'], 'required'],
             [['idMedio_pago', 'idImagen'], 'integer'],
             [['baja'], 'boolean'],
             [['nombre'], 'string', 'max' => 450],
             [['idMedio_pago'], 'unique'],
+            [['imagen'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'maxFiles' => 1],
         ];
     }
 
@@ -47,5 +49,16 @@ class MedioPago extends \yii\db\ActiveRecord
             'idImagen' => 'Id Imagen',
             'baja' => 'Baja',
         ];
+    }
+
+    public function upload($modelImagen)
+    {
+        
+        if ($this->validate()) {
+            $this->imagen->saveAs(Yii::getAlias('@app')."/web/uploads/" . $modelImagen->idImagen . '.' . $modelImagen->extension);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

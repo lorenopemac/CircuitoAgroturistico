@@ -24,6 +24,7 @@ class Productor extends \yii\db\ActiveRecord
 
     public $ferias;
     public $imagenes;
+    public $mediospago;
     
     /**
      * {@inheritdoc}

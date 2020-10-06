@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = 'Crear';
         'dataProviderRedes'=>$dataProviderRedes,
         'vista'=>$vista,
         'idProductor' => $idProductor, 
+        'medioPagoModel' => $medioPagoModel,    
     ]) ?>
 
 </div>

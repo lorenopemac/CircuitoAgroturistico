@@ -11,6 +11,8 @@ use app\models\Imagen;
 use app\models\RedsocialProductor;
 use app\models\RedSocialSearch;
 use app\models\ImagenProductor;
+use app\models\MedioPago;
+use app\models\MediopagoProductor;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -119,6 +121,7 @@ class ProductorController extends Controller
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
+        $medioPagoModel = \yii\helpers\ArrayHelper::map(\app\models\MedioPago::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idMedio_pago', 'nombre');
         $searchModelRedes = new RedSocialSearch();
         $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams,true);
         
@@ -145,6 +148,9 @@ class ProductorController extends Controller
             $model->idProductor= $_POST['idProductor'];
             if($model->ferias>0){
                 $this->guardarFerias($model);    
+            }
+            if($model->mediospago>0){
+                $this->guardarMediospago($model);    
             }
             if($_POST['idProductor'] > 0){
                 $model=$this->findModel($_POST['idProductor']);
@@ -174,7 +180,8 @@ class ProductorController extends Controller
             'feriasModel' => $feriasModel,
             'dataProviderRedes'=>$dataProviderRedes,
             'vista'=>false,
-            'idProductor' =>$idProductor,                      
+            'idProductor' =>$idProductor,                
+            'medioPagoModel' => $medioPagoModel,      
         ]);
     }
 
@@ -237,6 +244,21 @@ class ProductorController extends Controller
             $feriaProductor->idProductor =$model->idProductor;
             $feriaProductor->idFeria= $idFeria;
             $feriaProductor->save();
+        }
+
+    }
+
+    /**
+     * Guarda las Ferias en las que participa el Productor.
+     * @param Productor $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    private function guardarMediospago($model){
+        foreach($model->mediospago as $idMedio){
+            $medioPagoProductor = new MediopagoProductor();
+            $medioPagoProductor->idProductor =$model->idProductor;
+            $medioPagoProductor->idMedio_pago= $idMedio;
+            $medioPagoProductor->save();
         }
 
     }

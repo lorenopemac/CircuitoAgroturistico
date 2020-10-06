@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\MedioPago */
 
-$this->title = 'Create Medio Pago';
+$this->title = 'Crear Medio de Pago';
 $this->params['breadcrumbs'][] = ['label' => 'Medio Pagos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'initialPreviewConfig' => null,        
     ]) ?>
 
 </div>
