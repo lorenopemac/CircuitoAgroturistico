@@ -43,4 +43,14 @@ class CategoriaProducto extends \yii\db\ActiveRecord
             'idProducto' => 'Id Producto',
         ];
     }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategoria()
+    {
+        return $this->hasOne(Categoria::className(), ['idCategoria' => 'idCategoria']);
+    }
+
 }

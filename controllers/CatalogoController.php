@@ -74,7 +74,7 @@ class CatalogoController extends Controller
                     ->all();
         //CATEGORIAS PARA EL FILTRADO
         $categorias = Categoria::find()
-        ->where(['baja'=>0]) 
+        ->where(['baja'=>0,'esAgroturismo'=>0]) 
         ->orderBy(['nombre'=>SORT_ASC])
         ->all();
         //FERIAS PARA EL FILTRADO
