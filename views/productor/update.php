@@ -22,7 +22,8 @@ $this->params['breadcrumbs'][] = 'Modificar';
         'dataProviderRedes'=>$dataProviderRedes,
         'vista'=>$vista,
         'idProductor' =>$idProductor,        
-        'initialPreviewConfig' => $initialPreviewConfig,                    
+        'initialPreviewConfig' => $initialPreviewConfig,      
+        'medioPagoModel' => $medioPagoModel,                  
     ]) ?>
 
 </div>

@@ -3,21 +3,20 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\RedSocial;
+use app\models\MedioPago;
 use app\models\Imagen;
-use app\models\RedSocialSearch;
+use app\models\MedioPagoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 use app\common\components\AccessRule;
 use yii\filters\AccessControl;
-use yii\web\UploadedFile;
-
 use yii\helpers\Html;
 /**
- * RedSocialController implements the CRUD actions for RedSocial model.
+ * MedioPagoController implements the CRUD actions for MedioPago model.
  */
-class RedsocialController extends Controller
+class MediopagoController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -57,12 +56,12 @@ class RedsocialController extends Controller
     }
 
     /**
-     * Lists all RedSocial models.
+     * Lists all MedioPago models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new RedSocialSearch();
+        $searchModel = new MedioPagoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -72,7 +71,7 @@ class RedsocialController extends Controller
     }
 
     /**
-     * Displays a single RedSocial model.
+     * Displays a single MedioPago model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -85,13 +84,13 @@ class RedsocialController extends Controller
     }
 
     /**
-     * Creates a new RedSocial model.
+     * Creates a new MedioPago model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new RedSocial();
+        $model = new MedioPago();
 
         if ($model->load(Yii::$app->request->post()) ) {
             $model->imagen = UploadedFile::getInstances($model, 'imagen');    
@@ -104,21 +103,21 @@ class RedsocialController extends Controller
                 $model->upload($modelImagen);
                 $model->imagen = null;
             }
-            //print_r($model);
-            //exit;
+            
             if($model->save()){
-                
-                return $this->redirect(['view', 'id' => $model->idRed_social]);
+                return $this->redirect(['view', 'id' => $model->idMedio_pago]);
             }
+            
         }
 
         return $this->render('create', [
             'model' => $model,
+            'initialPreviewConfig' => null,        
         ]);
     }
 
     /**
-     * Updates an existing RedSocial model.
+     * Updates an existing MedioPago model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -147,13 +146,11 @@ class RedsocialController extends Controller
                 $model->imagen = $model->imagen[0];
             }
             
-            //print_r($model);
-            //exit;
             if($model->save()){
                 if($modelImagen){
                     $model->upload($modelImagen);
                 }
-                return $this->redirect(['view', 'id' => $model->idRed_social]);
+                return $this->redirect(['view', 'id' => $model->idMedio_pago]);
             }
         }
 
@@ -188,15 +185,15 @@ class RedsocialController extends Controller
     }
 
     /**
-     * Finds the RedSocial model based on its primary key value.
+     * Finds the MedioPago model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return RedSocial the loaded model
+     * @return MedioPago the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = RedSocial::findOne($id)) !== null) {
+        if (($model = MedioPago::findOne($id)) !== null) {
             return $model;
         }
 
@@ -207,11 +204,11 @@ class RedsocialController extends Controller
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $params= Yii::$app->request->post();
         
-        $redSocial = RedSocial::find()
+        $medioPago = MedioPago::find()
                             ->where(['idImagen'=>$params['key']])
                             ->one();
-        $redSocial->idImagen = null;
-        $redSocial->save();
+        $medioPago->idImagen = null;
+        $medioPago->save();
         $imagen = Imagen::find()
                 ->where(['idImagen'=>$params['key']])
                 ->one();

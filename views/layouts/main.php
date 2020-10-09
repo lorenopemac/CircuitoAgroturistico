@@ -44,6 +44,7 @@ AppAsset::register($this);
             ['label' => 'Producto', 'url' => ['/producto/index']],
             ['label' => 'Productor', 'url' => ['/productor/index']],
             ['label' => 'Categoria', 'url' => ['/categoria/index']],
+            ['label' => 'M. Pago', 'url' => ['/mediopago/index']],
             ['label' => 'Red Social', 'url' => ['/redsocial/index']],
             ['label' => 'Provincia', 'url' => ['/provincia/index']],
             ['label' => 'Localidad', 'url' => ['/localidad/index']],

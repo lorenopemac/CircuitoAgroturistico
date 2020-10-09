@@ -7,6 +7,8 @@ use yii\grid\GridView;
 use kartik\select2\Select2;
 use kartik\file\FileInput;
 use kartik\grid\EditableColumnAction;
+use kartik\markdown\MarkdownEditor;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Productor */
 /* @var $form yii\widgets\ActiveForm */
@@ -81,7 +83,23 @@ div{
         ?>
     </div>
 
-                    
+    <div class="col-md-12 col-xs-12" id='editor-en' name='editor-en'>     
+        <?= $form->field($model, 'descripcion')->widget(
+            MarkdownEditor::classname(), 
+            ['height' => 300, 'encodeLabels' => false, 'language'=> 'ru']
+        );?>
+    </div>
+
+    <div class="col-md-12 col-xs-12">           
+        <?= $form->field($model, 'mediospago')->checkboxList($medioPagoModel, [
+                'separator' => '<br>',
+                'itemOptions' => [
+                'class' => 'mediopago'
+                ]
+                ])->label('Medios de pago que acepta el productor:');
+
+        ?>
+    </div>
 
     <div class="col-md-12 col-xs-12">     
         <?php if(!$vista){ ?>
@@ -105,11 +123,6 @@ div{
                 'pluginOptions' => [
                     'initialPreview'=>$model->imagenes,
                     'initialPreviewConfig' => $initialPreviewConfig,
-                   /* 'initialPreviewConfig' => [
-                        ['caption' => 'Moon.jpg', 'size' => '873727', 'key'=>1 ],
-                        ['caption' => 'Earth.jpg', 'size' => '1287883', 'key'=>2 ],
-                        ['caption' => 'Earth.jpg', 'size' => '1287883', 'key'=>3 ],
-                    ],*/
                     'previewFileType' => 'any', 
                     'maxFileCount'=>10,
                     'showRemove' => true,

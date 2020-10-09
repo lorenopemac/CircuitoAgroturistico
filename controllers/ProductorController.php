@@ -11,6 +11,8 @@ use app\models\Imagen;
 use app\models\RedsocialProductor;
 use app\models\RedSocialSearch;
 use app\models\ImagenProductor;
+use app\models\MedioPago;
+use app\models\MediopagoProductor;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -119,6 +121,7 @@ class ProductorController extends Controller
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
+        $medioPagoModel = \yii\helpers\ArrayHelper::map(\app\models\MedioPago::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idMedio_pago', 'nombre');
         $searchModelRedes = new RedSocialSearch();
         $dataProviderRedes = $searchModelRedes->search(Yii::$app->request->queryParams,true);
         
@@ -138,14 +141,12 @@ class ProductorController extends Controller
             $model->idLocalidad= null;
             $model->cuit = null;
             $model->numeroCalle = 0;
+            $model->mediospago = array();
         }
         //fin carga
         
         if ($model->load(Yii::$app->request->post()) ) {
             $model->idProductor= $_POST['idProductor'];
-            if($model->ferias>0){
-                $this->guardarFerias($model);    
-            }
             if($_POST['idProductor'] > 0){
                 $model=$this->findModel($_POST['idProductor']);
             }
@@ -153,6 +154,8 @@ class ProductorController extends Controller
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');    
             $model->baja = 0;
             if($model->save()){
+                $this->guardarFerias($model);    
+                $this->guardarMediospago($model);    
                 $this->guardarRedesFaltantes($model);
                 if($model->imagenes){
                     if(sizeof($model->imagenes)>0){
@@ -174,7 +177,8 @@ class ProductorController extends Controller
             'feriasModel' => $feriasModel,
             'dataProviderRedes'=>$dataProviderRedes,
             'vista'=>false,
-            'idProductor' =>$idProductor,                      
+            'idProductor' =>$idProductor,                
+            'medioPagoModel' => $medioPagoModel,      
         ]);
     }
 
@@ -246,6 +250,23 @@ class ProductorController extends Controller
      * @param Productor $model
      * @throws NotFoundHttpException if the model cannot be found
      */
+    private function guardarMediospago($model){
+        foreach($model->mediospago as $idMedio){
+            $medioPagoProductor = new MediopagoProductor();
+            $medioPagoProductor->idProductor =$model->idProductor;
+            $medioPagoProductor->idMedio_pago= $idMedio;
+            $medioPagoProductor->save();
+            //print_r($medioPagoProductor->getErrors());
+            //exit;
+        }
+
+    }
+
+    /**
+     * Guarda las Ferias en las que participa el Productor.
+     * @param Productor $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     private function editarFerias($model,$feriasProductor){
         
         //ELIMINAR
@@ -280,6 +301,46 @@ class ProductorController extends Controller
     }
 
     /**
+     * Guarda medios de pago del Productor.
+     * @param Productor $model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    private function editarMediopagos($model,$mediospagoProductor){
+        
+        //ELIMINAR
+        if(!(is_string($model->mediospago) && sizeof($mediospagoProductor)==0)){
+            if(is_string($model->mediospago) && sizeof($mediospagoProductor)>0){//se eliminan todos 
+                foreach($mediopagoProductor  as $idMediopagoProductor){    
+                    $mediopagoProductor = MediopagoProductor::find()
+                                    ->where(['idProductor'=>$model->idProductor, 'idMedio_pago'=>$idMediopagoProductor])
+                                    ->one();
+                    $mediopagoProductor->delete();
+                }    
+            }else{
+                foreach($mediospagoProductor  as $idMediopagoProductor){// se eliminan solo algunos
+                    if(!is_numeric(array_search($idMediopagoProductor,$model->mediospago))){//si no existia ese medio de pago para el productor y ya no esta mas
+                        $mediopagoProductor = MediopagoProductor::find()
+                                        ->where(['idProductor'=>$model->idProductor, 'idMedio_pago'=>$idMediopagoProductor])
+                                        ->one();
+                        $mediopagoProductor->delete();
+                    }
+                }
+                //guardado
+                foreach($model->mediospago  as $idMediopagoProductor){//se agregan
+                    if(array_search($idMediopagoProductor,$mediospagoProductor)==false){//si no existia ese medio de pago para el productor
+                        $mediopagoProductor = new MediopagoProductor();
+                        $mediopagoProductor->idProductor = $model->idProductor;
+                        $mediopagoProductor->idMedio_pago= $idMediopagoProductor;
+                        $mediopagoProductor->save();
+                    }                            
+                }
+            }
+        }
+    }
+
+
+
+    /**
      * Updates an existing Productor model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -308,10 +369,12 @@ class ProductorController extends Controller
         $provinciasModel = \yii\helpers\ArrayHelper::map(\app\models\Provincia::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProvincia', 'nombre');
         $localidadesModel = \yii\helpers\ArrayHelper::map(\app\models\Localidad::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idLocalidad', 'nombre');
         $feriasModel = \yii\helpers\ArrayHelper::map(\app\models\Feria::find()->where([])->orderBy(['nombre'=>SORT_ASC])->all(), 'idFeria', 'nombre');
+        $medioPagoModel = \yii\helpers\ArrayHelper::map(\app\models\MedioPago::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idMedio_pago', 'nombre');
         $vista =true;
         $initialPreviewConfig = $this->cargarImagenes($model);
         
         //$model->imagenes = $model->getDisplayImage();
+        //FERIAS
         $feriasProductor = \yii\helpers\ArrayHelper::map(\app\models\FeriaProductor::find()->where(['idProductor'=>$id])->all(), 'idFeria_productor', 'idFeria');
         $ferias = array();
         $indice=0;
@@ -322,8 +385,22 @@ class ProductorController extends Controller
             }
         }   
         $model->ferias = $ferias;
+        //FIN FERIAS
+        //MEDIO DE PAGO
+        $mediopagoProductor = \yii\helpers\ArrayHelper::map(\app\models\MediopagoProductor::find()->where(['idProductor'=>$id])->all(), 'idMediopago_productor', 'idMedio_pago');
+        $mediosPago = array();
+        $indice=0;
+        if(sizeof($mediopagoProductor)){
+            foreach($mediopagoProductor as $idMediopagoProductor){
+                $mediosPago[$indice] =  $idMediopagoProductor;
+                $indice = $indice +1;
+            }
+        }   
+        $model->mediospago = $mediosPago;
+        //FIN MEDIO DE PAGO
         if ($model->load(Yii::$app->request->post()) ) {
             $this->editarFerias($model,$feriasProductor);    
+            $this->editarMediopagos($model,$mediopagoProductor);
             $this->guardarRedesFaltantes($model);
             $model->imagenes = UploadedFile::getInstances($model, 'imagenes');
             if($model->imagenes){
@@ -346,6 +423,7 @@ class ProductorController extends Controller
             'vista'=>$vista,
             'idProductor' =>$model->idProductor,      
             'initialPreviewConfig' => $initialPreviewConfig,                
+            'medioPagoModel' => $medioPagoModel,
         ]);
     }
 

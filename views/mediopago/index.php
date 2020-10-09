@@ -3,44 +3,36 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use kartik\select2\Select2;
 use yii\helpers\Url;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\ProductorSearch */
+/* @var $searchModel app\models\MedioPagoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Productores';
+$this->title = 'Medio Pagos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="productor-index" >
+<div class="medio-pago-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Agregar Productor', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Mapa de Productores', ['catalogo/mapaproductores'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Create Medio Pago', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
-    <?php  echo $this->render('_search', ['model' => $searchModel, 'provinciasModel' => $provinciasModel,'localidadesModel' => $localidadesModel,]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+
             'nombre',
-            ['attribute'=>'N. Fantasía',
-             'value'=> 'nombreFantasia'],
-            'cuit',
-            ['attribute'=>'Localidad',
-             'value'=> 'localidad.nombre'],
-            'nombreCalle',
-            'numeroCalle',
-            'numeroTelefono',
             ['label'=>'Activo',
               'format'=>'raw',
               'value' => function($model, $key, $index, $column) { return $model->baja == 0 ? 'Si' : 'No';},],
+
               [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} &nbsp {view} &nbsp {activar} &nbsp {delete}',
@@ -59,19 +51,19 @@ $this->params['breadcrumbs'][] = $this->title;
                   ],
                 'urlCreator' => function ($action, $model, $key, $index) {
                                 if ($action === 'activar') {
-                                    $url =Url::to(['productor/activar?id='.$model->idProductor]);
+                                    $url =Url::to(['mediopago/activar?id='.$model->idMedio_pago]);
                                     return $url;
                                 }else{
                                     if ($action === 'update') {
-                                        $url =Url::to(['productor/update?id='.$model->idProductor]);
+                                        $url =Url::to(['mediopago/update?id='.$model->idMedio_pago]);
                                         return $url;
                                     }
                                     if ($action === 'delete') {
-                                        $url =Url::to(['productor/delete?id='.$model->idProductor]);
+                                        $url =Url::to(['mediopago/delete?id='.$model->idMedio_pago]);
                                         return $url;
                                     }
                                     if ($action === 'view') {
-                                        $url =Url::to(['productor/view?id='.$model->idProductor]);
+                                        $url =Url::to(['mediopago/view?id='.$model->idMedio_pago]);
                                         return $url;
                                     }
                                 }

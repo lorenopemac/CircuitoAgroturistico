@@ -35,7 +35,7 @@ class Producto extends \yii\db\ActiveRecord
         return [
             [['nombre', 'descripcion','idProductor'], 'required'],
             [['nombre'], 'string', 'max' => 100],
-            [['descripcion'], 'string', 'max' => 200],
+            [['descripcion'], 'string', 'max' => 1000],
             [['idProductor'], 'exist', 'skipOnError' => true, 'targetClass' => Productor::className(), 'targetAttribute' => ['idProductor' => 'idProductor']],
             [['imagenes'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 4],
             ['categorias', 'each', 'rule' => ['integer']],
@@ -98,4 +98,6 @@ class Producto extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CategoriaProducto::className(), ['idProducto' => 'idProducto']);
     }
+
+
 }

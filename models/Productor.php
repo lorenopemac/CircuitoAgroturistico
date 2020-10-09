@@ -3,6 +3,7 @@
 namespace app\models;
 use app\models\Provincia;
 use app\models\Localidad;
+use app\models\FeriaProductor;
 use yii\helpers\Html;
 use Yii;
 
@@ -23,6 +24,7 @@ class Productor extends \yii\db\ActiveRecord
 
     public $ferias;
     public $imagenes;
+    public $mediospago;
     
     /**
      * {@inheritdoc}
@@ -43,9 +45,11 @@ class Productor extends \yii\db\ActiveRecord
             [['nombre'], 'string', 'max' => 45],
             [['nombreApellido','nombreFantasia','nombreCalle'], 'string', 'max' => 100],
             [['latitud','longitud'], 'string', 'max' => 500],
+            [['descripcion'], 'string', 'max' => 1000],
             [['idProvincia'], 'exist', 'skipOnError' => true, 'targetClass' => Provincia::className(), 'targetAttribute' => ['idProvincia' => 'idProvincia']],
             [['idLocalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Localidad::className(), 'targetAttribute' => ['idLocalidad' => 'idLocalidad']],
             ['ferias', 'each', 'rule' => ['integer']],
+            ['mediospago', 'each', 'rule' => ['integer']],
             [['imagenes'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 4],
         ];
     }
@@ -65,7 +69,8 @@ class Productor extends \yii\db\ActiveRecord
             'numeroCalle' => 'Numero Calle',
             'numeroTelefono' => 'Numero Telefono',
             'nombreFantasia' => 'Nombre de Fantasía',
-            'nombreApellido' => 'Nombre y Apellido'
+            'nombreApellido' => 'Nombre y Apellido',
+            'descripcion' => 'Descripción',
         ];
     }
 
@@ -90,6 +95,9 @@ class Productor extends \yii\db\ActiveRecord
         return $this->hasMany(ImagenProductor::className(), ['idProductor' => 'idProductor']);
     }
 
+    public function getFeriaproductor(){
+        return $this->hasMany(Feriaproductor::className(), ['idProductor' => 'idProductor']);
+    }
 
     /**
      * {@inheritdoc}
