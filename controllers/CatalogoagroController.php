@@ -23,44 +23,8 @@ use app\models\Productor;
 /**
  * CategoriaController implements the CRUD actions for Categoria model.
  */
-class CatalogoController extends Controller
+class CatalogoagroController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    /*public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'ruleConfig' => [
-                    'class' => AccessRule::className(),
-                ],
-                'only' => ['index', 'view', 'create', 'update', 'delete','createanticipo'],
-                'rules' => [
-                    [
-                        'actions' => ['create', 'update','index', 'view', 'delete','createanticipo'],
-                        'allow' => true,
-                        // Allow users, moderators and admins to create
-                        'roles' => ['@'],
-
-                    ], [
-                        'actions' => ['update'],
-                        'allow' => true,
-                        // Allow users, moderators and admins to create
-                        'roles' => [1],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-
-                ],
-            ],
-        ];
-    }*/
 
     /**
      * Lists all Categoria models.
@@ -69,9 +33,8 @@ class CatalogoController extends Controller
     public function actionIndex()
     {
         $this->layout = 'catalogo';//LAYOUT SIN FOOT - HEAD
-        
         //BUSCO CATEGORIAS QUE NO SEAN AGROTURISMO
-        $idsCategoria = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0,'esAgroturismo'=>0])->orderBy(['idCategoria'=>SORT_ASC])->all(), 'idCategoria', 'idCategoria');
+        $idsCategoria = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0,'esAgroturismo'=>1])->orderBy(['idCategoria'=>SORT_ASC])->all(), 'idCategoria', 'idCategoria');
         //PRODUCTOS PARA EL FILTRADO
         $productos = Producto::find()
                     ->joinWith('categorias')
@@ -79,7 +42,7 @@ class CatalogoController extends Controller
                     ->all();
         //CATEGORIAS PARA EL FILTRADO
         $categorias = Categoria::find()
-                    ->where(['baja'=>0,'esAgroturismo'=>0]) 
+                    ->where(['baja'=>0,'esAgroturismo'=>1]) 
                     ->orderBy(['nombre'=>SORT_ASC])
                     ->all();
         //FERIAS PARA EL FILTRADO
@@ -92,7 +55,6 @@ class CatalogoController extends Controller
                     ->where(['baja'=>0]) 
                     ->orderBy(['nombre'=>SORT_ASC])
                     ->all();
-        
         //TODOS LOS PRODUCTOS + IMAGENES SIN FILTRADO
         foreach($productos as $producto){
             $productorImagen = ImagenProducto::find()
@@ -117,111 +79,6 @@ class CatalogoController extends Controller
         ]);
     }
 
-    /**
-     * Mapa con todas las ferias.
-     * @return mixed
-     */
-    public function actionMapaferias(){
-        $this->layout = 'catalogo';
-        $ferias = Feria::find()
-                    ->where(['baja'=>0]) 
-                    ->all();
-        $arrayPrincipal = array();
-        $arrayIteracion = array();
-        $indice = 0;
-        //ARMADO DE ARREGLO CON NOMBRE, LATITUD, LONGITUD DE FERIA
-        foreach($ferias as $feria){
-            if($feria->longitud && $feria->latitud){
-                $arrayIteracion[0] = $feria->nombre;
-                $arrayIteracion[1] = $feria->latitud;
-                $arrayIteracion[2] = $feria->longitud;
-                $arrayPrincipal[$indice] = $arrayIteracion;
-                $indice= $indice + 1;
-            }
-        }
-        return $this->render('mapaFerias', [
-            'ferias' => $arrayPrincipal,
-        ]);
-    }
-
-
-    /**
-     * Mapa con todos los productores.
-     * @return mixed
-     */
-    public function actionMapaproductores(){
-        $this->layout = 'catalogo';
-        $productores = Productor::find()
-                    ->where(['baja'=>0]) 
-                    ->all();
-        $arrayPrincipal = array();
-        $arrayIteracion = array();
-        $indice = 0;
-        //ARMADO DE ARREGLO CON NOMBRE, LATITUD, LONGITUD DE PRODUCTOR
-        foreach($productores as $productor){
-            if($productor->longitud && $productor->latitud){
-                $arrayIteracion[0] = $productor->nombre;
-                $arrayIteracion[1] = $productor->latitud;
-                $arrayIteracion[2] = $productor->longitud;
-                $arrayPrincipal[$indice] = $arrayIteracion;
-                $indice= $indice + 1;
-            }
-        }
-        return $this->render('mapaProductores', [
-            'productores' => $arrayPrincipal,
-        ]);
-    }
-
-    /**
-     * Displays a single Categoria model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new Categoria model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Categoria();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idCategoria]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing Categoria model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idCategoria]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
 
 
     /**
@@ -277,7 +134,7 @@ class CatalogoController extends Controller
             array_push($arrayIds,$productor->idProductor);
         }
         //FILTRO FERIAS QUE NO SEAN AGROTURISMO
-        $idsCategoria = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0,'esAgroturismo'=>0])->orderBy(['idCategoria'=>SORT_ASC])->all(), 'idCategoria', 'idCategoria');
+        $idsCategoria = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0,'esAgroturismo'=>1])->orderBy(['idCategoria'=>SORT_ASC])->all(), 'idCategoria', 'idCategoria');
         $productos = Producto::find()
                     ->joinWith('productor')
                     ->joinWith('categorias')
@@ -322,7 +179,7 @@ class CatalogoController extends Controller
             array_push($arrayIds,$productor->idProductor);
         }
         //BUSCO CATEGORIAS QUE NO SEAN AGROTURISMO
-        $idsCategoria = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0,'esAgroturismo'=>0])->orderBy(['idCategoria'=>SORT_ASC])->all(), 'idCategoria', 'idCategoria');
+        $idsCategoria = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0,'esAgroturismo'=>1])->orderBy(['idCategoria'=>SORT_ASC])->all(), 'idCategoria', 'idCategoria');
         $productos = Producto::find()
                     ->joinWith('productor')
                     ->joinWith('categorias')
@@ -349,6 +206,4 @@ class CatalogoController extends Controller
             'imagenes' => $imagenes,
         ];
     }
-
-    
 }
