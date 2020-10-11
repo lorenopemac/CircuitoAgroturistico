@@ -35,8 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'cuit',
             ['attribute'=>'Localidad',
              'value'=> 'localidad.nombre'],
-            'nombreCalle',
-            'numeroCalle',
             'numeroTelefono',
             ['label'=>'Activo',
               'format'=>'raw',

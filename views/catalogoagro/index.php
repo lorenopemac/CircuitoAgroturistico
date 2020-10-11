@@ -14,14 +14,21 @@ use yii\web\NotFoundHttpException;
 ?>
 <style>
     .button1 {background-color: #4CAF50;} /* Green */
-
+    .en-linea {
+        display: flex;
+        justify-content: left;
+        align-items: left;
+        flex-wrap: wrap;
+        text-align: left;
+        border: 0px solid black;
+    }
 </style>
     
 <div class="categoria-index" >
 <?php \yii\widgets\Pjax::begin();?>
 
-<div class="mb-2" fxlayout="row" fxlayout.lt-md="column" fxlayoutalign="space-between start" fxlayoutalign.lt-md="start" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: flex-start space-between; align-items: flex-start;">
-    <div fxlayout="row wrap" fxlayoutalign="center strech" class="ng-star-inserted" style="flex-flow: row wrap; box-sizing: border-box; display: flex; place-content: stretch ; align-items: stretch;">
+<div class="mb-2 en-linea" fxlayout="row" fxlayout.lt-md="column" fxlayoutalign="space-between start" fxlayoutalign.lt-md="start" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: flex-start space-between; align-items: flex-start;">
+    <div fxlayout="row wrap" fxlayoutalign="strech" class="ng-star-inserted" style="flex-flow: row wrap; box-sizing: border-box; display: flex; place-content: stretch ; align-items: stretch;">
         <div  class="col-lg-3 jumbotron" fxflex.gt-sm="20"  id="filtros" style="flex: 1 1 100%; box-sizing: border-box; max-width: 20%; background: #d8dde6 ;"> 
             <div style=" width: 100%;">
                 <div  class="titulo"><h3><u>Categoría</u></h3></div>
@@ -44,7 +51,7 @@ use yii\web\NotFoundHttpException;
                 </div>
             </div>
         </div>
-        <div fxlayout="row wrap" fxlayoutalign="center strech" class="col-lg-9 jumbotron" style="flex-flow: row wrap; box-sizing: border-box; display: flex; place-content: stretch center; align-items: stretch; ">
+        <div fxlayout="row wrap" fxlayoutalign=" strech" class="col-lg-9 jumbotron" style="flex-flow: row wrap; box-sizing: border-box; place-content: stretch ; align-items: stretch; ">
             
             <div class="productos">
                 <?php foreach($productos as $producto):?>
@@ -78,9 +85,9 @@ $this->registerJs(
 
 
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-$urlFiltrarLocalidad = Url::to(['catalogo/filtrolocalidad']);
-$urlFiltrarCategoria = Url::to(['catalogo/filtrocategoria']);
-$urlFiltrarFeria = Url::to(['catalogo/filtroferia']);
+$urlFiltrarLocalidad = Url::to(['catalogoagro/filtrolocalidad']);
+$urlFiltrarCategoria = Url::to(['catalogoagro/filtrocategoria']);
+$urlFiltrarFeria = Url::to(['catalogoagro/filtroferia']);
 $urlProducto = Url::to(['producto/view']);
 $validar = false;
 $this->registerJs("

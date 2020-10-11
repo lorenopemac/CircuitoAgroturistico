@@ -69,24 +69,30 @@ class CatalogoController extends Controller
     public function actionIndex()
     {
         $this->layout = 'catalogo';//LAYOUT SIN FOOT - HEAD
+        
+        //BUSCO CATEGORIAS QUE NO SEAN AGROTURISMO
+        $idsCategoria = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0,'esAgroturismo'=>0])->orderBy(['idCategoria'=>SORT_ASC])->all(), 'idCategoria', 'idCategoria');
+        //PRODUCTOS PARA EL FILTRADO
         $productos = Producto::find()
-                    ->where(['baja'=>0]) 
+                    ->joinWith('categorias')
+                    ->where(['producto.baja'=>0,'idCategoria'=>$idsCategoria]) 
                     ->all();
         //CATEGORIAS PARA EL FILTRADO
         $categorias = Categoria::find()
-        ->where(['baja'=>0,'esAgroturismo'=>0]) 
-        ->orderBy(['nombre'=>SORT_ASC])
-        ->all();
+                    ->where(['baja'=>0,'esAgroturismo'=>0]) 
+                    ->orderBy(['nombre'=>SORT_ASC])
+                    ->all();
         //FERIAS PARA EL FILTRADO
         $ferias = Feria::find()
-        ->where(['baja'=>0]) 
-        ->orderBy(['nombre'=>SORT_ASC])
-        ->all();
+                    ->where(['baja'=>0]) 
+                    ->orderBy(['nombre'=>SORT_ASC])
+                    ->all();
         //LOCALIDADES PARA EL FILTRADO
         $localidades = Localidad::find()
-        ->where(['baja'=>0]) 
-        ->orderBy(['nombre'=>SORT_ASC])
-        ->all();
+                    ->where(['baja'=>0]) 
+                    ->orderBy(['nombre'=>SORT_ASC])
+                    ->all();
+        
         //TODOS LOS PRODUCTOS + IMAGENES SIN FILTRADO
         foreach($productos as $producto){
             $productorImagen = ImagenProducto::find()
@@ -270,12 +276,13 @@ class CatalogoController extends Controller
         foreach($productores as $productor){
             array_push($arrayIds,$productor->idProductor);
         }
-
+        //FILTRO FERIAS QUE NO SEAN AGROTURISMO
+        $idsCategoria = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0,'esAgroturismo'=>0])->orderBy(['idCategoria'=>SORT_ASC])->all(), 'idCategoria', 'idCategoria');
         $productos = Producto::find()
                     ->joinWith('productor')
-                    ->where(['producto.baja'=>0,'producto.idProductor'=>$arrayIds]) 
+                    ->joinWith('categorias')
+                    ->where(['producto.baja'=>0,'producto.idProductor'=>$arrayIds,'idCategoria'=>$idsCategoria]) 
                     ->all();
-
         $imagenes = array();//ARRAY CON NOMBRES DE LAS IMAGENES DE SALIDA
         foreach($productos as $producto){
             $productorImagen = ImagenProducto::find()
@@ -314,10 +321,12 @@ class CatalogoController extends Controller
         foreach($productores as $productor){
             array_push($arrayIds,$productor->idProductor);
         }
-
+        //BUSCO CATEGORIAS QUE NO SEAN AGROTURISMO
+        $idsCategoria = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0,'esAgroturismo'=>0])->orderBy(['idCategoria'=>SORT_ASC])->all(), 'idCategoria', 'idCategoria');
         $productos = Producto::find()
                     ->joinWith('productor')
-                    ->where(['producto.baja'=>0,'producto.idProductor'=>$arrayIds]) 
+                    ->joinWith('categorias')
+                    ->where(['producto.baja'=>0,'producto.idProductor'=>$arrayIds,'idCategoria'=>$idsCategoria]) 
                     ->all();
 
         $imagenes = array();//ARRAY CON NOMBRES DE LAS IMAGENES DE SALIDA
