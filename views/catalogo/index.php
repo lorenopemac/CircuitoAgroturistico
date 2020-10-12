@@ -44,7 +44,7 @@ use yii\web\NotFoundHttpException;
                 </div>
             </div>
         </div>
-        <div fxlayout="row wrap" fxlayoutalign="center strech" class="col-lg-9 jumbotron" style="flex-flow: row wrap; box-sizing: border-box; display: flex; place-content: stretch center; align-items: stretch; ">
+        <div fxlayout="row wrap" fxlayoutalign="center strech" class="col-lg-9 jumbotron" style="flex-flow: row wrap; box-sizing: border-box;  place-content: stretch center; align-items: stretch; ">
             
             <div class="productos">
                 <?php foreach($productos as $producto):?>
