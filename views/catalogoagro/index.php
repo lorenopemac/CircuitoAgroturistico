@@ -27,8 +27,8 @@ use yii\web\NotFoundHttpException;
 <div class="categoria-index" >
 <?php \yii\widgets\Pjax::begin();?>
 
-<div class="mb-2 en-linea" fxlayout="row" fxlayout.lt-md="column" fxlayoutalign="space-between start" fxlayoutalign.lt-md="start" style="flex-direction: row; box-sizing: border-box; display: flex; place-content: flex-start space-between; align-items: flex-start;">
-    <div fxlayout="row wrap" fxlayoutalign="strech" class="ng-star-inserted" style="flex-flow: row wrap; box-sizing: border-box; display: flex; place-content: stretch ; align-items: stretch;">
+<div class="mb-2 en-linea" fxlayout="row" fxlayout.lt-md="column" fxlayoutalign="space-between start" fxlayoutalign.lt-md="start" style="flex-direction: row; box-sizing: border-box;  place-content: flex-start space-between; align-items: flex-start;">
+    <div fxlayout="row wrap" fxlayoutalign="strech" class="ng-star-inserted" style="flex-flow: row wrap; box-sizing: border-box;  place-content: stretch ; align-items: stretch;">
         <div  class="col-lg-3 jumbotron" fxflex.gt-sm="20"  id="filtros" style="flex: 1 1 100%; box-sizing: border-box; max-width: 20%; background: #d8dde6 ;"> 
             <div style=" width: 100%;">
                 <div  class="titulo"><h3><u>Categoría</u></h3></div>
