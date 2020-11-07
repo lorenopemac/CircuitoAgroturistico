@@ -236,11 +236,14 @@ class ProductorController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     private function guardarFerias($model){
-        foreach($model->ferias as $idFeria){
-            $feriaProductor = new FeriaProductor();
-            $feriaProductor->idProductor =$model->idProductor;
-            $feriaProductor->idFeria= $idFeria;
-            $feriaProductor->save();
+        
+        if(gettype($model->ferias) == 'array'){
+            foreach($model->ferias as $idFeria){
+                $feriaProductor = new FeriaProductor();
+                $feriaProductor->idProductor =$model->idProductor;
+                $feriaProductor->idFeria= $idFeria;
+                $feriaProductor->save();
+            }
         }
 
     }
@@ -251,15 +254,14 @@ class ProductorController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     private function guardarMediospago($model){
-        foreach($model->mediospago as $idMedio){
-            $medioPagoProductor = new MediopagoProductor();
-            $medioPagoProductor->idProductor =$model->idProductor;
-            $medioPagoProductor->idMedio_pago= $idMedio;
-            $medioPagoProductor->save();
-            //print_r($medioPagoProductor->getErrors());
-            //exit;
+        if(gettype($model->mediospago) == 'array'){
+            foreach($model->mediospago as $idMedio){
+                $medioPagoProductor = new MediopagoProductor();
+                $medioPagoProductor->idProductor =$model->idProductor;
+                $medioPagoProductor->idMedio_pago= $idMedio;
+                $medioPagoProductor->save();
+            }
         }
-
     }
 
     /**

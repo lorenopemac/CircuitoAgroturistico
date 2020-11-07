@@ -11,6 +11,18 @@ use yii\helpers\Url;
 $this->title = 'Ferias';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<style>
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 98%;               
+  background-color: lightgrey;
+  height: 3px;
+}
+</style>
+
 <div class="feria-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -20,9 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
     
         <?= Html::a('Mapa de Ferias', ['catalogo/mapaferias'], ['class' => 'btn btn-primary']) ?>
     </p>
+    
+    <hr>
+
     <?php Pjax::begin(); ?>
     <?php echo $this->render('_search', ['model' => $searchModel,'localidadesModel' => $localidadesModel]); ?>
 
+    <hr>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
