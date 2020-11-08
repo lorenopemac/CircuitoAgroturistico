@@ -11,6 +11,17 @@ use yii\grid\GridView;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
+<style>
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 98%;               
+  background-color: lightgrey;
+  height: 3px;
+}
+</style>
+
 <div class="feria-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -28,6 +39,8 @@ use yii\grid\GridView;
             ])  
         ?>
     </div>
+
+    <hr>
 
     <div class="col-md-12 col-xs-12">         
         <?php if(!$vista){ ?>
@@ -60,6 +73,9 @@ use yii\grid\GridView;
                 ]);
             ?>
         <?php } ?>
+        </div>
+
+        <hr>
 
         <div class="col-md-12 col-xs-12">  
         <?php if(!$vista){ ?>
@@ -105,6 +121,9 @@ use yii\grid\GridView;
         <?php } ?>
 
     </div>
+
+    <hr>
+
     <div class="col-md-6 col-xs-12" >     
         <?= $form->field($model, 'latitud')->textInput(['maxlength' => true]) ?>
     </div>

@@ -91,18 +91,5 @@ use yii\grid\GridView;
                 ],
             ]); ?>
         </div>
-    </div>
-    <div class="col-md-12 col-xs-12">   
-        <p>
-                            
-            <?= Html::a('Modificar', ['update', 'id' => $model->idProducto], ['class' => 'btn btn-primary']) ?>
-            <?= Html::a('Eliminar', ['delete', 'id' => $model->idProducto], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => 'Are you sure you want to delete this item?',
-                    'method' => 'post',
-                ],
-            ]) ?>
-        </p>
-    </div>            
+    </div>      
 </div>

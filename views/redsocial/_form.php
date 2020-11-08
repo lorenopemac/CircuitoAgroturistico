@@ -21,13 +21,11 @@ use yii\helpers\Url;
             'options' => ['multiple' => true],
             'pluginOptions' => [
                 'initialPreview'=>[$model->imagen],
-                'initialPreviewConfig' => $initialPreviewConfig,
                 'previewFileType' => 'any', 
                 'maxFileCount'=>10,
                 'showCaption'=> false,
                 'showRemove'=> true,
                 'deleteUrl' => Url::to('eliminarimagen'),
-                
                 'showUpload'=> false]
             ]);
         ?>
