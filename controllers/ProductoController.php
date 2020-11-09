@@ -131,7 +131,8 @@ class ProductoController extends Controller
     public function actionCreate()
     {
         $model = new Producto();
-        $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
+        $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where(['baja'=>0])->orderBy(['nombreFantasia'=>SORT_ASC])->all(), 'idProductor', 'nombreFantasia');
+        
         $categoriasModel = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idCategoria', 'nombre');
         $vista =false;
         if ($model->load(Yii::$app->request->post())  ) {
@@ -193,7 +194,7 @@ class ProductoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idProductor', 'nombre');
+        $productoresModel = \yii\helpers\ArrayHelper::map(\app\models\Productor::find()->where(['baja'=>0])->orderBy(['nombreFantasia'=>SORT_ASC])->all(), 'idProductor', 'nombreFantasia');
         $categoriasModel = \yii\helpers\ArrayHelper::map(\app\models\Categoria::find()->where(['baja'=>0])->orderBy(['nombre'=>SORT_ASC])->all(), 'idCategoria', 'nombre');
         $categoriasProducto = \yii\helpers\ArrayHelper::map(\app\models\CategoriaProducto::find()->where(['idProducto'=>$id])->all(), 'idCategoria_producto', 'idCategoria');
         $vista =true;

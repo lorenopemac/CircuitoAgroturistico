@@ -11,7 +11,18 @@ use yii\widgets\Pjax;
 $this->title = 'Categorias';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="categoria-index">
+<style>
+    .button1 {background-color: #4CAF50;} /* Green */
+    .en-linea {
+        
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        text-align: center;
+        border: 0px solid black;
+    }
+</style>
+<div class="categoria-index ">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -21,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+ <div class="en-linea ">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -30,6 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'nombre',
             'descripcion',
+            ['label'=>'Agroturismo',
+              'format'=>'raw',
+              'value' => function($model, $key, $index, $column) { return $model->esAgroturismo == 1 ? 'Si' : 'No';},],
             ['label'=>'Activo',
               'format'=>'raw',
               'value' => function($model, $key, $index, $column) { return $model->baja == 0 ? 'Si' : 'No';},],
@@ -72,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
+</div>
     <?php Pjax::end(); ?>
 
 </div>

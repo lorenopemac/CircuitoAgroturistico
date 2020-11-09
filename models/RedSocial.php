@@ -33,7 +33,7 @@ class RedSocial extends \yii\db\ActiveRecord
             [['baja'], 'boolean'],
             [['nombre'], 'string', 'max' => 45],
             [['idImagen'],'integer'],
-            [['imagen'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 1],
+            [['imagen'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, , jpeg,jpg', 'maxFiles' => 1],
         ];
     }
 

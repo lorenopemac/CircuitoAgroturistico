@@ -29,7 +29,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Proyecto Ferias',
+        'brandLabel' => 'Madriguera',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -39,15 +39,32 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Inicio', 'url' => ['/site/index']],
-            ['label' => 'Catálogo', 'url' => ['/catalogo/index']],
+            [
+                'label' => 'Catálogos',
+                'icon' => 'share',
+                'url' => '#',
+                'items' => [
+                    ['label' => 'Agroturismo', 'url' => ['/catalogoagro/index']],
+                    ['label' => 'Catálogo', 'url' => ['/catalogo/index']],
+                    ['label' => 'Mapa de Ferias', 'url' => ['/catalogo/mapaferias']],
+                    ['label' => 'Mapa de Productores', 'url' => ['/catalogo/mapaproductores']],
+                ],
+            ],
             ['label' => 'Feria', 'url' => ['/feria/index']],
             ['label' => 'Producto', 'url' => ['/producto/index']],
             ['label' => 'Productor', 'url' => ['/productor/index']],
             ['label' => 'Categoria', 'url' => ['/categoria/index']],
-            ['label' => 'M. Pago', 'url' => ['/mediopago/index']],
+            ['label' => 'Medio Pago', 'url' => ['/mediopago/index']],
             ['label' => 'Red Social', 'url' => ['/redsocial/index']],
-            ['label' => 'Provincia', 'url' => ['/provincia/index']],
-            ['label' => 'Localidad', 'url' => ['/localidad/index']],
+            [
+                'label' => 'Ubicación',
+                'icon' => 'share',
+                'url' => '#',
+                'items' => [
+                    ['label' => 'Provincia', 'url' => ['/provincia/index']],
+                    ['label' => 'Localidad', 'url' => ['/localidad/index']],
+                ],
+            ],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Ingresar', 'url' => ['/site/login']]
             ) : (

@@ -14,6 +14,14 @@ use yii\web\NotFoundHttpException;
 ?>
 <style>
     .button1 {background-color: #4CAF50;} /* Green */
+    .en-linea {
+        display: flex;
+        justify-content: left;
+        align-items: left;
+        flex-wrap: wrap;
+        text-align: left;
+        border: 0px solid black;
+    }
     .categorias { float: initial; width:100%;}
     hr {
             border: 0;
@@ -30,29 +38,27 @@ use yii\web\NotFoundHttpException;
 <div class="categoria-index" >
 <?php \yii\widgets\Pjax::begin();?>
 
-<div   >
-    <div  style=" box-sizing: border-box; display: flex; place-content: stretch ;">
+<div  style=" box-sizing: border-box; display: flex; place-content: stretch ;">
         <div  class="" id="filtros" style="flex: 1 1 100%; box-sizing: border-box; max-width: 20%; background: #d8dde6 ;"> 
             <div class="col-md-3"style=" width: 100%; padding-left:20%;">
                 <div  class="titulo"><h3><u>Categoría</u></h3></div>
                 <div class=" categorias">
-                    
                     <?php foreach($categorias as $categoria):?>        
-                        <label><input type="radio" class=" categoria" name="categoria" id=<?= $categoria->idCategoria ?>> <?= $categoria->nombre ?> </label>
+                        <label><input type="radio" class="categoria" name="categoria" id=<?= $categoria->idCategoria ?>> <?= $categoria->nombre ?> </label>
                         <hr>
                     <?php endforeach; ?>
                 </div>
                 <div  class="titulo"><h3><u>Feria</u></h3></div>
                 <div class="ferias">
                     <?php foreach($ferias as $feria):?>        
-                        <label><input type="radio" class="  feria" name="feria" id=<?= $feria->idFeria ?>> <?= $feria->nombre ?> </label>
+                        <label><input type="radio" class="feria" name="feria" id=<?= $feria->idFeria ?>> <?= $feria->nombre ?> </label>
                         <hr>
                     <?php endforeach; ?>
                 </div>
                 <div  class="titulo"><h3><u>Localidad</u></h3></div>
                 <div class="localidad">
                     <?php foreach($localidades as $localidad):?>        
-                        <label><input type="radio" class=" localidad" name="localidad" id=<?= $localidad->idLocalidad ?>> <?= $localidad->nombre ?> </label>
+                        <label><input type="radio" class="localidad" name="localidad" id=<?= $localidad->idLocalidad ?>> <?= $localidad->nombre ?> </label>
                         <hr>
                     <?php endforeach; ?>
                 </div>
@@ -92,11 +98,9 @@ $this->registerJs(
 
 
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-
-$urlFiltrarLocalidad = Url::to(['catalogo/filtrolocalidad']);
-$urlFiltrarCategoria = Url::to(['catalogo/filtrocategoria']);
-$urlFiltrarFeria = Url::to(['catalogo/filtroferia']);
-
+$urlFiltrarLocalidad = Url::to(['catalogoagro/filtrolocalidad']);
+$urlFiltrarCategoria = Url::to(['catalogoagro/filtrocategoria']);
+$urlFiltrarFeria = Url::to(['catalogoagro/filtroferia']);
 $urlProducto = Url::to(['producto/view']);
 $validar = false;
 $this->registerJs("

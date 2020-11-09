@@ -29,7 +29,7 @@ class Categoria extends \yii\db\ActiveRecord
     {
         return [
             [['nombre'], 'required'],
-            [['baja'], 'boolean'],
+            [['baja','esAgroturismo'], 'boolean'],
             [['nombre'], 'string', 'max' => 65],
             [['descripcion'], 'string', 'max' => 150],
         ];

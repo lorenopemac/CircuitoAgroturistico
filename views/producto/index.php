@@ -12,6 +12,18 @@ use yii\widgets\Pjax;
 $this->title = 'Productos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<style>
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 98%;               
+  background-color: lightgrey;
+  height: 3px;
+}
+</style>
+
 <div class="producto-index">
     <?php \yii\widgets\Pjax::begin();?>
     <h1><?= Html::encode($this->title) ?></h1>
@@ -20,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Agregar Producto', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    
+    <hr>
     
     <div class="producto-search" >
         <div class="box box-success">
@@ -62,7 +74,9 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         </div>
 
-        <div class="box-body">
+    <hr>                    
+
+    <div class="box-body">
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [

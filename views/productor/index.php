@@ -12,6 +12,18 @@ use yii\helpers\Url;
 $this->title = 'Productores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<style>
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 98%;               
+  background-color: lightgrey;
+  height: 3px;
+}
+</style>
+
 <div class="productor-index" >
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -21,8 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Mapa de Productores', ['catalogo/mapaproductores'], ['class' => 'btn btn-primary']) ?>
     </p>
 
+    <hr>
+
     <?php Pjax::begin(); ?>
     <?php  echo $this->render('_search', ['model' => $searchModel, 'provinciasModel' => $provinciasModel,'localidadesModel' => $localidadesModel,]); ?>
+
+    <hr>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -35,8 +51,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'cuit',
             ['attribute'=>'Localidad',
              'value'=> 'localidad.nombre'],
-            'nombreCalle',
-            'numeroCalle',
             'numeroTelefono',
             ['label'=>'Activo',
               'format'=>'raw',

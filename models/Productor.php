@@ -50,7 +50,7 @@ class Productor extends \yii\db\ActiveRecord
             [['idLocalidad'], 'exist', 'skipOnError' => true, 'targetClass' => Localidad::className(), 'targetAttribute' => ['idLocalidad' => 'idLocalidad']],
             ['ferias', 'each', 'rule' => ['integer']],
             ['mediospago', 'each', 'rule' => ['integer']],
-            [['imagenes'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 4],
+            [['imagenes'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpeg, jpg', 'maxFiles' => 4],
         ];
     }
 

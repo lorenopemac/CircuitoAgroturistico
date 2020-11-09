@@ -27,6 +27,15 @@ tr,th, td {
 div{
     overflow: auto;
 }
+
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 98%;               
+  background-color: lightgrey;
+  height: 3px;
+}
 </style>
 <div class="productor-form">
 
@@ -83,12 +92,16 @@ div{
         ?>
     </div>
 
+    <hr>
+
     <div class="col-md-12 col-xs-12" id='editor-en' name='editor-en'>     
         <?= $form->field($model, 'descripcion')->widget(
             MarkdownEditor::classname(), 
             ['height' => 300, 'encodeLabels' => false, 'language'=> 'ru']
         );?>
     </div>
+
+    <hr>
 
     <div class="col-md-12 col-xs-12">           
         <?= $form->field($model, 'mediospago')->checkboxList($medioPagoModel, [
@@ -100,6 +113,8 @@ div{
 
         ?>
     </div>
+
+    <hr>
 
     <div class="col-md-12 col-xs-12">     
         <?php if(!$vista){ ?>
@@ -134,6 +149,8 @@ div{
             ?>
         <?php } ?>
     </div>
+
+    <hr>
     
     <div class="col-md-12 col-xs-12">  
         <?php if(!$vista){ ?>
@@ -178,6 +195,9 @@ div{
             ]); ?>
         <?php } ?>
     </div>
+
+    <hr>
+    
     <div class="col-md-6 col-xs-12" >     
         <?= $form->field($model, 'latitud')->textInput(['maxlength' => true]) ?>
     </div>
