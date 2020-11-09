@@ -93,9 +93,9 @@ $this->registerJs(
 
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 
-$urlFiltrarLocalidad = Url::to(['catalogo/filtrolocalidad']);
-$urlFiltrarCategoria = Url::to(['catalogo/filtrocategoria']);
-$urlFiltrarFeria = Url::to(['catalogo/filtroferia']);
+$urlFiltrarLocalidad = '../../aplicacion/CircuitoAgroturistico/web/catalogo/filtrolocalidad';
+$urlFiltrarCategoria = '../../aplicacion/CircuitoAgroturistico/web/catalogo/filtrocategoria';
+$urlFiltrarFeria = '../../aplicacion/CircuitoAgroturistico/web/catalogo/filtroferia';
 
 $urlProducto = Url::to(['producto/view']);
 $validar = false;

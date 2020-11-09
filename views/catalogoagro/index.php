@@ -98,9 +98,9 @@ $this->registerJs(
 
 
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-$urlFiltrarLocalidad = Url::to(['catalogoagro/filtrolocalidad']);
-$urlFiltrarCategoria = Url::to(['catalogoagro/filtrocategoria']);
-$urlFiltrarFeria = Url::to(['catalogoagro/filtroferia']);
+$urlFiltrarLocalidad = '../../aplicacion/CircuitoAgroturistico/web/catalogoagro/filtrolocalidad';
+$urlFiltrarCategoria = '../../aplicacion/CircuitoAgroturistico/web/catalogoagro/filtrocategoria';
+$urlFiltrarFeria = '../../aplicacion/CircuitoAgroturistico/web/catalogoagro/filtroferia';
 $urlProducto = Url::to(['producto/view']);
 $validar = false;
 $this->registerJs("
@@ -121,7 +121,7 @@ $('.categoria').click(function(e){
                 var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=col-lg-4 ><p></p><h4 style=text-align:center>'+ \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
                 
@@ -148,7 +148,7 @@ $('.feria').click(function(e){
                 var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=col-lg-4 ><p></p><h4 style=text-align:center>'+ \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
                 
@@ -174,7 +174,7 @@ $('.localidad').click(function(e){
                 var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=col-lg-4 ><p></p><h4 style=text-align:center>'+ \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
                 
