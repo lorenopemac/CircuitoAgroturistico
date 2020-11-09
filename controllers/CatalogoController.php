@@ -232,7 +232,7 @@ class CatalogoController extends Controller
      */
     public function actionFiltrocategoria(){
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $params= Yii::$app->request->post();
+        $params= Yii::$app->request->get();
         
         $productos = Producto::find()
                     ->joinWith('categorias')
@@ -265,7 +265,7 @@ class CatalogoController extends Controller
      */
     public function actionFiltroferia(){
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $params= Yii::$app->request->post();
+        $params= Yii::$app->request->get();
 
         //BUSCO PRODUCTORES QUE PARTICIPEN EN LA FERIA DE PARAMETRO
         $productores = Productor::find()
@@ -310,7 +310,7 @@ class CatalogoController extends Controller
      */
     public function actionFiltrolocalidad(){
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $params= Yii::$app->request->post();
+        $params= Yii::$app->request->get();
 
         //BUSCO PRODUCTORES QUE PARTICIPEN EN LA FERIA DE PARAMETRO
         $productores = Productor::find()

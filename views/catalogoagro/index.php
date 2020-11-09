@@ -22,36 +22,49 @@ use yii\web\NotFoundHttpException;
         text-align: left;
         border: 0px solid black;
     }
+    .categorias { float: initial; width:100%;}
+    hr {
+            border: 0;
+            clear:both;
+            display:block;
+            width: 90%;               
+            background-color: white;
+            height: 1px;
+            margin-top: 1px;
+            margin-bottom: 1px;
+        }
 </style>
     
 <div class="categoria-index" >
 <?php \yii\widgets\Pjax::begin();?>
 
-<div class="mb-2 en-linea" fxlayout="row" fxlayout.lt-md="column" fxlayoutalign="space-between start" fxlayoutalign.lt-md="start" style="flex-direction: row; box-sizing: border-box;  place-content: flex-start space-between; align-items: flex-start;">
-    <div fxlayout="row wrap" fxlayoutalign="strech" class="ng-star-inserted" style="flex-flow: row wrap; box-sizing: border-box;  place-content: stretch ; align-items: stretch;">
-        <div  class="col-lg-3 jumbotron" fxflex.gt-sm="20"  id="filtros" style="flex: 1 1 100%; box-sizing: border-box; max-width: 20%; background: #d8dde6 ;"> 
-            <div style=" width: 100%;">
+<div  style=" box-sizing: border-box; display: flex; place-content: stretch ;">
+        <div  class="" id="filtros" style="flex: 1 1 100%; box-sizing: border-box; max-width: 20%; background: #d8dde6 ;"> 
+            <div class="col-md-3"style=" width: 100%; padding-left:20%;">
                 <div  class="titulo"><h3><u>Categoría</u></h3></div>
-                <div class="categorias">
+                <div class=" categorias">
                     <?php foreach($categorias as $categoria):?>        
                         <label><input type="radio" class="categoria" name="categoria" id=<?= $categoria->idCategoria ?>> <?= $categoria->nombre ?> </label>
+                        <hr>
                     <?php endforeach; ?>
                 </div>
                 <div  class="titulo"><h3><u>Feria</u></h3></div>
                 <div class="ferias">
                     <?php foreach($ferias as $feria):?>        
                         <label><input type="radio" class="feria" name="feria" id=<?= $feria->idFeria ?>> <?= $feria->nombre ?> </label>
+                        <hr>
                     <?php endforeach; ?>
                 </div>
                 <div  class="titulo"><h3><u>Localidad</u></h3></div>
                 <div class="localidad">
                     <?php foreach($localidades as $localidad):?>        
                         <label><input type="radio" class="localidad" name="localidad" id=<?= $localidad->idLocalidad ?>> <?= $localidad->nombre ?> </label>
+                        <hr>
                     <?php endforeach; ?>
                 </div>
             </div>
         </div>
-        <div fxlayout="row wrap" fxlayoutalign=" strech" class="col-lg-9 jumbotron" style="flex-flow: row wrap; box-sizing: border-box; place-content: stretch ; align-items: stretch; ">
+        <div  class="col-md-9" >
             
             <div class="productos">
                 <?php foreach($productos as $producto):?>
@@ -97,7 +110,7 @@ $('.categoria').click(function(e){
         direccion = '$url';
         $.ajax({
             url: '$urlFiltrarCategoria',
-            type: 'post',
+            type: 'get',
             data: {
             'idCategoria' : this.id,
             },
@@ -125,7 +138,7 @@ $('.feria').click(function(e){
         direccion = '$url';
         $.ajax({
             url: '$urlFiltrarFeria',
-            type: 'post',
+            type: 'get',
             data: {
             'idFeria' : this.id,
             },
@@ -151,7 +164,7 @@ $('.localidad').click(function(e){
         direccion = '$url';
         $.ajax({
             url: '$urlFiltrarLocalidad',
-            type: 'post',
+            type: 'get',
             data: {
             'idLocalidad' : this.id,
             },
