@@ -104,7 +104,7 @@ $('.categoria').click(function(e){
         direccion = '$url';
         $.ajax({
             url: '$urlFiltrarCategoria',
-            type: 'post',
+            type: 'get',
             data: {
             'idCategoria' : this.id,
             },
@@ -132,7 +132,7 @@ $('.feria').click(function(e){
         direccion = '$url';
         $.ajax({
             url: '$urlFiltrarFeria',
-            type: 'post',
+            type: 'get',
             data: {
             'idFeria' : this.id,
             },
@@ -158,7 +158,7 @@ $('.localidad').click(function(e){
         direccion = '$url';
         $.ajax({
             url: '$urlFiltrarLocalidad',
-            type: 'post',
+            type: 'get',
             data: {
             'idLocalidad' : this.id,
             },
