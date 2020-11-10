@@ -33,6 +33,11 @@ use yii\web\NotFoundHttpException;
             margin-top: 1px;
             margin-bottom: 1px;
         }
+
+        .producto {
+            border: 2px outset rgba(28,110,164,0.36);
+            border-radius: 30px;
+        }
 </style>
     
 <div class="categoria-index" >
