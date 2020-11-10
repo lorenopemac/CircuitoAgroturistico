@@ -123,7 +123,7 @@ $('.categoria').click(function(e){
                 console.log(res.productos[0]);
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
-                var clase = 'col-lg-4 producto';
+                
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=\'col-lg-4 producto \' ><p></p><h4 style=text-align:center>'+ \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
@@ -150,7 +150,7 @@ $('.feria').click(function(e){
             success: function(res){
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
-                var clase = 'col-lg-4 producto';
+                
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=\'col-lg-4 producto \' ><p></p><h4 style=text-align:center>'+ \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
@@ -176,7 +176,7 @@ $('.localidad').click(function(e){
             success: function(res){
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
-                var clase = 'col-lg-4 producto';
+                
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=\'col-lg-4 producto \' ><p></p><h4 style=text-align:center>'+ \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
