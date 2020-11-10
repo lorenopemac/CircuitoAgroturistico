@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -35,8 +35,8 @@ use yii\web\NotFoundHttpException;
         }
 
         .producto {
-            border: 2px outset rgba(28,110,164,0.36);
-            border-radius: 30px;
+            border: 2px outset rgba(28,110,164,0.11);
+            border-radius: 16px;
         }
 </style>
     
