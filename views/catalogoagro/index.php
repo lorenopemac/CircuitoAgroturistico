@@ -36,7 +36,7 @@ use yii\web\NotFoundHttpException;
 
         .producto {
             border: 2px outset rgba(28,110,164,0.11);
-            border-radius: 16px;
+            border-radius: 6px;
         }
 </style>
     
