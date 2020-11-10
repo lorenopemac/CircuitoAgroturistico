@@ -27,8 +27,8 @@ use yii\web\NotFoundHttpException;
         }
 
 .producto {
-    border: 2px outset rgba(28,110,164,0.36);
-    border-radius: 10px;
+    border: 2px outset rgba(28,110,164,0.11);
+    border-radius: 6px;
 }
 </style>
     
@@ -121,7 +121,7 @@ $('.categoria').click(function(e){
                 var tamaño = Object.keys(res.productos).length;
                 var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class=col-lg-4 ><p></p><h4 style=text-align:center>'+ \n
+                $( '.productos' ).append('<div class=\'col-lg-4 producto \'><p></p><h4 style=text-align:center>'+ \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
@@ -148,7 +148,7 @@ $('.feria').click(function(e){
                 var tamaño = Object.keys(res.productos).length;
                 var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class=col-lg-4 ><p></p><h4 style=text-align:center>'+ \n
+                $( '.productos' ).append('<div class=\'col-lg-4 producto \'><p></p><h4 style=text-align:center>'+ \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
@@ -174,7 +174,7 @@ $('.localidad').click(function(e){
                 var tamaño = Object.keys(res.productos).length;
                 var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class=col-lg-4 ><p></p><h4 style=text-align:center>'+ \n
+                $( '.productos' ).append('<div class= \'col-lg-4 producto \' ><p></p><h4 style=text-align:center>'+ \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
