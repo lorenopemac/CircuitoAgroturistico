@@ -104,7 +104,7 @@ use yii\web\NotFoundHttpException;
                     <div class="col-lg-4 card">
                         <?= $producto->imagenes[0] ?>  
 
-                        <p></p><b> <h4 style="text-align:center"><?= $producto->nombre ?></h4></b> <p></p>
+                        <p></p><b> <h4 style="height:50px; text-align:center"><?= $producto->nombre ?></h4></b> <p></p>
                         
                         <p style="text-align:center"><button type="button" class="btn btn-success" id= <?=$producto->idProducto?> >Ver más</button></p>
                     </div>
