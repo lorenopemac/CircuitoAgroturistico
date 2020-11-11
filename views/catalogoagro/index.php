@@ -151,17 +151,13 @@ $('.categoria').click(function(e){
             'idCategoria' : this.id,
             },
             success: function(res){
-                console.log(res.productos[0]);
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
-                
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class=\'col-lg-4 card \' ><p></p><h4 style=text-align:center>'+ \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
-                +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
+                $( '.productos' ).append('<div class=\'col-lg-4 card \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
+                +' width=200px height=210px > </p><p></p><h4 style=text-align:center>'+ \n
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
-                
-
             }
         })
     }
@@ -181,14 +177,11 @@ $('.feria').click(function(e){
             success: function(res){
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
-                
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class=\'col-lg-4 card \' ><p></p><h4 style=text-align:center>'+ \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
-                +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
+                $( '.productos' ).append('<div class=\'col-lg-4 card \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
+                +' width=200px height=210px > </p><p></p><h4 style=text-align:center>'+ \n
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
-                
-
             }
         })
     }
@@ -207,15 +200,11 @@ $('.localidad').click(function(e){
             success: function(res){
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
-                
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class=\'col-lg-4 card \' ><p></p><h4 style=text-align:center>'+ \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
-                +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
+                $( '.productos' ).append('<div class=\'col-lg-4 card \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
+                +' width=200px height=210px > </p><p></p><h4 style=text-align:center>'+ \n
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
-                
-
-            }
         })
     }
 });
