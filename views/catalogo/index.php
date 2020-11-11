@@ -30,6 +30,40 @@ use yii\web\NotFoundHttpException;
     border: 2px outset rgba(28,110,164,0.11);
     border-radius: 6px;
 }
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 350px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+  margin-top: 10.5px;
+}
+
+.price {
+  color: grey;
+  font-size: 22px;
+}
+
+.card button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #4CAF50;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.card button:hover {
+  opacity: 0.7;
+}
+.file-preview-image{
+    height: 250px;
+    width: 100%;
+}
 </style>
     
 <div class="categoria-index" >
@@ -67,12 +101,10 @@ use yii\web\NotFoundHttpException;
             
             <div class="productos">
                 <?php foreach($productos as $producto):?>
-                    <div class="col-lg-4 producto">
-                        <p></p><h4 style="text-align:center"><?= Html::a(Html::encode($producto->nombre)) ?></h4><p></p>
-                        
-                        <p style="text-align:center"><?= $producto->imagenes[0] ?>  </p>
-                        <!--
-                        <p style="text-align:center" ><?= $producto->descripcion ?></p> !-->
+                    <div class="col-lg-4 card">
+                        <?= $producto->imagenes[0] ?>  
+
+                        <p></p><b> <h4 style="text-align:center"><?= $producto->nombre ?></h4></b> <p></p>
                         
                         <p style="text-align:center"><button type="button" class="btn btn-success" id= <?=$producto->idProducto?> >Ver más</button></p>
                     </div>
@@ -119,9 +151,8 @@ $('.categoria').click(function(e){
                 console.log(res.productos[0]);
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
-                var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class=\'col-lg-4 producto \'><p></p><h4 style=text-align:center>'+ \n
+                $( '.productos' ).append('<div class=\'col-lg-4 card \'><p></p><h4 style=text-align:center>'+ \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
@@ -146,9 +177,8 @@ $('.feria').click(function(e){
             success: function(res){
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
-                var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class=\'col-lg-4 producto \'><p></p><h4 style=text-align:center>'+ \n
+                $( '.productos' ).append('<div class=\'col-lg-4 card \'><p></p><h4 style=text-align:center>'+ \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
@@ -172,9 +202,8 @@ $('.localidad').click(function(e){
             success: function(res){
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
-                var clase = 'col-lg-4 producto';
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class= \'col-lg-4 producto \' ><p></p><h4 style=text-align:center>'+ \n
+                $( '.productos' ).append('<div class= \'col-lg-4 card \' ><p></p><h4 style=text-align:center>'+ \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturisticoTest/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
