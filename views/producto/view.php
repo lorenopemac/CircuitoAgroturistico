@@ -13,7 +13,6 @@ use yii\grid\GridView;
     .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         margin: auto;
-        text-align: center;
         font-family: arial;
         margin-top: 1.5px;
         height: 380px;
@@ -152,9 +151,9 @@ use yii\grid\GridView;
         <div class="col-md-6 col-xs-12 card">     
             
         <ul class="list-unstyled">
-            <h2><?= $model->nombre ?></h2>
+            <h2 style="text-align: center;"><?= $model->nombre ?></h2>
             <hr>
-            <li><h4> <strong>Descripción: </strong>&nbsp;    <?= $model->descripcion ?> </h4></li>
+            <li><h4 > <strong>Descripción: </strong>&nbsp;    <?= $model->descripcion ?> </h4></li>
             <hr>
             <li><h4><strong>Productor</strong>&nbsp;&nbsp;&nbsp;   <?= $model->productor->nombre ?> </h4></li>
         </ul>
@@ -165,17 +164,17 @@ use yii\grid\GridView;
                 <h2>Sobre el Productor</h2>
         </div>
         <div class="col-md-6 col-xs-12 card">  
-            <?= DetailView::widget([
-                'model' => $modelProductor,
-                'attributes' => [
-                    'nombre',
-                    'provincia.nombre',
-                    'localidad.nombre',
-                    'nombreCalle',
-                    'numeroCalle',
-                    'numeroTelefono',
-                ],
-            ]) ?>
+            <ul class="list-unstyled">
+                <h2><?= $modelProductor->nombre ?></h2>
+                <hr>
+                <li><h4> <strong>Nombre: </strong>&nbsp;    <?= $modelProductor->nombre ?> </h4></li>
+                <hr>
+                <li><h4><strong>Localidad: </strong>&nbsp;&nbsp;&nbsp;   <?= $modelProductor->localidad->nombre ?> </h4></li>
+                <hr>
+                <li><h4><strong>Telefono: </strong>&nbsp;&nbsp;&nbsp;   <?= $modelProductor->numeroTelefono ?> </h4></li>
+                <hr>
+                <li><h4><strong>Ubicación: </strong>&nbsp;&nbsp;&nbsp;   <?= $modelProductor->nombreCalle?>  al <?= $modelProductor->numeroCalle?> </h4></li>
+            </ul>
         </div>
         <div class="col-md-6 col-xs-12 card">  
             <?=  GridView::widget([
