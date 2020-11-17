@@ -9,6 +9,8 @@ use app\models\RedSocialSearch;
 use app\models\RedsocialProductor;
 use app\models\ProductoSearch;
 use app\models\Categoria;
+use app\models\MediopagoProductor;
+use app\models\MedioPago;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -102,6 +104,16 @@ class ProductoController extends Controller
         $data = $this->cargarImagenes($model);
 
         $modelProductor = Productor::find()->where(['idProductor'=>$model->idProductor])->one();
+        $mediosPagoProductor = MediopagoProductor::find()->where(['idProductor'=>$model->idProductor])->all();
+        $imagenesPago= array();
+        foreach($mediosPagoProductor as $medioPagoProd){
+            $medioPago = MedioPago::find()->where(['idMedio_pago'=>$medioPagoProd->idMedio_pago])->one();
+            $imagen = Imagen::find()
+                    ->where(['idImagen'=>$medioPago->idImagen])
+                    ->one();
+            array_push($imagenesPago,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-pago','width' => '30px','height' => '30px'])) ;          
+        }
+        
         $redProductor = RedsocialProductor::find()
                         ->joinWith('redSocial')
                         ->where(['idProductor'=>$modelProductor->idProductor,'baja'=>0])
@@ -120,6 +132,7 @@ class ProductoController extends Controller
             'model' => $model,
             'modelProductor'=> $modelProductor,
             'providerProductor' => $providerProductor,
+            'imagenesPago' => $imagenesPago,
         ]);
     }
 

@@ -8,14 +8,15 @@ use yii\grid\GridView;
 
 \yii\web\YiiAsset::register($this);
 ?>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     .card {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         margin: auto;
         font-family: arial;
         margin-top: 1.5px;
-        height: 380px;
+        height: 420px;
+        
     }
 
     hr {
@@ -102,6 +103,47 @@ use yii\grid\GridView;
     .text {font-size: 11px}
     }
 
+
+    /* Style all font awesome icons */
+    .fa {
+    padding: 10px;
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+    }
+
+    /* Add a hover effect if you want */
+    .fa:hover {
+    opacity: 0.7;
+    }
+
+    /* Set a specific color for each brand */
+
+    /* Facebook */
+    .fa-facebook {
+    background: #3B5998;
+    color: white;
+    }
+
+    /* Twitter */
+    .fa-twitter {
+    background: #55ACEE;
+    color: white;
+    }
+
+    .fa-instagram {
+    background: #E1306C;
+    color: white;
+    }
+
+    .fa-youtube {
+    background: #bb0000;
+    color: white;
+    }
+
 </style>
 <div class="producto-view">
 
@@ -153,9 +195,17 @@ use yii\grid\GridView;
         <ul class="list-unstyled">
             <h2 style="text-align: center;"><?= $model->nombre ?></h2>
             <hr>
-            <li><h4 > <strong>Descripción: </strong>&nbsp;    <?= $model->descripcion ?> </h4></li>
+            <li><h4 > <?= $model->descripcion ?> </h4></li>
             <hr>
             <li><h4><strong>Productor</strong>&nbsp;&nbsp;&nbsp;   <?= $model->productor->nombre ?> </h4></li>
+            <hr>
+            <li>
+                <h4><strong>Medios de Pago: </strong></h4>
+                <?php foreach($imagenesPago as $imagen):?>        
+                    <?= $imagen ?>
+                <?php endforeach; ?>
+
+            </li>
         </ul>
         </div>
     </div>        
@@ -167,26 +217,22 @@ use yii\grid\GridView;
             <ul class="list-unstyled">
                 <h2><?= $modelProductor->nombre ?></h2>
                 <hr>
-                <li><h4> <strong>Nombre: </strong>&nbsp;    <?= $modelProductor->nombre ?> </h4></li>
-                <hr>
                 <li><h4><strong>Localidad: </strong>&nbsp;&nbsp;&nbsp;   <?= $modelProductor->localidad->nombre ?> </h4></li>
                 <hr>
                 <li><h4><strong>Telefono: </strong>&nbsp;&nbsp;&nbsp;   <?= $modelProductor->numeroTelefono ?> </h4></li>
                 <hr>
                 <li><h4><strong>Ubicación: </strong>&nbsp;&nbsp;&nbsp;   <?= $modelProductor->nombreCalle?>  al <?= $modelProductor->numeroCalle?> </h4></li>
             </ul>
+            <hr>
+            <h4> <strong>Redes Sociales: </strong>&nbsp;  </h4>
+            <a href="#" class="fa fa-facebook" style="margin-left:150px;"></a>
+            <a href="#" class="fa fa-twitter"></a>
+            <a href="#" class="fa fa-instagram"></a>
+            <a href="#" class="fa fa-youtube"></a>
         </div>
         <div class="col-md-6 col-xs-12 card">  
-            <?=  GridView::widget([
-                'dataProvider' => $providerProductor,
-                'columns' => [
-                    
-                    ['attribute'=>'Red Social',
-                    'value'=> 'redSocial.nombre'],
-                    ['attribute'=>'Link',
-                    'value'=> 'direccion'],
-                ],
-            ]); ?>
+            <h4><strong>Ubicación: </strong></>
+            <div id="googleMap" style="width:100%;height:200px;"></div>
         </div>
     </div>      
 </div>
@@ -212,3 +258,54 @@ function showSlides() {
   setTimeout(showSlides, 2500); // Change image every 2 seconds
 }
 </script>
+
+
+<script>
+    var latitud = parseFloat(<?php echo json_encode($model->latitud) ?>);
+    var longitud = parseFloat(<?php echo json_encode($model->longitud) ?>);
+    var nombre = ( <?php echo json_encode($model->nombre) ?> );
+    
+    function myMap() {
+        const myLatLng = { lat: latitud, lng: longitud };
+        lat = 0;
+        long = 0;
+        if(!isNaN(latitud)){
+            lat = latitud;
+            long = longitud ;
+        }else{
+            lat = -38.95146614;
+            long = -68.05905819;
+        }
+        
+        var mapProp = {
+          center: new google.maps.LatLng(lat, long),
+          zoom: 10,
+        };
+
+        var contenido =
+          '<div id="content">' +
+          '<div id="siteNotice">' +
+          "</div>" +
+          '<h4> '+ nombre +' </h4>' +
+          "</div>";
+
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+        var infowindow = new google.maps.InfoWindow({
+            content: contenido,
+          });
+        
+          new google.maps.Marker({
+            position: myLatLng,
+            map,
+            title: "Productor"
+        });
+
+        var marker = new google.maps.Marker({position: myLatLng,map,title: nombre ,draggable: true,animation: google.maps.Animation.DROP,});
+
+        marker.addListener("click", () => {
+            infowindow.open(map, marker);
+          });
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbryvr-215IpAVrBJ50KY6DToPUplMcmM&callback=myMap"></script>
