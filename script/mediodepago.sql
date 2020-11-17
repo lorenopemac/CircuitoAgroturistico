@@ -10,7 +10,7 @@ CHANGE COLUMN `idMedio_pago` `idMedio_pago` INT(11) NOT NULL AUTO_INCREMENT ;
 
 
 CREATE TABLE `circuito_agroturistico`.`mediopago_productor` (
-  `idMediopago_productor` INT NOT NULL,
+  `idMediopago_productor` INT(11) NOT NULL AUTO_INCREMENT,
   `idMedio_pago` INT NOT NULL,
   `idProductor` INT NOT NULL,
   PRIMARY KEY (`idMediopago_productor`));

@@ -270,9 +270,9 @@ function showSlides() {
 
 
 <script>
-    var latitud = parseFloat(<?php echo json_encode($model->latitud) ?>);
-    var longitud = parseFloat(<?php echo json_encode($model->longitud) ?>);
-    var nombre = ( <?php echo json_encode($model->nombre) ?> );
+    var latitud = parseFloat(<?php echo json_encode($modelProductor->latitud) ?>);
+    var longitud = parseFloat(<?php echo json_encode($modelProductor->longitud) ?>);
+    var nombre = ( <?php echo json_encode($modelProductor->nombre) ?> );
     
     function myMap() {
         const myLatLng = { lat: latitud, lng: longitud };
