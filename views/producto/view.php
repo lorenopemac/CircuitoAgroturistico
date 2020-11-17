@@ -29,7 +29,7 @@ use yii\grid\GridView;
         }
 
     .file-preview-image{
-        height: 320px;
+        height: 370px;
         width: 100%;
     }
 
@@ -197,7 +197,7 @@ use yii\grid\GridView;
             <hr>
             <li><h4 > <?= $model->descripcion ?> </h4></li>
             <hr>
-            <li><h4><strong>Productor</strong>&nbsp;&nbsp;&nbsp;   <?= $model->productor->nombre ?> </h4></li>
+            <li><h4><strong>Productor</strong>&nbsp;&nbsp;&nbsp;   <?= $model->productor->nombreFantasia ?> </h4></li>
             <hr>
             <li>
                 <h4><strong>Medios de Pago: </strong></h4>
@@ -215,7 +215,7 @@ use yii\grid\GridView;
         </div>
         <div class="col-md-6 col-xs-12 card">  
             <ul class="list-unstyled">
-                <h2><?= $modelProductor->nombre ?></h2>
+                <h2><?= $modelProductor->nombreFantasia ?></h2>
                 <hr>
                 <li><h4><strong>Localidad: </strong>&nbsp;&nbsp;&nbsp;   <?= $modelProductor->localidad->nombre ?> </h4></li>
                 <hr>
@@ -225,10 +225,19 @@ use yii\grid\GridView;
             </ul>
             <hr>
             <h4> <strong>Redes Sociales: </strong>&nbsp;  </h4>
-            <a href="#" class="fa fa-facebook" style="margin-left:150px;"></a>
-            <a href="#" class="fa fa-twitter"></a>
-            <a href="#" class="fa fa-instagram"></a>
-            <a href="#" class="fa fa-youtube"></a>
+            <?php if(array_key_exists('facebook',$redesSociales)){ ?>
+                <a href=<?= $redesSociales['facebook']?>  target="_blank" class="fa fa-facebook" style="margin-left:150px;"></a>
+            <?php } ?>
+            <?php if(array_key_exists('twitter',$redesSociales)){ ?>
+                <a href=<?= $redesSociales['twitter']?>  target="_blank" class="fa fa-twitter"></a>
+            <?php } ?>
+            <?php if(array_key_exists('instagram',$redesSociales)){ ?>
+                <a href=<?= $redesSociales['instagram']?>  target="_blank" class="fa fa-instagram"></a>
+            <?php } ?>
+            <?php if(array_key_exists('youtube',$redesSociales)){ ?>
+                <a href=<?= $redesSociales['youtube']?>  target="_blank" class="fa fa-youtube"></a>
+            <?php } ?>
+
         </div>
         <div class="col-md-6 col-xs-12 card">  
             <h4><strong>Ubicación: </strong></>
