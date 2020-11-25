@@ -163,7 +163,7 @@ class FeriaController extends Controller
             $redFeria = RedsocialFeria::find()
                         ->where(['idFeria'=>$model->idFeria,'idRed_social'=>$red->idRed_social])
                         ->one();
-            if(!$redFeria){//SI NO EXISTE ESA RED SOCIAL PARA EL Feria, CREO UNA VACIA
+            if(!$redFeria){//SI NO EXISTE ESA RED SOCIAL PARA LA Feria, CREO UNA VACIA
                 $redFeria = new RedsocialFeria();
                 $redFeria->idFeria= $model->idFeria;
                 $redFeria->idRed_social= $red->idRed_social;
@@ -314,7 +314,7 @@ class FeriaController extends Controller
         $redFeria->idFeria= $params['idFeria'];
         $redFeria->idRed_social= $params['idRed'];
         $redFeria->direccion= $params['direccion'];
-        if($redFeria->save())    {
+        if($redFeria->save()){
             $retorno=true;
         }
         

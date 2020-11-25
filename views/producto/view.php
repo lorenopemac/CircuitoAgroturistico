@@ -3,11 +3,45 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
-/* @var $this yii\web\View */
-/* @var $model app\models\Producto */
+use dosamigos\leaflet\types\LatLng;
+use dosamigos\leaflet\layers\Marker;
+use dosamigos\leaflet\layers\TileLayer;
+use dosamigos\leaflet\LeafLet;
+use dosamigos\leaflet\widgets\Map;  
 
 \yii\web\YiiAsset::register($this);
+
+
+/**
+ * Creación de marcadores del mapa y de las capa del mismo
+ * recorriendo cada feria que se mostrara en el mapa
+ */
+$markers = [];
+foreach ($ferias as $feria) {
+    if(!is_null($feria['latitud'])){
+        $centerMarker = new LatLng(['lat' => $feria['latitud'], 'lng' => $feria['longitud']]);
+        // now lets create a marker that we are going to place on our map
+        $descripcion = 'Feria : '.$feria['nombre'];
+        $marker = new Marker(['latLng' => $centerMarker, 'popupContent' => $descripcion
+        ]);
+        $markers[] = $marker; // add the marker (addLayer is used to add different layers to our map)
+    }
+}
+$center = new LatLng(['lat' => '-38.930277', 'lng' => '-68.245006']);// centro del mapa
+$tileLayer = new TileLayer([
+    'urlTemplate' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    'clientOptions' => [
+        'attribution' => '' .
+        'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+    //'subdomains' => 'nix'
+    ]
+]);
+/**
+ * Fin Creación de marcadores del mapa y de las capa del mismo
+*/
+
 ?>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     .card {
@@ -221,7 +255,7 @@ use yii\grid\GridView;
                 <hr>
                 <li><h4><strong>Telefono: </strong>&nbsp;&nbsp;&nbsp;   <?= $modelProductor->numeroTelefono ?> </h4></li>
                 <hr>
-                <li><h4><strong>Ubicación: </strong>&nbsp;&nbsp;&nbsp;   <?= $modelProductor->nombreCalle?>  al <?= $modelProductor->numeroCalle?> </h4></li>
+                <li><h4><strong>Dirección: </strong>&nbsp;&nbsp;&nbsp;   <?= $modelProductor->nombreCalle?>  al <?= $modelProductor->numeroCalle?> </h4></li>
             </ul>
             <hr>
             <h4> <strong>Redes Sociales: </strong>&nbsp;  </h4>
@@ -239,14 +273,35 @@ use yii\grid\GridView;
             <?php } ?>
 
         </div>
+        <!--Mapa de ferias del productor -->
         <div class="col-md-6 col-xs-12 card">  
-            <h4><strong>Ubicación: </strong></>
-            <div id="googleMap" style="width:100%;height:200px;"></div>
+            <h4><strong>Ferias: </strong></>
+            <?php 
+                if (count($markers) > 0) {
+                $leaflet = new LeafLet([
+                    'tileLayer' => $tileLayer, // set the TileLayer
+                    'center' => $center, // set the center
+                    'zoom'=>10,
+                ]);
+
+                foreach ($markers as $marker) {
+                    $leaflet->addLayer($marker);
+                }
+                echo Map::widget(['leafLet' => $leaflet,'options' => ['style' => 'min-height: 400px']]);
+                } else{
+                    echo 'No tiene puntos para mostrar';
+                }
+            ?>
         </div>
     </div>      
 </div>
 
+
+
 <script>
+/**
+*   Slide de imagenes - Carousel
+*/
 var slideIndex = 0;
 showSlides();
 
@@ -268,53 +323,3 @@ function showSlides() {
 }
 </script>
 
-
-<script>
-    var latitud = parseFloat(<?php echo json_encode($modelProductor->latitud) ?>);
-    var longitud = parseFloat(<?php echo json_encode($modelProductor->longitud) ?>);
-    var nombre = ( <?php echo json_encode($modelProductor->nombre) ?> );
-    
-    function myMap() {
-        const myLatLng = { lat: latitud, lng: longitud };
-        lat = 0;
-        long = 0;
-        if(!isNaN(latitud)){
-            lat = latitud;
-            long = longitud ;
-        }else{
-            lat = -38.95146614;
-            long = -68.05905819;
-        }
-        
-        var mapProp = {
-          center: new google.maps.LatLng(lat, long),
-          zoom: 10,
-        };
-
-        var contenido =
-          '<div id="content">' +
-          '<div id="siteNotice">' +
-          "</div>" +
-          '<h4> '+ nombre +' </h4>' +
-          "</div>";
-
-        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-
-        var infowindow = new google.maps.InfoWindow({
-            content: contenido,
-          });
-        
-          new google.maps.Marker({
-            position: myLatLng,
-            map,
-            title: "Productor"
-        });
-
-        var marker = new google.maps.Marker({position: myLatLng,map,title: nombre ,draggable: true,animation: google.maps.Animation.DROP,});
-
-        marker.addListener("click", () => {
-            infowindow.open(map, marker);
-          });
-}
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbryvr-215IpAVrBJ50KY6DToPUplMcmM&callback=myMap"></script>
