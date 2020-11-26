@@ -289,7 +289,7 @@ $tileLayer = new TileLayer([
                 }
                 echo Map::widget(['leafLet' => $leaflet,'options' => ['style' => 'min-height: 400px']]);
                 } else{
-                    echo 'No tiene puntos para mostrar';
+                    echo 'El Productor no participa en ferias';
                 }
             ?>
         </div>
