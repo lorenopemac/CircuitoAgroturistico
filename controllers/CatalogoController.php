@@ -26,43 +26,6 @@ use app\models\Productor;
 class CatalogoController extends Controller
 {
     /**
-     * {@inheritdoc}
-     */
-    /*public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'ruleConfig' => [
-                    'class' => AccessRule::className(),
-                ],
-                'only' => ['index', 'view', 'create', 'update', 'delete','createanticipo'],
-                'rules' => [
-                    [
-                        'actions' => ['create', 'update','index', 'view', 'delete','createanticipo'],
-                        'allow' => true,
-                        // Allow users, moderators and admins to create
-                        'roles' => ['@'],
-
-                    ], [
-                        'actions' => ['update'],
-                        'allow' => true,
-                        // Allow users, moderators and admins to create
-                        'roles' => [1],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-
-                ],
-            ],
-        ];
-    }*/
-
-    /**
      * Lists all Categoria models.
      * @return mixed
      */

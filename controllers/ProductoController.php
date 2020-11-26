@@ -9,6 +9,10 @@ use app\models\RedSocialSearch;
 use app\models\RedsocialProductor;
 use app\models\ProductoSearch;
 use app\models\Categoria;
+use app\models\MediopagoProductor;
+use app\models\MedioPago;
+use app\models\FeriaProductor;
+use app\models\Feria;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -101,25 +105,50 @@ class ProductoController extends Controller
         $model=$this->findModel($id);
         $data = $this->cargarImagenes($model);
 
+        /**Ferias de un productor */
         $modelProductor = Productor::find()->where(['idProductor'=>$model->idProductor])->one();
-        $redProductor = RedsocialProductor::find()
+        $feriasProductor = FeriaProductor::find()
+                            ->where(['idProductor'=>$modelProductor->idProductor]) 
+                            ->all();
+        $ArrayIdFerias = array();
+        foreach($feriasProductor as $feriaPrductor){
+            array_push($ArrayIdFerias,$feriaPrductor);
+        }                            
+        $ferias = Feria::find()
+                    ->where(['baja'=>0]) 
+                    ->andWhere(['in', 'idFeria', $ArrayIdFerias])
+                    ->all();
+
+        /**Imagenes medios de pago */
+        $mediosPagoProductor = MediopagoProductor::find()->where(['idProductor'=>$model->idProductor])->all();
+        $imagenesPago= array();
+        foreach($mediosPagoProductor as $medioPagoProd){
+            $medioPago = MedioPago::find()->where(['idMedio_pago'=>$medioPagoProd->idMedio_pago])->one();
+            $imagen = Imagen::find()
+                    ->where(['idImagen'=>$medioPago->idImagen])
+                    ->one();
+            array_push($imagenesPago,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-pago','width' => '30px','height' => '30px'])) ;          
+        }
+        
+        /**Redes sociales */
+        $redesSociales = array();
+        $redesProductor = RedsocialProductor::find()
                         ->joinWith('redSocial')
                         ->where(['idProductor'=>$modelProductor->idProductor,'baja'=>0])
                         ->all();
-        $providerProductor = new ArrayDataProvider([
-            'allModels' => $redProductor,
-            'pagination' =>[
-                'pageSize'=>10,
-            ],
-            'sort'=>[
-                'attributes' => [''],
-            ],
-        ]);
+        foreach($redesProductor as $redProdcutor){
+            if(strcmp($redProdcutor->direccion,"No Informa") !== 0){
+                $redesSociales[strtolower($redProdcutor->redSocial->nombre)] = $redProdcutor->direccion;
+            }
+        }
+        
 
         return $this->render('view', [
             'model' => $model,
             'modelProductor'=> $modelProductor,
-            'providerProductor' => $providerProductor,
+            'imagenesPago' => $imagenesPago,
+            'redesSociales'=> $redesSociales,
+            'ferias' => $ferias,
         ]);
     }
 

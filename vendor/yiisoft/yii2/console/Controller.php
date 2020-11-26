@@ -28,11 +28,11 @@ use yii\helpers\Inflector;
  * where `<route>` is a route to a controller action and the params will be populated as properties of a command.
  * See [[options()]] for details.
  *
- * @property string $help This property is read-only.
- * @property string $helpSummary This property is read-only.
- * @property array $passedOptionValues The properties corresponding to the passed options. This property is
- * read-only.
- * @property array $passedOptions The names of the options passed during execution. This property is
+ * @property-read string $help This property is read-only.
+ * @property-read string $helpSummary This property is read-only.
+ * @property-read array $passedOptionValues The properties corresponding to the passed options. This property
+ * is read-only.
+ * @property-read array $passedOptions The names of the options passed during execution. This property is
  * read-only.
  * @property Request $request
  * @property Response $response
@@ -213,7 +213,12 @@ class Controller extends \yii\base\Controller
             }
 
             if ($key !== null) {
-                if ($param->isArray()) {
+                if (PHP_VERSION_ID >= 80000) {
+                    $isArray = ($type = $param->getType()) instanceof \ReflectionNamedType && $type->getName() === 'array';
+                } else {
+                    $isArray = $param->isArray();
+                }
+                if ($isArray) {
                     $params[$key] = $params[$key] === '' ? [] : preg_split('/\s*,\s*/', $params[$key]);
                 }
                 $args[] = $actionParams[$key] = $params[$key];
@@ -240,7 +245,7 @@ class Controller extends \yii\base\Controller
             \Yii::$app->requestedParams = array_merge($actionParams, $requestedParams);
         }
 
-        return $args;
+        return array_merge($args, $params);
     }
 
     /**
@@ -552,7 +557,13 @@ class Controller extends \yii\base\Controller
 
         /** @var \ReflectionParameter $reflection */
         foreach ($method->getParameters() as $i => $reflection) {
-            if ($reflection->getClass() !== null) {
+            if (PHP_VERSION_ID >= 80000) {
+                $class = $reflection->getType();
+            } else {
+                $class = $reflection->getClass();
+            }
+
+            if ($class !== null) {
                 continue;
             }
             $name = $reflection->getName();

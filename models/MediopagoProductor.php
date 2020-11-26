@@ -44,4 +44,6 @@ class MediopagoProductor extends \yii\db\ActiveRecord
             'idProductor' => 'Id Productor',
         ];
     }
+
+    
 }
