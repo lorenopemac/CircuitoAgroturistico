@@ -1,5 +1,5 @@
 <?php
-
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -64,6 +64,20 @@ use yii\web\NotFoundHttpException;
     height: 250px;
     width: 100%;
 }
+
+div.categorias {
+    overflow: auto;
+    max-height: 800px;
+}
+div.ferias {
+    overflow: auto;
+    max-height: 600px;
+}
+
+div.localidad{
+    overflow: auto;
+    max-height: 600px;
+}
 </style>
     
 <div class="categoria-index" >
@@ -106,9 +120,19 @@ use yii\web\NotFoundHttpException;
 
                         <p></p><b> <h4 style="height:50px; text-align:center"><?= $producto->nombre ?></h4></b> <p></p>
                         
-                        <p style="text-align:center"><button type="button" class="btn btn-success" id= <?=$producto->idProducto?> >Ver más</button></p>
+                        
+                        <a class="modalButton" href="<?=Url::to(['producto/view', 'id'=>$producto->idProducto]); ?>"><h3>Ver más</h3></a>
                     </div>
                 <?php endforeach; ?>
+                <?php 
+                    Modal::begin([
+                        'header' => 'Test',
+                        'id' => 'modal',
+                        'size' => 'modal-lg',
+                    ]);
+                    echo "<div id='modalContent'></div>";
+                    Modal::end();
+                ?>
             </div>
         </div>
     </div>
@@ -134,7 +158,7 @@ $urlFiltrarLocalidad = '../../aplicacion/CircuitoAgroturistico/web/catalogo/filt
 $urlFiltrarCategoria = '../../aplicacion/CircuitoAgroturistico/web/catalogo/filtrocategoria';
 $urlFiltrarFeria = '../../aplicacion/CircuitoAgroturistico/web/catalogo/filtroferia';
 
-$urlProducto = Url::to(['producto/view']);
+$urlProducto = '../../aplicacion/CircuitoAgroturistico/web/producto/view';//Url::to(['producto/view']);
 $validar = false;
 $this->registerJs("
 
@@ -216,6 +240,13 @@ $( '.productos' ).on('click','.btn', function(){
     //var url = '+.Url::toRoute('default/over-write?id=');
 
   });
+
+$('.modalButton').click(function (){
+    $.get($(this).attr('href'), function(data) {
+    $('#modal').modal('show').find('#modalContent').html(data)
+    });
+    return false;
+});
 
 ");
 ?>

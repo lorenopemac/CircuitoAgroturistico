@@ -19,6 +19,11 @@ hr {
   background-color: lightgrey;
   height: 3px;
 }
+
+div.catego {
+  overflow: scroll;
+  max-height: 250px;
+}
 </style>
 
 <div class="producto-form">
@@ -51,15 +56,15 @@ hr {
     </div>
 
     <hr>
-    
-    <div class="col-md-12 col-xs-12">     
+    <h5><strong>Categorias del Prodcuto</h5>
+    <div class="col-md-12 col-xs-12 catego">     
         <?= $form->field($model, 'categorias')->checkboxList($categoriasModel, [
                 'separator' => '<br>',
                 'itemOptions' => [
                 'class' => 'clasificador'
                 ]
 
-                ])->label('Categorias del Prodcuto');
+                ]);
 
         ?>
     </div>

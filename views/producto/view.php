@@ -49,7 +49,7 @@ $tileLayer = new TileLayer([
         margin: auto;
         font-family: arial;
         margin-top: 1.5px;
-        height: 420px;
+        height: 440px;
         
     }
 

@@ -24,8 +24,9 @@ table{
 tr,th, td {
     border: 1px solid black;
 }
-div{
+div.feria{
     overflow: auto;
+    max-height: 250px;
 }
 
 hr {
@@ -36,6 +37,8 @@ hr {
   background-color: lightgrey;
   height: 3px;
 }
+
+
 </style>
 <div class="productor-form">
 
@@ -81,7 +84,7 @@ hr {
         <?= $form->field($model, 'numeroTelefono')->textInput() ?>
     </div>
     
-    <div class="col-md-6 col-xs-12">     
+    <div class="col-md-6 col-xs-12 feria">     
         <?= $form->field($model, 'ferias')->checkboxList($feriasModel, [
                 'separator' => '<br>',
                 'itemOptions' => [
