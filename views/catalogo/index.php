@@ -31,7 +31,12 @@ use yii\web\NotFoundHttpException;
     border-radius: 6px;
 }
 
-.card {
+.modalButton{
+    width:100%;
+    height: 70px;
+}
+
+.cards {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 350px;
   margin: auto;
@@ -45,7 +50,7 @@ use yii\web\NotFoundHttpException;
   font-size: 22px;
 }
 
-.card button {
+.cards button {
   border: none;
   outline: 0;
   padding: 12px;
@@ -57,11 +62,11 @@ use yii\web\NotFoundHttpException;
   font-size: 18px;
 }
 
-.card button:hover {
+.cards button:hover {
   opacity: 0.7;
 }
 .file-preview-image{
-    height: 250px;
+    height: 300px;
     width: 100%;
 }
 
@@ -115,18 +120,17 @@ div.localidad{
             
             <div class="productos">
                 <?php foreach($productos as $producto):?>
-                    <div class="col-lg-4 card">
+                    <div class="col-lg-4 cards">
                         <?= $producto->imagenes[0] ?>  
-
-                        <p></p><b> <h4 style="height:50px; text-align:center"><?= $producto->nombre ?></h4></b> <p></p>
-                        
-                        
-                        <a class="modalButton" href="<?=Url::to(['producto/view', 'id'=>$producto->idProducto]); ?>"><h3>Ver más</h3></a>
+                        <p></p>
+                        <b> <h4 style="height:50px; text-align:center"><?= $producto->nombre ?></h4></b> 
+                        <p style="height:10px"></p>
+                        <a class="modalButton btn btn-success" href="<?=Url::to(['producto/view', 'id'=>$producto->idProducto]); ?>"><h3>Ver más</h3></a>
                     </div>
                 <?php endforeach; ?>
                 <?php 
                     Modal::begin([
-                        'header' => 'Test',
+                        'header' => 'Ver Producto',
                         'id' => 'modal',
                         'size' => 'modal-lg',
                     ]);
@@ -175,7 +179,7 @@ $('.categoria').click(function(e){
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class=\'col-lg-4 card \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
+                $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+  \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
@@ -199,7 +203,7 @@ $('.feria').click(function(e){
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class=\'col-lg-4 card \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
+                $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+  \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
@@ -222,7 +226,7 @@ $('.localidad').click(function(e){
                 $( '.col-lg-4' ).remove();
                 var tamaño = Object.keys(res.productos).length;
                 for (var indice = 0; indice < tamaño; indice++) {
-                $( '.productos' ).append('<div class=\'col-lg-4 card \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
+                $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+ \n
                 res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }

@@ -143,7 +143,7 @@ class ProductoController extends Controller
         }
         
 
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $model,
             'modelProductor'=> $modelProductor,
             'imagenesPago' => $imagenesPago,

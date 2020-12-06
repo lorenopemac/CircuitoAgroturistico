@@ -49,7 +49,7 @@ $tileLayer = new TileLayer([
         margin: auto;
         font-family: arial;
         margin-top: 1.5px;
-        height: 440px;
+        height: 420px;
         
     }
 
@@ -62,10 +62,10 @@ $tileLayer = new TileLayer([
         height: 3px;
         }
 
-    .file-preview-image{
-        height: 370px;
-        width: 100%;
-    }
+        .file-preview-image{
+            height: 300px;
+            width: 100%;
+        }
 
         * {box-sizing: border-box;}
     body {font-family: Verdana, sans-serif;}
@@ -224,6 +224,7 @@ $tileLayer = new TileLayer([
         </div>
             
     </div>
+    <!-- Medios de pago -->
         <div class="col-md-6 col-xs-12 card">     
             
         <ul class="list-unstyled">
@@ -243,6 +244,7 @@ $tileLayer = new TileLayer([
         </ul>
         </div>
     </div>        
+    <!-- Información del productor -->
     <div class="col-md-12 col-xs-12">     
         <div class="col-md-12 col-xs-12">   
                 <h2>Sobre el Productor</h2>
@@ -287,15 +289,15 @@ $tileLayer = new TileLayer([
                 foreach ($markers as $marker) {
                     $leaflet->addLayer($marker);
                 }
-                echo Map::widget(['leafLet' => $leaflet,'options' => ['style' => 'min-height: 400px']]);
+                echo Map::widget(['leafLet' => $leaflet,'options' => ['style' => 'min-height: 380px']]);
                 } else{
-                    echo 'El Productor no participa en ferias';
+                    echo 'El Productor no participa en ferias actualmente';
                 }
             ?>
         </div>
     </div>      
 </div>
-
+<div class="clearfix"></div>
 
 
 <script>
@@ -319,7 +321,7 @@ function showSlides() {
   }
   slides[slideIndex-1].style.display = "block";  
   dots[slideIndex-1].className += " active";
-  setTimeout(showSlides, 2500); // Change image every 2 seconds
+  setTimeout(showSlides, 3200); // Change image every 2 seconds
 }
 </script>
 
