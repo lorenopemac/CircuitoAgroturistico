@@ -7,11 +7,21 @@ use yii\helpers\Url;
 use kartik\select2\Select2;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use dosamigos\leaflet\types\LatLng;
+use dosamigos\leaflet\layers\Marker;
+use dosamigos\leaflet\layers\TileLayer;
+use dosamigos\leaflet\LeafLet;
+use dosamigos\leaflet\widgets\Map;  
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProductorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+\yii\web\YiiAsset::register($this);
 
 ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
 <style>
     .button1 {background-color: #4CAF50;} /* Green */
     .categorias { float: initial; width:100%;}
@@ -83,10 +93,16 @@ div.localidad{
     overflow: auto;
     max-height: 600px;
 }
+
 </style>
-    
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+
+
 <div class="categoria-index" >
-<?php \yii\widgets\Pjax::begin();?>
+
 
 <div   >
     <div  style=" box-sizing: border-box; display: flex; place-content: stretch ;">
@@ -142,7 +158,7 @@ div.localidad{
     </div>
 </div>
 
-<?php Pjax::end(); ?>
+
 
 </div>
 <?php
@@ -247,10 +263,16 @@ $( '.productos' ).on('click','.btn', function(){
 
 $('.modalButton').click(function (){
     $.get($(this).attr('href'), function(data) {
-    $('#modal').modal('show').find('#modalContent').html(data)
+        $('#modal').modal('show').find('#modalContent').html(data);
+        
+
     });
     return false;
 });
 
+$('#modal').on('shown.bs.modal', function(event) {
+    window.dispatchEvent(new Event('resize'));
+});
+    
 ");
 ?>

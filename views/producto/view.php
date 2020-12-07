@@ -41,6 +41,7 @@ $tileLayer = new TileLayer([
 */
 
 ?>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
@@ -289,6 +290,7 @@ $tileLayer = new TileLayer([
                 foreach ($markers as $marker) {
                     $leaflet->addLayer($marker);
                 }
+                
                 echo Map::widget(['leafLet' => $leaflet,'options' => ['style' => 'min-height: 380px']]);
                 } else{
                     echo 'El Productor no participa en ferias actualmente';
