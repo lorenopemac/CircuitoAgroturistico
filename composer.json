@@ -24,7 +24,9 @@
         "kartik-v/yii2-widget-fileinput": "dev-master",
         "kartik-v/yii2-grid": "dev-master",
         "yii2mod/yii2-sweet-alert": "*",
-        "kartik-v/yii2-markdown": "dev-master"
+        "kartik-v/yii2-markdown": "dev-master",
+        "2amigos/qrcode-library": "^2.0",
+        "2amigos/yii2-leaflet-extension": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

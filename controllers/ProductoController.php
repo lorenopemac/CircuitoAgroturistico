@@ -11,6 +11,8 @@ use app\models\ProductoSearch;
 use app\models\Categoria;
 use app\models\MediopagoProductor;
 use app\models\MedioPago;
+use app\models\FeriaProductor;
+use app\models\Feria;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -103,10 +105,22 @@ class ProductoController extends Controller
         $model=$this->findModel($id);
         $data = $this->cargarImagenes($model);
 
+        /**Ferias de un productor */
         $modelProductor = Productor::find()->where(['idProductor'=>$model->idProductor])->one();
-        $mediosPagoProductor = MediopagoProductor::find()->where(['idProductor'=>$model->idProductor])->all();
-        
+        $feriasProductor = FeriaProductor::find()
+                            ->where(['idProductor'=>$modelProductor->idProductor]) 
+                            ->all();
+        $ArrayIdFerias = array();
+        foreach($feriasProductor as $feriaPrductor){
+            array_push($ArrayIdFerias,$feriaPrductor);
+        }                            
+        $ferias = Feria::find()
+                    ->where(['baja'=>0]) 
+                    ->andWhere(['in', 'idFeria', $ArrayIdFerias])
+                    ->all();
+
         /**Imagenes medios de pago */
+        $mediosPagoProductor = MediopagoProductor::find()->where(['idProductor'=>$model->idProductor])->all();
         $imagenesPago= array();
         foreach($mediosPagoProductor as $medioPagoProd){
             $medioPago = MedioPago::find()->where(['idMedio_pago'=>$medioPagoProd->idMedio_pago])->one();
@@ -129,11 +143,12 @@ class ProductoController extends Controller
         }
         
 
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $model,
             'modelProductor'=> $modelProductor,
             'imagenesPago' => $imagenesPago,
             'redesSociales'=> $redesSociales,
+            'ferias' => $ferias,
         ]);
     }
 
