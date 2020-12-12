@@ -41,6 +41,11 @@ $tileLayer = new TileLayer([
 ]);
 
 ?>
+
+<script type="text/javascript">
+      // Notice how this gets configured before we load Font Awesome
+      window.FontAwesomeConfig = { autoReplaceSvg: false }
+    </script>
 <div class="productor-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
