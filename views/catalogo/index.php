@@ -94,6 +94,46 @@ div.localidad{
     max-height: 600px;
 }
 
+/* Style all font awesome icons */
+.fa {
+    padding: 10px;
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+    }
+
+    /* Add a hover effect if you want */
+    .fa:hover {
+    opacity: 0.7;
+    }
+
+    /* Set a specific color for each brand */
+
+    /* Facebook */
+    .fa-facebook {
+    background: #3B5998;
+    color: white;
+    }
+
+    /* Twitter */
+    .fa-twitter {
+    background: #55ACEE;
+    color: white;
+    }
+
+    .fa-instagram {
+    background: #E1306C;
+    color: white;
+    }
+
+    .fa-youtube {
+    background: #bb0000;
+    color: white;
+    }
+
 </style>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
