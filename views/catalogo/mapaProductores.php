@@ -42,6 +42,11 @@ $tileLayer = new TileLayer([
 // echo $leaflet->widget();
 
 ?>
+<style>
+    #w0{
+        height : 700px !important;
+    }
+</style>
 
 <div class="registro-index">
     
