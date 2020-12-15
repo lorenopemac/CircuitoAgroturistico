@@ -14,7 +14,7 @@ use dosamigos\leaflet\widgets\Map;
 /* @var $model app\models\Productor */
 
 $this->title = $model->nombre;
-$this->params['breadcrumbs'][] = ['label' => 'Productors', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Productores', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 /**

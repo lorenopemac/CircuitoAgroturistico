@@ -30,7 +30,7 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => 'Madriguera',
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandUrl' => 'http://madriguera.fi.uncoma.edu.ar/sitio/ace/',
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],

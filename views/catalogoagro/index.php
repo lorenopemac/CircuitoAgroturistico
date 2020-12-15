@@ -240,7 +240,7 @@ $('.categoria').click(function(e){
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+  \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'modalButton  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
             }
         })
@@ -264,7 +264,7 @@ $('.feria').click(function(e){
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+  \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'modalButton  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
             }
         })
@@ -287,7 +287,7 @@ $('.localidad').click(function(e){
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+ \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'modalButton  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
             }
         })
