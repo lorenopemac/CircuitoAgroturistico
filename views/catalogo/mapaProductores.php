@@ -12,15 +12,14 @@ use dosamigos\leaflet\LeafLet;
 use dosamigos\leaflet\widgets\Map;
 
 // first lets setup the center of our map
-//print_r($ferias);
 // The Tile Layer (very important)
 $markers = [];
-foreach ($productores as $feria) {
-    if(!is_null($feria[1])){
-        $centerMarker = new LatLng(['lat' => $feria[1], 'lng' => $feria[2]]);
+foreach ($productores as $productor) {
+    if(!is_null($productor[1])){
+        $centerMarker = new LatLng(['lat' => $productor[1], 'lng' => $productor[2]]);
 
 // now lets create a marker that we are going to place on our map
-        $descripcion = $feria[0];
+        $descripcion = $productor[0];
         $marker = new Marker(['latLng' => $centerMarker, 'popupContent' => $descripcion
         ]);
         $markers[] = $marker; // add the marker (addLayer is used to add different layers to our map)
@@ -42,13 +41,15 @@ $tileLayer = new TileLayer([
 // echo $leaflet->widget();
 
 ?>
+
+
 <style>
     #w0{
         height : 700px !important;
     }
 </style>
 
-<div class="registro-index">
+<div class="mapa">
     
     <?php 
         if (count($markers) > 0) {
@@ -61,7 +62,7 @@ $tileLayer = new TileLayer([
         foreach ($markers as $marker) {
             $leaflet->addLayer($marker);
         }
-        echo Map::widget(['leafLet' => $leaflet,'options' => ['style' => 'min-height: 400px']]);
+        echo Map::widget(['leafLet' => $leaflet,'options' => []]);
         } else{
             echo 'No tiene puntos para mostrar';
         }
