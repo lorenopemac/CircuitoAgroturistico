@@ -187,7 +187,8 @@ div.localidad{
                         <a class="modalButton btn btn-success" href="<?=Url::to(['producto/view', 'id'=>$producto->idProducto]); ?>"><h3>Ver más</h3></a>
                     </div>
                 <?php endforeach; ?>
-                <?php 
+            </div>
+            <?php 
                     Modal::begin([
                         'header' => 'Ver Producto',
                         'id' => 'modal',
@@ -196,7 +197,6 @@ div.localidad{
                     echo "<div id='modalContent'></div>";
                     Modal::end();
                 ?>
-            </div>
         </div>
     </div>
 </div>
@@ -235,7 +235,7 @@ $('.categoria').click(function(e){
             'idCategoria' : this.id,
             },
             success: function(res){
-                $( '.col-lg-4' ).remove();
+                $('.col-lg-4').remove();
                 var tamaño = Object.keys(res.productos).length;
                 for (var indice = 0; indice < tamaño; indice++) {
                         $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
@@ -259,7 +259,7 @@ $('.feria').click(function(e){
             'idFeria' : this.id,
             },
             success: function(res){
-                $( '.col-lg-4' ).remove();
+                $('.col-lg-4').remove();
                 var tamaño = Object.keys(res.productos).length;
                 for (var indice = 0; indice < tamaño; indice++) {
                     $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
@@ -282,7 +282,7 @@ $('.localidad').click(function(e){
             'idLocalidad' : this.id,
             },
             success: function(res){
-                $( '.col-lg-4' ).remove();
+                $('.col-lg-4').remove();
                 var tamaño = Object.keys(res.productos).length;
                 for (var indice = 0; indice < tamaño; indice++) {
                     $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
@@ -305,10 +305,9 @@ $( '.productos' ).on('click','.btn', function(){
   });
 
 $('.modalButton').click(function (){
+    console.log();
     $.get($(this).attr('href'), function(data) {
         $('#modal').modal('show').find('#modalContent').html(data);
-        
-
     });
     return false;
 });
