@@ -15,7 +15,7 @@ use dosamigos\leaflet\widgets\Map;
 // The Tile Layer (very important)
 $markers = [];
 foreach ($productores as $productor) {
-    if(!is_null($productor[1])){
+    if(!is_null($productor[1]) && !(strpos($productor[1],'°'))){
         $centerMarker = new LatLng(['lat' => $productor[1], 'lng' => $productor[2]]);
 
 // now lets create a marker that we are going to place on our map
