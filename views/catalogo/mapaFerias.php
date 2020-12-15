@@ -45,7 +45,14 @@ $tileLayer = new TileLayer([
 
 ?>
 
-<div class="registro-index">
+
+<style>
+    #w0{
+        height : 700px !important;
+    }
+</style>
+
+<div class="mapa">
     
     <?php 
         if (count($markers) > 0) {
@@ -58,7 +65,7 @@ $tileLayer = new TileLayer([
         foreach ($markers as $marker) {
             $leaflet->addLayer($marker);
         }
-        echo Map::widget(['leafLet' => $leaflet,'options' => ['style' => 'min-height: 400px']]);
+        echo Map::widget(['leafLet' => $leaflet,'options' => []]);
         } else{
             echo 'No tiene puntos para mostrar';
         }

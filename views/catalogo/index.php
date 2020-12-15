@@ -94,12 +94,55 @@ div.localidad{
     max-height: 600px;
 }
 
+/* Style all font awesome icons */
+.fa {
+    padding: 10px;
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+    }
+
+    /* Add a hover effect if you want */
+    .fa:hover {
+    opacity: 0.7;
+    }
+
+    /* Set a specific color for each brand */
+
+    /* Facebook */
+    .fa-facebook {
+    background: #3B5998;
+    color: white;
+    }
+
+    /* Twitter */
+    .fa-twitter {
+    background: #55ACEE;
+    color: white;
+    }
+
+    .fa-instagram {
+    background: #E1306C;
+    color: white;
+    }
+
+    .fa-youtube {
+    background: #bb0000;
+    color: white;
+    }
+
 </style>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin=""></script>
    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
-
+   <script type="text/javascript">
+      // Notice how this gets configured before we load Font Awesome
+      window.FontAwesomeConfig = { autoReplaceSvg: false }
+    </script>
 
 <div class="categoria-index" >
 
@@ -197,7 +240,7 @@ $('.categoria').click(function(e){
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+  \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <modalButton type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
             }
         })
@@ -221,7 +264,7 @@ $('.feria').click(function(e){
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+  \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'modalButton  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
             }
         })
@@ -244,7 +287,7 @@ $('.localidad').click(function(e){
                 for (var indice = 0; indice < tamaño; indice++) {
                 $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                 +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+ \n
-                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'button1  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
+                res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button type=button  class= \'modalButton  btn btn-lg btn-success \' id='+ res.productos[indice]['idProducto'] +'>Ver más</button></p>');
                 }
             }
         })
