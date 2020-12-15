@@ -48,7 +48,7 @@ $tileLayer = new TileLayer([
 
 <style>
     #w0{
-        height : 700px !important;
+        height : 550px !important;
     }
 </style>
 
