@@ -20,9 +20,6 @@ $fieldOptions2 = [
 ];
 ?>
 <div class="login-box">
-    <div class="login-logo">
-        <a href="#"><b>Circuito Agroturistico</b></a>
-    </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">Iniciá sesión</p>

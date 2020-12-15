@@ -23,21 +23,11 @@ use yii\captcha\Captcha;
     
     <div class="jumbotron jumbotron-fluid">
         <div> 
-            <div class="container" style="background-color: #d5f5e3 ">
-            <div class="col-sm-8"  style="background-color:  #d5f5e3  "> 
-                <h2>
-                    Buscar producto y productores regionales
-                </h2>
-                <ul>
-                <h4>
-                    <br>
-                    <li>Encuentra los mejores productos</li>
-                    <br>
-                </h4>
-                </ul>
+            <div class="container" >
+                
             
                 </div>    
-                <div class="col-sm-4" style="background-color: #d5f5e3 "> 
+                <div class="col-sm-4" > 
                     <div > 
                         <h4>Usuario: </h4>
                         <?= $form->field($model, 'usuario') 
@@ -62,7 +52,7 @@ use yii\captcha\Captcha;
                         <?= Html::submitButton('Registrarse', ['class' => 'btn btn-primary', 'name'=> 'register-button' ]) ?>
                     </div>
                     
-                </div>
+                
                 
             </div> 
             
