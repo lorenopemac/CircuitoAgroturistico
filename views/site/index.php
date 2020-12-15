@@ -1,8 +1,8 @@
 <?php
-
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 use yii\helpers\Html;
-$this->title = 'My Yii Application';
+$this->title = 'Madriguera';
 
 ?>
 <style>
@@ -22,6 +22,8 @@ $this->title = 'My Yii Application';
 
 <div class="header">
   <h1>Bienvenido</h1>
+  <a class="btn btn-success" href="http://madriguera.fi.uncoma.edu.ar/sitio/ace/" target="_blank"><h3>Sitio Principal</h3></a>
+  <a class="btn btn-success" href="http://madriguera.fi.uncoma.edu.ar/ayuda/" target="_blank"><h3>Recursos de Ayuda</h3></a>
 </div> 
 <aside class="control-sidebar control-sidebar-dark">
 </div>
