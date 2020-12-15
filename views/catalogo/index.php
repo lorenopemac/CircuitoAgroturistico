@@ -217,11 +217,11 @@ $this->registerJs(
 
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 
-$urlFiltrarLocalidad = '../../aplicacion/CircuitoAgroturistico/web/catalogo/filtrolocalidad';
-$urlFiltrarCategoria = '../../aplicacion/CircuitoAgroturistico/web/catalogo/filtrocategoria';
-$urlFiltrarFeria = '../../aplicacion/CircuitoAgroturistico/web/catalogo/filtroferia';
+$urlFiltrarLocalidad = '../../aplicacion/CircuitoAgroturisticoTest/web/catalogo/filtrolocalidad';
+$urlFiltrarCategoria = '../../aplicacion/CircuitoAgroturisticoTest/web/catalogo/filtrocategoria';
+$urlFiltrarFeria = '../../aplicacion/CircuitoAgroturisticoTest/web/catalogo/filtroferia';
 
-$urlProducto = '../../aplicacion/CircuitoAgroturistico/web/producto/view';//Url::to(['producto/view']);
+$urlProducto = '../../aplicacion/CircuitoAgroturisticoTest/web/producto/view';//Url::to(['producto/view']);
 $validar = false;
 $this->registerJs("
 
