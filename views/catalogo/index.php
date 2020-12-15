@@ -177,7 +177,7 @@ div.localidad{
         </div>
         <div  class="col-md-9" >
             
-            <div class="productos">
+            <div id="productos" class="productos">
                 <?php foreach($productos as $producto):?>
                     <div class="col-lg-4 cards">
                         <?= $producto->imagenes[0] ?>  
@@ -238,9 +238,9 @@ $('.categoria').click(function(e){
                 $('.col-lg-4').remove();
                 var tamaño = Object.keys(res.productos).length;
                 for (var indice = 0; indice < tamaño; indice++) {
-                        $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
+                        $( '.productos' ).append('<div class=\'col-lg-4 cards \'><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                         +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+  \n
-                        res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <a  class= \'modalButton  btn btn-success \' href=/aplicacion/CircuitoAgroturistico/web/producto/view?id='+res.productos[indice]['idProducto'] +' >Ver más</a></p>');
+                        res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button class= \'modalButton  btn btn-success \' href=/aplicacion/CircuitoAgroturistico/web/producto/view?id='+res.productos[indice]['idProducto'] +' >Ver más</button></p>');
                 }
             }
         })
@@ -264,7 +264,7 @@ $('.feria').click(function(e){
                 for (var indice = 0; indice < tamaño; indice++) {
                     $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                     +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+  \n
-                    res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <a class= \'modalButton  btn btn-success \' href=/aplicacion/CircuitoAgroturistico/web/producto/view?id='+res.productos[indice]['idProducto'] +' >Ver más</a></p>');
+                    res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button class= \'modalButton  btn btn-success \' href=/aplicacion/CircuitoAgroturistico/web/producto/view?id='+res.productos[indice]['idProducto'] +' >Ver más</button></p>');
                 }
             }
         })
@@ -287,7 +287,7 @@ $('.localidad').click(function(e){
                 for (var indice = 0; indice < tamaño; indice++) {
                     $( '.productos' ).append('<div class=\'col-lg-4 cards \'><p style=text-align:center><img class=\'file-preview-image\' src='+direccion+'/aplicacion/CircuitoAgroturistico/web/uploads/'+ res.imagenes[indice] \n
                     +' width=200px height=210px > </p><p></p><h4 style= \'height:50px; text-align:center \'>'+ \n
-                    res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <a class= \'modalButton  btn btn-success \' href=/aplicacion/CircuitoAgroturistico/web/producto/view?id='+res.productos[indice]['idProducto'] +'>Ver más</a></p>');
+                    res.productos[indice]['nombre']+'</h4><p></p><p style=text-align:center> <button class= \'modalButton  btn btn-success \' href=/aplicacion/CircuitoAgroturistico/web/producto/view?id='+res.productos[indice]['idProducto'] +' >Ver más</button></p>');
                 }
             }
         })
@@ -295,16 +295,9 @@ $('.localidad').click(function(e){
 });
 
 
-$( '.productos' ).on('click','.btn', function(){
-    console.log('$urlProducto');
-    url = '$urlProducto';
-    window.location.href = url+'?id='+this.id;
-    
-    //var url = '+.Url::toRoute('default/over-write?id=');
 
-  });
 
-$('.modalButton').click(function (){
+$('#productos').on('click','.modalButton',function (){
     console.log('status: ok');
     $.get($(this).attr('href'), function(data) {
         $('#modal').modal('show').find('#modalContent').html(data);
