@@ -119,7 +119,7 @@ hr {
                                         return $url;
                                     }
                                     if ($action === 'view') {
-                                        $url =Url::to(['producto/view?id='.$model->idProducto]);
+                                        $url =Url::to(['producto/viewadmin?id='.$model->idProducto]);
                                         return $url;
                                     }
                                 }

@@ -295,8 +295,6 @@ $('.localidad').click(function(e){
 });
 
 
-
-
 $('#productos').on('click','.modalButton',function (){
     console.log('status: ok');
     $.get($(this).attr('href'), function(data) {

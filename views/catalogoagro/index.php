@@ -295,20 +295,11 @@ $('.localidad').click(function(e){
 });
 
 
-$( '.productos' ).on('click','.btn', function(){
-    console.log('$urlProducto');
-    url = '$urlProducto';
-    window.location.href = url+'?id='+this.id;
-    
-    //var url = '+.Url::toRoute('default/over-write?id=');
 
-  });
-
-$('.modalButton').click(function (){
+$('#productos').on('click','.modalButton',function (){
+    console.log('status: ok');
     $.get($(this).attr('href'), function(data) {
         $('#modal').modal('show').find('#modalContent').html(data);
-        
-
     });
     return false;
 });
@@ -316,6 +307,7 @@ $('.modalButton').click(function (){
 $('#modal').on('shown.bs.modal', function(event) {
     window.dispatchEvent(new Event('resize'));
 });
+
     
 ");
 ?>

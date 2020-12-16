@@ -152,6 +152,66 @@ class ProductoController extends Controller
         ]);
     }
 
+
+    /**
+     * Displays a single Producto model.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionViewadmin($id)
+    {
+        
+        $model=$this->findModel($id);
+        $data = $this->cargarImagenes($model);
+
+        /**Ferias de un productor */
+        $modelProductor = Productor::find()->where(['idProductor'=>$model->idProductor])->one();
+        $feriasProductor = FeriaProductor::find()
+                            ->where(['idProductor'=>$modelProductor->idProductor]) 
+                            ->all();
+        $ArrayIdFerias = array();
+        foreach($feriasProductor as $feriaPrductor){
+            array_push($ArrayIdFerias,$feriaPrductor);
+        }                            
+        $ferias = Feria::find()
+                    ->where(['baja'=>0]) 
+                    ->andWhere(['in', 'idFeria', $ArrayIdFerias])
+                    ->all();
+
+        /**Imagenes medios de pago */
+        $mediosPagoProductor = MediopagoProductor::find()->where(['idProductor'=>$model->idProductor])->all();
+        $imagenesPago= array();
+        foreach($mediosPagoProductor as $medioPagoProd){
+            $medioPago = MedioPago::find()->where(['idMedio_pago'=>$medioPagoProd->idMedio_pago])->one();
+            $imagen = Imagen::find()
+                    ->where(['idImagen'=>$medioPago->idImagen])
+                    ->one();
+            array_push($imagenesPago,Html::img(Yii::getAlias('@web')."/uploads/".$imagen->idImagen.".".$imagen->extension,['class'=>'file-pago','width' => '30px','height' => '30px'])) ;          
+        }
+        
+        /**Redes sociales */
+        $redesSociales = array();
+        $redesProductor = RedsocialProductor::find()
+                        ->joinWith('redSocial')
+                        ->where(['idProductor'=>$modelProductor->idProductor,'baja'=>0])
+                        ->all();
+        foreach($redesProductor as $redProdcutor){
+            if(strcmp($redProdcutor->direccion,"No Informa") !== 0){
+                $redesSociales[strtolower($redProdcutor->redSocial->nombre)] = $redProdcutor->direccion;
+            }
+        }
+        
+
+        return $this->render('view', [
+            'model' => $model,
+            'modelProductor'=> $modelProductor,
+            'imagenesPago' => $imagenesPago,
+            'redesSociales'=> $redesSociales,
+            'ferias' => $ferias,
+        ]);
+    }
+
     /**
      * Creates a new Producto model.
      * If creation is successful, the browser will be redirected to the 'view' page.
